@@ -1,12 +1,21 @@
 {
-  "name": "ethereal-canvas",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+	"name": "ethereal-canvas",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon backend/server.js"
+	},
+	"type": "module",
+	"keywords": [],
+	"author": "Arjay Puge",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.4.5",
+		"express": "^4.21.1",
+		"mongoose": "^8.8.1"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.7"
+	}
 }
