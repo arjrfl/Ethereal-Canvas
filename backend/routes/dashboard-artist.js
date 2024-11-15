@@ -3,22 +3,22 @@ import Artist from '../models/artist-model.js';
 
 const router = express.Router();
 
-// `PAGE`: retrieve pending artists
-router.get('/pending-artist', async (req, res) => {
+// `PAGE`: retrieve approved artists
+router.get('/approved-artist', async (req, res) => {
 	try {
-		const pendingArtists = await Artist.find({ status: 'Pending' });
-		res.status(200).json({ success: true, data: pendingArtists });
+		const approvedArtists = await Artist.find({ status: 'Approved' });
+		res.status(200).json({ success: true, data: approvedArtists });
 	} catch (error) {
 		console.error(`Error: ${error.message}`);
 		res.status(500).json({ success: false, message: 'Server error' });
 	}
 });
 
-// `PAGE`: retrieve approved artists
-router.get('/approved-artist', async (req, res) => {
+// `PAGE`: retrieve pending artists
+router.get('/pending-artist', async (req, res) => {
 	try {
-		const approvedArtists = await Artist.find({ status: 'Approved' });
-		res.status(200).json({ success: true, data: approvedArtists });
+		const pendingArtists = await Artist.find({ status: 'Pending' });
+		res.status(200).json({ success: true, data: pendingArtists });
 	} catch (error) {
 		console.error(`Error: ${error.message}`);
 		res.status(500).json({ success: false, message: 'Server error' });
