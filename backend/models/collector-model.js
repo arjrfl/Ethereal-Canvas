@@ -7,7 +7,7 @@ const collectorSchema = new mongoose.Schema(
 		gender: { type: String },
 		email: { type: String, required: true, unique: true },
 		password: { type: String, required: true },
-		status: { type: String, enum: ['Approved', 'Disabled'], default: 'Approved' },
+		status: { type: String, enum: ['Approve', 'Disable'], default: 'Approved' },
 	},
 	{ timestamps: true }
 );

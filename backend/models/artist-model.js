@@ -18,7 +18,7 @@ const artistSchema = new mongoose.Schema(
 		validId: { type: String, required: true },
 		selfieWithId: { type: String, required: true },
 		sharedDrive: { type: String, required: true },
-		status: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
+		status: { type: String, enum: ['Pending', 'Approve', 'Reject'], default: 'Pending' },
 	},
 	{ timestamps: true }
 );

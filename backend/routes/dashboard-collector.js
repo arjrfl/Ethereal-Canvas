@@ -3,40 +3,37 @@ import Collector from '../models/collector-model.js';
 
 const router = express.Router();
 
-// `PAGE`: retrieve collectors
-router.get('/collectors', async (req, res) => {
+// endpoint:
+// /admin/collector?status=Approve
+// /admin/collector?status=Disable
+// `PAGE`: retrieve Approve, Disable status
+router.get('/collector', async (req, res) => {
 	try {
-		const collectors = await Collector.find({});
-		res.status(200).json({ success: true, data: collectors });
-	} catch (error) {
-		console.log('error in fetching collectors: ', error);
-		res.status(500).json({ success: false, message: 'Server Error' });
-	}
-});
+		const { status } = req.query;
+		const validStatuses = ['Approve', 'Disable'];
 
-// `PAGE`: retrieve disabled collectors
-router.get('/collectors/disabled', async (req, res) => {
-	try {
-		const collectors = await Collector.find({ status: 'Disabled' });
-		res.status(200).json({ success: true, data: collectors });
-	} catch (error) {
-		console.log('error in fetching collectors: ', error);
-		res.status(500).json({ success: false, message: 'Server Error' });
-	}
+		if (!validStatuses.includes(status)) {
+			return res.status(400).json({ success: false, message: 'Invalid status value' });
+		}
+
+		const filter = { status };
+		const collector = await Collector.find(filter);
+		res.status(200).json({ success: true, data: collector });
+	} catch (error) {}
 });
 
 // `BUTTON`: update artist status to "Disabled"
-router.patch('/collectors/:id/reject', async (req, res) => {
+router.patch('/collector/:id', async (req, res) => {
 	try {
 		const { id } = req.params;
 		const updatedArtist = await Collector.findByIdAndUpdate(
 			id,
-			{ status: 'Disabled' },
+			{ status: 'Disable' },
 			{ new: true }
 		);
 
 		if (!updatedArtist) {
-			return res.status(404).json({ success: false, message: 'Artist not found' });
+			return res.status(404).json({ success: false, message: 'Collector not found' });
 		}
 
 		res.status(200).json({ success: true, data: updatedArtist });
@@ -47,7 +44,7 @@ router.patch('/collectors/:id/reject', async (req, res) => {
 });
 
 // `BUTTON`: delete collector from dashboard
-router.delete('/collectors/:id', async (req, res) => {
+router.delete('/collector/:id', async (req, res) => {
 	const { id } = req.params;
 
 	try {

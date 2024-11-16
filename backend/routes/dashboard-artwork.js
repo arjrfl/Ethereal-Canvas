@@ -3,20 +3,19 @@ import Artwork from '../models/artwork-upload-model.js';
 
 const router = express.Router();
 
-// `PAGE`: retrieve artwork and sort (all, museum, marketplace) from Approve status
 // endpoint:
-// admin/artworks
-// admin/artworks?status=Approve
-// admin/artworks?status=Pending
-// admin/artworks?status=Reject
+// admin/artwork
+// admin/artwork?status=Approve
+// admin/artwork?status=Pending
+// admin/artwork?status=Reject
 
-// admin/artworks?status=Approve&displaySection (ALL)
-// admin/artworks?status=Approve&displaySection=Museum (MUSEUM)
-// admin/artworks?status=Approve&displaySection=Marketplace (MARKETPLACE)
-router.get('/artworks', async (req, res) => {
+// admin/artwork?status=Approve&displaySection (ALL)
+// admin/artwork?status=Approve&displaySection=Museum (MUSEUM)
+// admin/artwork?status=Approve&displaySection=Marketplace (MARKETPLACE)
+// `PAGE`: retrieve artwork and sort (all, museum, marketplace) from Approve status
+router.get('/artwork', async (req, res) => {
 	try {
 		const { status, displaySection } = req.query;
-
 		const filter = {};
 
 		if (status) {
@@ -36,10 +35,10 @@ router.get('/artworks', async (req, res) => {
 	}
 });
 
-// `BUTTON`: update status to Approve or Reject
 // endpoint:
 // /admin/artwork/12345/Approve
 // /admin/artwork/54321/Reject
+// `BUTTON`: update status to Approve or Reject
 router.patch('/artwork/:id/:status', async (req, res) => {
 	try {
 		const { id, status } = req.params;
