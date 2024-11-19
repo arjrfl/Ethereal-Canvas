@@ -59,22 +59,24 @@ router.get('/admin/collector', authorizeRoles('admin'), async (req, res) => {
 router.patch('/admin/approve/:id', authorizeRoles('admin'), async (req, res) => {
 	try {
 		const artistId = req.params.id;
-		const temporaryPassword = Math.random().toString(36).slice(-8);
-		const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
 
-		console.log('Generated Hashed Password:', hashedPassword);
-
-		const artist = await Artist.findByIdAndUpdate(
-			artistId,
-			{ status: 'approve', password: hashedPassword },
-			{ new: true }
-		);
+		const artist = await Artist.findById(artistId);
 
 		if (!artist) {
 			return res.status(404).json({ error: 'Artist not found' });
 		}
 
-		// Send email
+		if (artist.status === 'approve') {
+			return res.status(400).json({ error: 'Artist is already approved.' });
+		}
+
+		const temporaryPassword = Math.random().toString(36).slice(-8);
+		const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
+
+		artist.status = 'approve';
+		artist.password = hashedPassword;
+		await artist.save();
+
 		const transporter = nodemailer.createTransport({
 			service: 'Gmail',
 			auth: {
@@ -104,17 +106,18 @@ router.patch('/admin/reject/:id', authorizeRoles('admin'), async (req, res) => {
 	try {
 		const artistId = req.params.id;
 
-		const artist = await Artist.findByIdAndUpdate(
-			artistId,
-			{
-				status: 'reject',
-			},
-			{ new: true }
-		);
+		const artist = await Artist.findById(artistId);
 
 		if (!artist) {
 			return res.status(404).json({ error: 'Artist not found' });
 		}
+
+		if (artist.status === 'reject') {
+			return res.status(400).json({ error: 'Artist is already rejected.' });
+		}
+
+		artist.status = 'reject';
+		await artist.save();
 
 		const transporter = nodemailer.createTransport({
 			service: 'Gmail',
@@ -145,17 +148,18 @@ router.patch('/admin/disable/:id', authorizeRoles('admin'), async (req, res) => 
 	try {
 		const collectorId = req.params.id;
 
-		const collector = await Collector.findByIdAndUpdate(
-			collectorId,
-			{
-				status: 'disable',
-			},
-			{ new: true }
-		);
+		const collector = await Collector.findById(collectorId);
 
 		if (!collector) {
-			return res.status(404).json({ error: 'Artist not found' });
+			return res.status(404).json({ error: 'Collector not found' });
 		}
+
+		if (collector.status === 'disable') {
+			return res.status(400).json({ error: 'Collector account is already disabled.' });
+		}
+
+		collector.status = 'disable';
+		await collector.save();
 
 		const transporter = nodemailer.createTransport({
 			service: 'Gmail',
@@ -169,14 +173,14 @@ router.patch('/admin/disable/:id', authorizeRoles('admin'), async (req, res) => 
 			from: 'Ethereal Yeah Yeah Canvas',
 			to: collector.email,
 			subject: 'Your Collector Account Has Been Disabled',
-			text: `Collector account disabled!!!`,
+			text: `Your collector account has been disabled. If you need further assistance, please contact support.`,
 		};
 
 		await transporter.sendMail(mailOptions);
 
 		res.status(200).json({ message: 'Collector disabled and email sent.' });
 	} catch (error) {
-		res.status(500).json({ error: 'Error disabling artist', details: error.message });
+		res.status(500).json({ error: 'Error disabling collector', details: error.message });
 	}
 });
 
