@@ -1,10 +1,6 @@
-import express from 'express';
 import Artist from '../../models/model-artist.js';
 
-const router = express.Router();
-
-// ARTIST - PAGE - REGISTRATION
-router.post('/register/artist', async (req, res) => {
+export const registerArtist = async (req, res) => {
 	const { fullName, email } = req.body;
 
 	if (!fullName || !email) {
@@ -27,6 +23,4 @@ router.post('/register/artist', async (req, res) => {
 		console.error(`Error: ${error.message}`);
 		res.status(500).json({ success: false, message: 'Server error' });
 	}
-});
-
-export default router;
+};

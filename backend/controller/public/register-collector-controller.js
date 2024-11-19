@@ -1,11 +1,7 @@
-import express from 'express';
 import Collector from '../../models/model-collector.js';
 import bcrypt from 'bcryptjs';
 
-const router = express.Router();
-
-// COLLECTOR - PAGE - REGISTRATION
-router.post('/register/collector', async (req, res) => {
+export const registerCollector = async (req, res) => {
 	try {
 		const { fullName, email, password } = req.body;
 		const existingCollector = await Collector.findOne({ email });
@@ -22,6 +18,4 @@ router.post('/register/collector', async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ error: 'Error creating collector account', details: error.message });
 	}
-});
-
-export default router;
+};

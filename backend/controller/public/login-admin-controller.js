@@ -1,21 +1,18 @@
-import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import Collector from '../../models/model-collector.js';
+import Admin from '../../models/model-admin.js';
 
-const router = express.Router();
-
-router.post('/login/collector', async (req, res) => {
+export const loginAdmin = async (req, res) => {
 	const { email, password } = req.body;
 
 	try {
-		const collector = await Collector.findOne({ email }).select('+password');
+		const admin = await Admin.findOne({ email }).select('+password');
 
-		if (!collector) {
+		if (!admin) {
 			return res.status(401).json({ error: 'Invalid email or password' });
 		}
 
-		const isMatch = await bcrypt.compare(password, collector.password);
+		const isMatch = await bcrypt.compare(password, admin.password);
 
 		if (!isMatch) {
 			return res.status(401).json({ error: 'Invalid email or password' });
@@ -29,8 +26,8 @@ router.post('/login/collector', async (req, res) => {
 
 		const accessToken = jwt.sign(
 			{
-				id: collector._id,
-				role: collector.role,
+				id: admin._id,
+				role: admin.role,
 			},
 			process.env.JWT_SECRET,
 			{ expiresIn: '1h' }
@@ -38,8 +35,8 @@ router.post('/login/collector', async (req, res) => {
 
 		const refreshToken = jwt.sign(
 			{
-				id: collector._id,
-				role: collector.role,
+				id: admin._id,
+				role: admin.role,
 			},
 			process.env.JWT_SECRET_REFRESH,
 			{
@@ -51,11 +48,11 @@ router.post('/login/collector', async (req, res) => {
 			return res.status(500).json({ error: 'Token generation failed' });
 		}
 
-		collector.refreshToken = refreshToken;
-		await collector.save();
+		admin.refreshToken = refreshToken;
+		await admin.save();
 
 		res.status(200).json({
-			message: 'Login successful!',
+			message: 'Login successful',
 			accessToken,
 			refreshToken,
 		});
@@ -63,6 +60,4 @@ router.post('/login/collector', async (req, res) => {
 		console.error('Error during login:', error.message);
 		res.status(500).json({ error: 'Error logging in', details: error.message });
 	}
-});
-
-export default router;
+};

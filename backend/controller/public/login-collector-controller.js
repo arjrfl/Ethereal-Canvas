@@ -1,24 +1,21 @@
-import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import Artist from '../../models/model-artist.js';
+import Collector from '../../models/model-collector.js';
 
-const router = express.Router();
-
-router.post('/login/artist', async (req, res) => {
+export const loginCollector = async (req, res) => {
 	const { email, password } = req.body;
 
 	try {
-		const artist = await Artist.findOne({ email }).select('+password');
+		const collector = await Collector.findOne({ email }).select('+password');
 
-		if (!artist) {
-			return res.status(404).json({ error: 'Artist not found' });
+		if (!collector) {
+			return res.status(401).json({ error: 'Invalid email or password' });
 		}
 
-		const isMatch = await bcrypt.compare(password, artist.password);
+		const isMatch = await bcrypt.compare(password, collector.password);
 
 		if (!isMatch) {
-			return res.status(400).json({ error: 'Invalid credentials' });
+			return res.status(401).json({ error: 'Invalid email or password' });
 		}
 
 		if (!process.env.JWT_SECRET || !process.env.JWT_SECRET_REFRESH) {
@@ -29,8 +26,8 @@ router.post('/login/artist', async (req, res) => {
 
 		const accessToken = jwt.sign(
 			{
-				id: artist._id,
-				role: artist.role,
+				id: collector._id,
+				role: collector.role,
 			},
 			process.env.JWT_SECRET,
 			{ expiresIn: '1h' }
@@ -38,8 +35,8 @@ router.post('/login/artist', async (req, res) => {
 
 		const refreshToken = jwt.sign(
 			{
-				id: artist._id,
-				role: artist.role,
+				id: collector._id,
+				role: collector.role,
 			},
 			process.env.JWT_SECRET_REFRESH,
 			{
@@ -51,14 +48,16 @@ router.post('/login/artist', async (req, res) => {
 			return res.status(500).json({ error: 'Token generation failed' });
 		}
 
-		artist.refreshToken = refreshToken;
-		await artist.save();
+		collector.refreshToken = refreshToken;
+		await collector.save();
 
-		res.status(200).json({ message: 'Login successful', accessToken, refreshToken });
+		res.status(200).json({
+			message: 'Login successful!',
+			accessToken,
+			refreshToken,
+		});
 	} catch (error) {
 		console.error('Error during login:', error.message);
 		res.status(500).json({ error: 'Error logging in', details: error.message });
 	}
-});
-
-export default router;
+};
