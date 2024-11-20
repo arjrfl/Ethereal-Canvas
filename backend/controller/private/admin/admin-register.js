@@ -1,11 +1,7 @@
-import express from 'express';
-import Admin from '../../models/model-admin.js';
+import Admin from '../../../models/model-admin.js';
 import bcrypt from 'bcryptjs';
 
-const router = express.Router();
-
-// ADMIN - PAGE - REGISTRATION
-router.post('/register/admin', async (req, res) => {
+export const registerAdmin = async (req, res) => {
 	try {
 		const { fullName, email, password } = req.body;
 		const existingAdmin = await Admin.findOne({ email });
@@ -22,6 +18,4 @@ router.post('/register/admin', async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ error: 'Error creating collector account', details: error.message });
 	}
-});
-
-export default router;
+};
