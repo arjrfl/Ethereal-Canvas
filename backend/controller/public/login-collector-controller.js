@@ -55,6 +55,7 @@ export const loginCollector = async (req, res) => {
 			message: 'Login successful!',
 			accessToken,
 			refreshToken,
+			fullName: collector.fullName, // Add first name to the response
 		});
 	} catch (error) {
 		console.error('Error during login:', error.message);

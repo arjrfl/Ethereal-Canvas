@@ -3,7 +3,10 @@ import bcrypt from 'bcryptjs';
 
 export const registerCollector = async (req, res) => {
 	try {
-		const { fullName, email, password } = req.body;
+		const { firstName, lastName, gender, email, password } = req.body;
+
+		const fullName = `${firstName} ${lastName}`.trim();
+
 		const existingCollector = await Collector.findOne({ email });
 
 		if (existingCollector) {
@@ -11,7 +14,7 @@ export const registerCollector = async (req, res) => {
 		}
 
 		const hashedPassword = await bcrypt.hash(password, 10);
-		const newCollector = new Collector({ fullName, email, password: hashedPassword });
+		const newCollector = new Collector({ fullName, gender, email, password: hashedPassword });
 
 		await newCollector.save();
 		res.status(201).json({ message: 'Collector account created successfully!' });
