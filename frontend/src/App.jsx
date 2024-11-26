@@ -7,9 +7,11 @@ import Artworks from './pages/Artworks';
 import Marketplace from './pages/Marketplace';
 import About from './pages/About';
 
-import Login from './pages/Login'; // Import the Login page
+import Login from './pages/Login';
 import RegisterArtist from './pages/RegisterArtist';
 import RegisterCollector from './pages/RegisterCollector';
+
+import CollectorDashboard from './pages/CollectorDashboard';
 
 const App = () => {
 	return (
@@ -27,6 +29,9 @@ const App = () => {
 					<Route path='/login' element={<Login />} />
 					<Route path='/register/artist' element={<RegisterArtist />} />
 					<Route path='/register/collector' element={<RegisterCollector />} />
+
+					{/* PRIVATE ROUTES */}
+					<Route path='/collector/dashboard' element={<CollectorDashboard />}></Route>
 				</Routes>
 			</div>
 		</Router>

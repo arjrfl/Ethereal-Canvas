@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-// import { Link, useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
 	const [role, setRole] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	// const history = useHistory();
+	const navigate = useNavigate();
 
 	const handleSubmit = async e => {
 		e.preventDefault();
@@ -23,16 +22,27 @@ const Login = () => {
 			const data = await response.json();
 
 			if (response.ok) {
-				// Store the tokens and full name in local storage
 				localStorage.setItem('accessToken', data.accessToken);
 				localStorage.setItem('refreshToken', data.refreshToken);
-				localStorage.setItem('fullName', data.fullName); // Store the full name
+				localStorage.setItem('fullName', data.fullName);
 
-				console.log(data);
+				window.dispatchEvent(new Event('storage'));
 
 				console.log('Login successful!');
-				// Redirect to the collector dashboard or home page
-				// history.push('/collector/dashboard');
+
+				switch (role) {
+					case 'collector':
+						navigate('/collector/dashboard');
+						break;
+					case 'artist':
+						navigate('/artist/dashboard');
+						break;
+					case 'admin':
+						navigate('/admin/dashboard');
+						break;
+					default:
+						navigate('/');
+				}
 			} else {
 				console.error('Login failed:', data.error);
 			}
