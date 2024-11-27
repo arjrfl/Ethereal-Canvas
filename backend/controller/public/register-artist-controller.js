@@ -1,18 +1,20 @@
 import Artist from '../../models/model-artist.js';
 
 export const registerArtist = async (req, res) => {
-	const { fullName, email } = req.body;
+	const { firstName, lastName, email, avatar } = req.body;
 
-	if (!fullName || !email) {
+	if (!firstName || !lastName || !email || !avatar) {
 		return res.status(400).json({ success: false, message: 'Provide missing fields' });
 	}
+
+	const fullName = `${firstName} ${lastName}`.trim();
 
 	const existingArtist = await Artist.findOne({ email });
 	if (existingArtist) {
 		return res.status(409).json({ success: false, message: 'Email is already in use' });
 	}
 
-	const newArtist = new Artist(req.body);
+	const newArtist = new Artist({ fullName, email, avatar });
 
 	try {
 		await newArtist.save();
