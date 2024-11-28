@@ -61,16 +61,16 @@ const Navbar = () => {
 
 	return (
 		<nav
-			className='bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white lg:px-5 px-5 border-b border-gray-300 dark:border-gray-700 drop-shadow'
+			className='bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white lg:px-5 px-2 border-b border-gray-300 dark:border-gray-700 drop-shadow'
 			ref={menuRef}
 		>
 			{/* UPPER NAV */}
 			<div className='container max-w-7xl mx-auto py-3 flex justify-between lg:border-b lg:border-gray-300 lg:dark:border-gray-700'>
-				<Link to='/home' onClick={handleLinkClick}>
-					<img className='h-14' src={Logo} alt='Ethereal Canvas Logo' />
+				<Link to='/home' onClick={handleLinkClick} className='flex items-center'>
+					<img className='h-auto w-32 lg:h-auto lg:w-36' src={Logo} alt='Ethereal Canvas Logo' />
 				</Link>
 
-				<div className='hidden grow px-10 md:flex items-center justify-center'>
+				<div className='grow px-3 pr-0 lg:px-10 flex items-center justify-center'>
 					<div className='relative w-full lg:w-3/4'>
 						<span className='absolute inset-y-0 left-0 flex items-center pl-3'>
 							<TbSearch className='h-5 w-5 text-gray-500' />
@@ -82,6 +82,7 @@ const Navbar = () => {
 						/>
 					</div>
 				</div>
+
 				<div className='shrink-0 flex items-center'>
 					{isLoggedIn ? (
 						<div className='hidden lg:flex'>
@@ -113,59 +114,87 @@ const Navbar = () => {
 				</div>
 			</div>
 
-			{/* LOWER NAV */}
-			<div
-				className={`${isMenuOpen ? 'block' : 'hidden'} lg:flex lg:justify-evenly py-3 container max-w-7xl mx-auto`}
-			>
-				<div className='block md:hidden px-5'>
-					<div className='relative w-full'>
-						<span className='absolute inset-y-0 left-0 flex items-center pl-3'>
-							<TbSearch className='h-5 w-5 text-gray-500' />
-						</span>
-						<input
-							type='text'
-							className='w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md'
-							placeholder='Search...'
-						/>
-					</div>
-				</div>
-
+			{/* LOWER NAV DESKTOP */}
+			<div className='hidden lg:flex lg:justify-evenly container max-w-7xl mx-auto'>
 				{['Home', 'Artists', 'Artworks', 'Marketplace', 'About'].map(link => (
 					<Link
 						key={link}
 						to={`/${link.toLowerCase()}`}
-						className='block lg:inline-block mt-2 lg:mt-0 text-lg font-medium hover:text-blue-500 dark:hover:text-blue-400'
+						className='text-lg font-custom font-medium py-3 hover:text-blue-500 dark:hover:text-blue-400'
 						onClick={handleLinkClick}
 					>
 						{link}
 					</Link>
 				))}
+			</div>
+
+			{/* LOWER NAV MOBILE */}
+			<div className={`${isMenuOpen ? 'block' : 'hidden'} lg:hidden `}>
+				{['Home', 'Artists', 'Artworks', 'Marketplace', 'About'].map(link => (
+					<div
+						key={link}
+						className='hover:bg-zinc-200 hover:border-l-4 hover:border-l-cyan-500 my-2'
+					>
+						<Link
+							to={`/${link.toLowerCase()}`}
+							className='block text-lg my-1 py-1 pl-3 font-custom font-medium'
+							onClick={handleLinkClick}
+						>
+							{link}
+						</Link>
+					</div>
+				))}
 
 				{isLoggedIn ? (
-					<div className='block lg:hidden mt-2 lg:mt-0 text-lg font-medium'>
-						<div className='mt-4 lg:mt-0'>
-							<span>User: {fullName}</span>
+					<div className='border-t-2 grid grid-cols-2 grid-rows-3 my-3 pt-3'>
+						<div className='flex items-center'>
+							<Avatar src={null} name={fullName} alt='User Avatar' />
+							<div className='pl-3'>
+								<p className='font-custom text-slate-800'>{fullName}</p>
+								<p className='text-xs text-slate-500'>{'rambowrath@gmail.com'}</p>
+							</div>
 						</div>
-						<div className='mt-2 lg:mt-0'>
+
+						<div className='flex items-center justify-end'>
 							<button
-								onClick={() => {
-									handleLogout();
-									handleLinkClick();
-								}}
-								className='text-red-500 hover:text-red-700'
+								onClick={toggleDarkMode}
+								className='text-2xl pl-3 py-3'
+								aria-label='Toggle Dark Mode'
 							>
-								Logout
+								{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
 							</button>
 						</div>
+
+						<Link
+							to='/collector/dashboard'
+							className='col-span-2 flex pl-3 items-center mt-1  hover:bg-zinc-200 hover:border-l-4 hover:border-l-cyan-500'
+						>
+							View Profile
+						</Link>
+
+						<Link
+							to='/'
+							onClick={handleLogout}
+							className='col-span-2 flex pl-3 items-center  hover:bg-red-100 hover:border-l-4 hover:border-l-red-500'
+						>
+							Logout
+						</Link>
 					</div>
 				) : (
-					<Link
-						to='/login'
-						className='block lg:hidden mt-4 lg:mt-0 text-lg font-medium hover:text-blue-500 dark:hover:text-blue-400'
-						onClick={handleLinkClick}
-					>
-						Login / Register
-					</Link>
+					<div className='border-t-2 flex justify-between items-center my-4 mb-6 px-5 pt-3'>
+						<Link to='/login' className='flex font-custom'>
+							<span className='hover:underline hover:decoration-blue-600'>Login</span>/
+							<span className='hover:underline hover:decoration-blue-600'> Register</span>
+						</Link>
+
+						<button
+							onClick={toggleDarkMode}
+							className='flex text-3xl'
+							aria-label='Toggle Dark Mode'
+						>
+							{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
+						</button>
+					</div>
 				)}
 			</div>
 		</nav>
