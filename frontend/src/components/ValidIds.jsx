@@ -1,6 +1,6 @@
 import ImageUpload from './UploadImage';
 
-const ValidIds = ({ setValue }) => {
+const ValidIds = ({ setValue, getValues }) => {
 	const handleImageChange = (name, file) => {
 		setValue(name, file);
 	};
@@ -32,7 +32,12 @@ const ValidIds = ({ setValue }) => {
 				<div className='grid grid-cols-1 gap-y-3 mb-8 md:grid-cols-12 md:gap-x-5 lg:grid-cols-12 lg:gap-x-10'>
 					<div className='md:col-span-6'>
 						<label htmlFor='validId'>Valid ID</label>
-						<ImageUpload label='Valid ID Image' name='validId' onChange={handleImageChange} />
+						<ImageUpload
+							label='Valid ID Image'
+							name='validId'
+							onChange={handleImageChange}
+							initialValue={getValues('validId')}
+						/>
 					</div>
 
 					<div className='md:col-span-6'>
@@ -41,6 +46,7 @@ const ValidIds = ({ setValue }) => {
 							label='Selfie with Valid ID'
 							name='selfieWithId'
 							onChange={handleImageChange}
+							initialValue={getValues('selfieWithId')}
 						/>
 					</div>
 				</div>

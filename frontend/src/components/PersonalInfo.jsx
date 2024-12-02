@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CityOrProvinceInput from './CityOrProvinceInput';
 import ImageUpload from './UploadImage';
 
-const PersonalInfo = ({ register, setValue }) => {
+const PersonalInfo = ({ register, setValue, getValues }) => {
 	const [location, setLocation] = useState('');
 
 	const handleImageChange = (name, file) => {
@@ -138,7 +138,12 @@ const PersonalInfo = ({ register, setValue }) => {
 				</label>
 
 				<div className='md:col-span-6'>
-					<ImageUpload label='Workspace Image' name='workspace' onChange={handleImageChange} />
+					<ImageUpload
+						label='Workspace Image'
+						name='workspace'
+						onChange={handleImageChange}
+						initialValue={getValues('workspace')}
+					/>
 				</div>
 
 				<div className='md:col-span-6'>
@@ -146,6 +151,7 @@ const PersonalInfo = ({ register, setValue }) => {
 						label='Selfie with Workspace'
 						name='selfieWithWorkspace'
 						onChange={handleImageChange}
+						initialValue={getValues('selfieWithWorkspace')}
 					/>
 				</div>
 			</div>

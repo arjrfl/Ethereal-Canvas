@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { HiOutlineUpload } from 'react-icons/hi';
 
-const ImageUpload = ({ label, name, onChange }) => {
-	const [preview, setPreview] = useState(null);
+const ImageUpload = ({ label, name, onChange, initialValue }) => {
+	const [preview, setPreview] = useState(initialValue ? URL.createObjectURL(initialValue) : null);
 	const inputRef = useRef(null);
 
 	const handleFileChange = event => {
@@ -12,6 +12,12 @@ const ImageUpload = ({ label, name, onChange }) => {
 			onChange(name, file);
 		}
 	};
+
+	useEffect(() => {
+		if (initialValue) {
+			setPreview(URL.createObjectURL(initialValue));
+		}
+	}, [initialValue]);
 
 	return (
 		<div className='w-full p-6 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center'>
