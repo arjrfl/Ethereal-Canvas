@@ -94,7 +94,10 @@ const Navbar = () => {
 							/>
 						</div>
 					) : (
-						<Link to='/login' className='hidden lg:flex px-3 font-custom'>
+						<Link
+							to='/login'
+							className='hidden lg:flex px-3 font-custom hover:underline hover:decoration-blue-600'
+						>
 							Login / Register
 						</Link>
 					)}
@@ -181,10 +184,9 @@ const Navbar = () => {
 						</Link>
 					</div>
 				) : (
-					<div className='border-t-2 flex justify-between items-center my-4 mb-6 px-5 pt-3'>
-						<Link to='/login' className='flex font-custom'>
-							<span className='hover:underline hover:decoration-blue-600'>Login</span>/
-							<span className='hover:underline hover:decoration-blue-600'> Register</span>
+					<div className='border-t-2 flex justify-between items-center my-4 mb-6 px-5 pt-3 hover:underline hover:decoration-blue-600'>
+						<Link to='/login' className='flex font-custom' onClick={handleLinkClick}>
+							Login / Register
 						</Link>
 
 						<button
