@@ -6,8 +6,11 @@ const PersonalInfo = ({ register, setValue, getValues }) => {
 	const [location, setLocation] = useState('');
 
 	const handleImageChange = (name, files) => {
-		const existingFiles = getValues(name) || [];
-		setValue(name, [...existingFiles, ...files]);
+		if (files && files.length > 0) {
+			setValue(name, files);
+		} else {
+			setValue(name, []);
+		}
 	};
 
 	return (
