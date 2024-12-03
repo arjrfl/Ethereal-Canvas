@@ -2,20 +2,22 @@ import React, { useState, useRef, useEffect } from 'react';
 import { HiOutlineUpload } from 'react-icons/hi';
 
 const ImageUpload = ({ label, name, onChange, initialValue }) => {
-	const [preview, setPreview] = useState(initialValue ? URL.createObjectURL(initialValue) : null);
+	const [preview, setPreview] = useState(
+		initialValue && initialValue.length > 0 ? URL.createObjectURL(initialValue[0]) : null
+	);
 	const inputRef = useRef(null);
 
 	const handleFileChange = event => {
-		const file = event.target.files[0];
-		if (file) {
-			setPreview(URL.createObjectURL(file));
-			onChange(name, file);
+		const files = Array.from(event.target.files);
+		if (files.length > 0) {
+			setPreview(URL.createObjectURL(files[0]));
+			onChange(name, files);
 		}
 	};
 
 	useEffect(() => {
-		if (initialValue) {
-			setPreview(URL.createObjectURL(initialValue));
+		if (initialValue && initialValue.length > 0) {
+			setPreview(URL.createObjectURL(initialValue[0]));
 		}
 	}, [initialValue]);
 
@@ -25,6 +27,7 @@ const ImageUpload = ({ label, name, onChange, initialValue }) => {
 				id={name}
 				type='file'
 				accept='image/*'
+				multiple
 				className='hidden'
 				onChange={handleFileChange}
 				ref={inputRef}

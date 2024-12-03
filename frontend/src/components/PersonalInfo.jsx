@@ -5,8 +5,9 @@ import ImageUpload from './UploadImage';
 const PersonalInfo = ({ register, setValue, getValues }) => {
 	const [location, setLocation] = useState('');
 
-	const handleImageChange = (name, file) => {
-		setValue(name, file);
+	const handleImageChange = (name, files) => {
+		const existingFiles = getValues(name) || [];
+		setValue(name, [...existingFiles, ...files]);
 	};
 
 	return (
