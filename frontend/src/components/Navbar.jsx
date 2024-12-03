@@ -11,14 +11,17 @@ const Navbar = () => {
 	const [isDarkMode, setIsDarkMode] = useState(false);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [fullName, setFullName] = useState('');
+	const [role, setRole] = useState('');
 	const navigate = useNavigate();
 	const menuRef = useRef(null);
 
 	const updateLoginState = () => {
 		const token = localStorage.getItem('accessToken');
 		const storedFullName = localStorage.getItem('fullName');
+		const userRole = localStorage.getItem('role');
 		setIsLoggedIn(!!token); // if token is null/empty = false, else = true
 		setFullName(storedFullName || '');
+		setRole(userRole);
 	};
 
 	useEffect(() => {
@@ -169,7 +172,7 @@ const Navbar = () => {
 						</div>
 
 						<Link
-							to='/collector/dashboard'
+							to={`/${role}/dashboard`}
 							className='col-span-2 flex pl-3 items-center mt-1  hover:bg-zinc-200 hover:border-l-4 hover:border-l-cyan-500'
 						>
 							View Profile

@@ -11,7 +11,7 @@ const Login = () => {
 		e.preventDefault();
 
 		try {
-			const response = await fetch('http://localhost:5000/login/collector', {
+			const response = await fetch(`http://localhost:5000/login/${role}`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -25,6 +25,7 @@ const Login = () => {
 				localStorage.setItem('accessToken', data.accessToken);
 				localStorage.setItem('refreshToken', data.refreshToken);
 				localStorage.setItem('fullName', data.fullName);
+				localStorage.setItem('role', data.role);
 
 				window.dispatchEvent(new Event('storage'));
 

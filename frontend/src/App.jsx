@@ -12,6 +12,7 @@ import RegisterArtist from './pages/RegisterArtist';
 import RegisterCollector from './pages/RegisterCollector';
 
 import CollectorDashboard from './pages/CollectorDashboard';
+import ArtistDashboard from './pages/ArtistDashboard';
 
 const App = () => {
 	return (
@@ -33,6 +34,7 @@ const App = () => {
 
 					{/* PRIVATE ROUTES */}
 					<Route path='/collector/dashboard' element={<CollectorDashboard />}></Route>
+					<Route path='/artist/dashboard' element={<ArtistDashboard />}></Route>
 				</Routes>
 			</div>
 		</Router>

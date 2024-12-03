@@ -51,7 +51,13 @@ export const loginArtist = async (req, res) => {
 		artist.refreshToken = refreshToken;
 		await artist.save();
 
-		res.status(200).json({ message: 'Login successful', accessToken, refreshToken });
+		res.status(200).json({
+			message: 'Login successful',
+			accessToken,
+			refreshToken,
+			fullName: artist.fullName,
+			role: artist.role,
+		});
 	} catch (error) {
 		console.error('Error during login:', error.message);
 		res.status(500).json({ error: 'Error logging in', details: error.message });
