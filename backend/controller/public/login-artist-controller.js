@@ -57,6 +57,7 @@ export const loginArtist = async (req, res) => {
 			refreshToken,
 			fullName: artist.fullName,
 			role: artist.role,
+			email: artist.email,
 		});
 	} catch (error) {
 		console.error('Error during login:', error.message);

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Dropdown = ({ label, options, logout, avatar }) => {
+const Dropdown = ({ label, options, logout, avatar, role }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const dropdownRef = useRef(null);
 	const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Dropdown = ({ label, options, logout, avatar }) => {
 			logout();
 		} else {
 			if (option.value === 'dashboard') {
-				navigate('/collector/dashboard');
+				navigate(`/${role}/dashboard`);
 			}
 		}
 		setIsOpen(false);

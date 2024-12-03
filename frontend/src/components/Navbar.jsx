@@ -12,16 +12,19 @@ const Navbar = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [fullName, setFullName] = useState('');
 	const [role, setRole] = useState('');
+	const [email, setEmail] = useState('');
 	const navigate = useNavigate();
 	const menuRef = useRef(null);
 
 	const updateLoginState = () => {
-		const token = localStorage.getItem('accessToken');
-		const storedFullName = localStorage.getItem('fullName');
+		const userToken = localStorage.getItem('accessToken');
+		const userFullName = localStorage.getItem('fullName');
 		const userRole = localStorage.getItem('role');
-		setIsLoggedIn(!!token); // if token is null/empty = false, else = true
-		setFullName(storedFullName || '');
+		const userEmail = localStorage.getItem('email');
+		setIsLoggedIn(!!userToken); // if token is null/empty = false, else = true
+		setFullName(userFullName || '');
 		setRole(userRole);
+		setEmail(userEmail);
 	};
 
 	useEffect(() => {
@@ -53,9 +56,12 @@ const Navbar = () => {
 		localStorage.removeItem('accessToken');
 		localStorage.removeItem('refreshToken');
 		localStorage.removeItem('fullName');
+		localStorage.removeItem('role');
+		localStorage.removeItem('email');
 		setIsLoggedIn(false);
 		setFullName('');
 		navigate('/home');
+		setIsMenuOpen(false);
 	};
 
 	const handleLinkClick = () => setIsMenuOpen(false);
@@ -94,6 +100,7 @@ const Navbar = () => {
 								options={options}
 								logout={handleLogout}
 								avatar={<Avatar src={null} name={fullName} alt='User Avatar' />}
+								role={role}
 							/>
 						</div>
 					) : (
@@ -157,7 +164,7 @@ const Navbar = () => {
 							<Avatar src={null} name={fullName} alt='User Avatar' />
 							<div className='pl-3'>
 								<p className='font-custom text-slate-800'>{fullName}</p>
-								<p className='text-xs text-slate-500'>{'rambowrath@gmail.com'}</p>
+								<p className='text-xs text-slate-500'>{email}</p>
 							</div>
 						</div>
 
@@ -174,6 +181,7 @@ const Navbar = () => {
 						<Link
 							to={`/${role}/dashboard`}
 							className='col-span-2 flex pl-3 items-center mt-1  hover:bg-zinc-200 hover:border-l-4 hover:border-l-cyan-500'
+							onClick={handleLinkClick}
 						>
 							View Profile
 						</Link>

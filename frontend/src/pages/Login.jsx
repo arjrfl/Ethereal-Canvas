@@ -26,6 +26,7 @@ const Login = () => {
 				localStorage.setItem('refreshToken', data.refreshToken);
 				localStorage.setItem('fullName', data.fullName);
 				localStorage.setItem('role', data.role);
+				localStorage.setItem('email', data.email);
 
 				window.dispatchEvent(new Event('storage'));
 

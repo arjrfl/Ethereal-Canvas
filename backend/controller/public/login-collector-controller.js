@@ -57,6 +57,7 @@ export const loginCollector = async (req, res) => {
 			refreshToken,
 			fullName: collector.fullName,
 			role: collector.role,
+			email: collector.email,
 		});
 	} catch (error) {
 		console.error('Error during login:', error.message);
