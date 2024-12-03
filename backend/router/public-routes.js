@@ -7,6 +7,8 @@ import { registerCollector } from '../controller/public/register-collector-contr
 
 import { refreshToken } from '../controller/public/refresh-token-controller.js';
 
+import { validateArtistEmail } from '../controller/public/register-artist-email-search.js';
+
 const router = express.Router();
 
 // LOGIN
@@ -17,6 +19,7 @@ router.post('/login/collector', loginCollector);
 // REGISTER
 // router.post('/register/admin', registerAdmin) // should be private
 router.post('/register/artist', registerArtist);
+router.get('/check-email/:email', validateArtistEmail);
 router.post('/register/collector', registerCollector);
 
 // REFRESH TOKEN
