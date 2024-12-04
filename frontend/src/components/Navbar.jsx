@@ -6,6 +6,11 @@ import { CgCloseR } from 'react-icons/cg';
 import Dropdown from './Dropdown';
 import Avatar from './Avatar';
 
+import { CiSearch } from 'react-icons/ci';
+
+import LogoMobileSize from '../assets/images/EC-logo-mobile-size.svg';
+import LogoMediumUpSize from '../assets/images/EC-logo-md-up-screen.svg';
+
 const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isDarkMode, setIsDarkMode] = useState(false);
@@ -75,18 +80,22 @@ const Navbar = () => {
 		>
 			{/* UPPER NAV */}
 			<div className='container max-w-7xl mx-auto py-3 flex justify-between lg:border-b lg:border-gray-300 lg:dark:border-gray-700'>
-				<Link to='/home' onClick={handleLinkClick} className='flex items-center'>
-					<img className='h-auto w-32 lg:h-auto lg:w-36' src={Logo} alt='Ethereal Canvas Logo' />
+				<Link to='/home' onClick={handleLinkClick} className='sm:hidden'>
+					<img src={LogoMobileSize} className='h-auto w-9' alt='Ethereal Canvas Logo' />
 				</Link>
 
-				<div className='grow px-3 pr-0 lg:px-10 flex items-center justify-center'>
+				<Link to='/home' onClick={handleLinkClick} className='hidden sm:flex items-center '>
+					<img className='h-auto w-36' src={LogoMediumUpSize} alt='Ethereal Canvas Logo' />
+				</Link>
+
+				<div className='grow px-3 lg:px-10 flex items-center justify-center'>
 					<div className='relative w-full lg:w-3/4'>
-						<span className='absolute inset-y-0 left-0 flex items-center pl-3'>
-							<TbSearch className='h-5 w-5 text-gray-500' />
+						<span className='absolute inset-y-0 right-51 flex items-center pl-3'>
+							<CiSearch className='h-5 w-5 text-gray-500' />
 						</span>
 						<input
 							type='text'
-							className='w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md'
+							className='w-full pl-10 pr-4 py-1 border text-sm md:text-base border-gray-300 rounded-md'
 							placeholder='Search...'
 						/>
 					</div>
@@ -113,15 +122,12 @@ const Navbar = () => {
 					)}
 					<button
 						onClick={toggleDarkMode}
-						className='hidden lg:flex text-3xl pl-3 py-3'
+						className='hidden lg:flex text-2xl pl-3 py-3'
 						aria-label='Toggle Dark Mode'
 					>
 						{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
 					</button>
-					<button
-						className='lg:hidden text-3xl pl-3 py-3'
-						onClick={() => setIsMenuOpen(!isMenuOpen)}
-					>
+					<button className='lg:hidden text-2xl' onClick={() => setIsMenuOpen(!isMenuOpen)}>
 						{isMenuOpen ? <CgCloseR /> : <TbMenu2 />}
 					</button>
 				</div>
@@ -133,7 +139,7 @@ const Navbar = () => {
 					<Link
 						key={link}
 						to={`/${link.toLowerCase()}`}
-						className='text-lg font-custom font-medium py-3 hover:text-blue-500 dark:hover:text-blue-400'
+						className='text-base font-custom font-medium py-3 hover:text-blue-500 dark:hover:text-blue-400'
 						onClick={handleLinkClick}
 					>
 						{link}
@@ -146,11 +152,11 @@ const Navbar = () => {
 				{['Home', 'Artists', 'Artworks', 'Marketplace', 'About'].map(link => (
 					<div
 						key={link}
-						className='hover:bg-zinc-200 hover:border-l-4 hover:border-l-cyan-500 my-2'
+						className='hover:bg-zinc-200 hover:border-l-4 hover:border-l-orange-400 hover:rounded my-1 text-sm md:text-base'
 					>
 						<Link
 							to={`/${link.toLowerCase()}`}
-							className='block text-lg my-1 py-1 pl-3 font-custom font-medium'
+							className='block my-1 py-2 pl-3 font-custom font-medium'
 							onClick={handleLinkClick}
 						>
 							{link}
@@ -159,11 +165,11 @@ const Navbar = () => {
 				))}
 
 				{isLoggedIn ? (
-					<div className='border-t-2 grid grid-cols-2 grid-rows-3 my-3 pt-3'>
+					<div className='border-t-2 grid grid-cols-2 grid-rows-3 my-3 pt-3 font-custom text-sm md:text-base'>
 						<div className='flex items-center'>
 							<Avatar src={null} name={fullName} alt='User Avatar' />
 							<div className='pl-3'>
-								<p className='font-custom text-slate-800'>{fullName}</p>
+								<p className='text-base text-slate-800'>{fullName}</p>
 								<p className='text-xs text-slate-500'>{email}</p>
 							</div>
 						</div>
@@ -180,7 +186,7 @@ const Navbar = () => {
 
 						<Link
 							to={`/${role}/dashboard`}
-							className='col-span-2 flex pl-3 items-center mt-1  hover:bg-zinc-200 hover:border-l-4 hover:border-l-cyan-500'
+							className='col-span-2 flex pl-3 items-center mt-1  hover:bg-zinc-200 hover:border-l-4 hover:border-l-orange-400 hover:rounded'
 							onClick={handleLinkClick}
 						>
 							View Profile
@@ -189,13 +195,13 @@ const Navbar = () => {
 						<Link
 							to='/'
 							onClick={handleLogout}
-							className='col-span-2 flex pl-3 items-center  hover:bg-red-100 hover:border-l-4 hover:border-l-red-500'
+							className='col-span-2 flex pl-3 items-center  hover:bg-red-100 hover:border-l-4 hover:border-l-red-500 hover:rounded'
 						>
 							Logout
 						</Link>
 					</div>
 				) : (
-					<div className='border-t-2 flex justify-between items-center my-4 mb-6 px-5 pt-3 hover:underline hover:decoration-blue-600'>
+					<div className='border-t-2 flex justify-between items-center my-4 mb-6 px-5 pt-3 hover:underline hover:decoration-blue-600 hover:rounded'>
 						<Link to='/login' className='flex font-custom' onClick={handleLinkClick}>
 							Login / Register
 						</Link>
