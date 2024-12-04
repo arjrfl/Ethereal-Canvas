@@ -5,6 +5,15 @@ const artistSchema = new mongoose.Schema(
 		fullName: { type: String, required: true, trim: true },
 		email: { type: String, required: true, unique: true },
 		password: { type: String, select: false },
+		avatar: {
+			type: String,
+			default: function () {
+				// Extracts the initials from fullName (first and last word initials)
+				const nameParts = this.fullName.split(' ');
+				const initials = nameParts.map(name => name.charAt(0).toUpperCase()).join('');
+				return initials;
+			},
+		},
 		phoneNumber: { type: String, required: true },
 		dateOfBirth: { type: Date },
 		location: { type: String },

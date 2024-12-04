@@ -30,7 +30,7 @@ export const loginArtist = async (req, res) => {
 				role: artist.role,
 			},
 			process.env.JWT_SECRET,
-			{ expiresIn: '1h' }
+			{ expiresIn: '5h' }
 		);
 
 		const refreshToken = jwt.sign(
@@ -52,6 +52,7 @@ export const loginArtist = async (req, res) => {
 		await artist.save();
 
 		res.status(200).json({
+			id: artist.id,
 			message: 'Login successful',
 			accessToken,
 			refreshToken,

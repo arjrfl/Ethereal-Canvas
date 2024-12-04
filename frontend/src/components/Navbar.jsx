@@ -63,6 +63,7 @@ const Navbar = () => {
 		localStorage.removeItem('fullName');
 		localStorage.removeItem('role');
 		localStorage.removeItem('email');
+		localStorage.removeItem('id');
 		setIsLoggedIn(false);
 		setFullName('');
 		navigate('/home');

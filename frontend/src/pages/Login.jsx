@@ -27,6 +27,7 @@ const Login = () => {
 				localStorage.setItem('fullName', data.fullName);
 				localStorage.setItem('role', data.role);
 				localStorage.setItem('email', data.email);
+				localStorage.setItem('id', data.id);
 
 				window.dispatchEvent(new Event('storage'));
 
