@@ -14,6 +14,7 @@ import { disableCollector } from '../controller/private/admin/admin-update-colle
 
 import { getArtistDashboardProfile } from '../controller/private/artist/artist-dashboard-get-profile.js';
 import { ArtistUpdateDetails } from '../controller/private/artist/artist-dashboard-update-details.js';
+import { ArtistUpdateAvatar } from '../controller/private/artist/artist-dashboard-update-avatar.js';
 
 const router = express.Router();
 
@@ -34,4 +35,5 @@ router.patch('/admin/disable-collector/:id', authorizeRoles('admin'), disableCol
 // ARTIST DASHBOARD EDIT PROFILE
 router.get('/artist/dashboard-profile', authorizeRoles('artist'), getArtistDashboardProfile);
 router.put('/artist/dashboard-update-details', authorizeRoles('artist'), ArtistUpdateDetails);
+router.put('/artist/dashboard-update-avatar', authorizeRoles('artist'), ArtistUpdateAvatar);
 export default router;
