@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import PersonalInfo from '../components/PersonalInfo';
-import ValidIds from '../components/ValidIds';
-import SharedDrive from '../components/SharedDrive';
+import PersonalInfo from '../components/RegisterArtistPersonalInfo';
+import ValidIds from '../components/RegisterArtistValidIds';
+import SharedDrive from '../components/RegisterArtistSharedDrive';
 import PolicyAgreement from '../components/PolicyAgreement';
 
 import { TbArrowBigRight, TbArrowBigLeft, TbFileIsr } from 'react-icons/tb';

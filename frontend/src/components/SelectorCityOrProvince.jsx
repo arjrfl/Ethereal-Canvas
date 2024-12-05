@@ -21,7 +21,7 @@ const CityOrProvinceSelector = ({ value, onChange }) => {
 					handleInputChange(e.target.value);
 					onChange?.(e.target.value); // Update parent state if provided
 				}}
-				className='w-full'
+				className='w-full bg-transparent'
 				onFocus={() => setDropdownVisible(true)}
 				onBlur={() => setTimeout(() => setDropdownVisible(false), 200)} // Delay for click handling
 			/>

@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import CityOrProvinceSelector from './CityOrProvinceSelector';
+import CityOrProvinceSelector from './SelectorCityOrProvince';
+import { useAvatar } from '../hooks/useAvatar';
 
 const ArtistDashboardEditProfile = () => {
 	const [formData, setFormData] = useState({
@@ -16,10 +17,49 @@ const ArtistDashboardEditProfile = () => {
 		phoneNumber: '',
 		aboutYourself: '',
 	});
-	const [avatarURL, setAvatarURL] = useState('');
+
+	const avatarContent = useAvatar(formData.avatar, formData.fullName);
 
 	const handleLocationChange = location => {
 		setFormData(prev => ({ ...prev, location }));
+	};
+
+	const handleSubmit = async () => {
+		try {
+			const userId = localStorage.getItem('id');
+			const accessToken = localStorage.getItem('accessToken');
+
+			if (!userId || !accessToken) {
+				console.error('No user ID or access token found');
+				return;
+			}
+
+			const response = await axios.put(
+				`http://localhost:5000/api/artist/dashboard-update-details`,
+				{
+					...formData,
+					fullName: `${formData.firstName} ${formData.lastName}`,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				}
+			);
+
+			if (response.status === 200) {
+				const updatedUser = response.data.data;
+
+				localStorage.setItem('fullName', updatedUser.fullName);
+				localStorage.setItem('email', updatedUser.email);
+				localStorage.setItem('avatar', updatedUser.avatar);
+
+				alert('Profile updated successfully!');
+			}
+		} catch (error) {
+			console.error('Error updating profile:', error);
+			alert('Failed to update profile. Please try again.');
+		}
 	};
 
 	useEffect(() => {
@@ -45,17 +85,17 @@ const ArtistDashboardEditProfile = () => {
 				const profileData = response.data.data;
 				const [firstName, lastName] = profileData.fullName.split(' ');
 
-				// Format dateOfBirth to yyyy-MM-dd
 				const formattedDate = profileData.dateOfBirth
 					? new Date(profileData.dateOfBirth).toISOString().split('T')[0]
 					: '';
 
 				setFormData({
 					avatar: profileData.avatar,
+					fullName: profileData.fullName,
 					firstName: firstName,
 					lastName: lastName,
 					gender: profileData.gender,
-					dateOfBirth: formattedDate, // Use formatted date
+					dateOfBirth: formattedDate,
 					email: profileData.email,
 					phoneNumber: profileData.phoneNumber,
 					location: profileData.location,
@@ -76,21 +116,16 @@ const ArtistDashboardEditProfile = () => {
 		});
 	};
 
-	const renderAvatar = () => {
-		if (formData.avatar && formData.avatar.length === 2) {
-			return <span className='text-4xl'>{formData.avatar}</span>;
-		} else if (formData.avatar && formData.avatar.startsWith('https')) {
-			return <img src={formData.avatar} alt='User Avatar' className='w-full h-full object-cover' />;
-		} else {
-			return <span>{formData.fullName.slice(0, 2).toUpperCase()}</span>;
-		}
-	};
-
 	return (
 		<div className='text-sm md:text-base font-custom my-4'>
-			<div className='text-center flex gap-5'>
+			<div className='flex flex-col mb-5'>
+				<h1 className='text-base md:text-lg pb-1'>User Information</h1>
+				<p className='text-xs font-light text-slate-600'>Personal details and edit profile</p>
+			</div>
+
+			<div className='text-center flex gap-5 mb-5'>
 				<div className='w-20 h-20 flex-shrink-0 rounded-lg flex items-center justify-center bg-gray-300 text-white font-bold border-2 border-gray-300'>
-					{renderAvatar()}
+					{avatarContent}
 				</div>
 				<div className='flex flex-col items-start justify-center'>
 					<h1 className='text-base'>{`${formData.firstName} ${formData.lastName}` || 'My Name'}</h1>
@@ -99,8 +134,8 @@ const ArtistDashboardEditProfile = () => {
 			</div>
 
 			<div>
-				<form>
-					<div className='flex justify-between'>
+				<form className='grid grid-cols-1'>
+					<div className='grid grid-cols-1 py-4 gap-y-1 border-t-2 md:grid-cols-2 '>
 						<label htmlFor='firstName'>First name</label>
 						<input
 							type='text'
@@ -108,10 +143,10 @@ const ArtistDashboardEditProfile = () => {
 							name='firstName'
 							value={formData.firstName}
 							onChange={handleChange}
+							className='bg-transparent'
 						/>
 					</div>
-					{/*  */}
-					<div className='flex justify-between'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
 						<label htmlFor='lastName'>Last name</label>
 						<input
 							type='text'
@@ -119,25 +154,24 @@ const ArtistDashboardEditProfile = () => {
 							name='lastName'
 							value={formData.lastName}
 							onChange={handleChange}
+							className='bg-transparent'
 						/>
 					</div>
-					{/*  */}
-					<div className='flex justify-between'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
 						<label htmlFor='gender'>Gender</label>
 						<select
 							id='gender'
 							name='gender'
 							value={formData.gender}
 							onChange={handleChange}
-							className='w-40'
+							className='w-40 bg-transparent'
 						>
 							<option value='male'>Male</option>
 							<option value='female'>Female</option>
 							<option value='other'>Other</option>
 						</select>
 					</div>
-					{/*  */}
-					<div className='flex justify-between'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
 						<label htmlFor='dateOfBirth'>Date of Birth</label>
 						<input
 							type='date'
@@ -145,15 +179,18 @@ const ArtistDashboardEditProfile = () => {
 							name='dateOfBirth'
 							value={formData.dateOfBirth}
 							onChange={handleChange}
+							className='bg-transparent'
 						/>
 					</div>
-					{/*  */}
-					<div className='flex justify-between'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
 						<label htmlFor='location'>Location</label>
-						<CityOrProvinceSelector value={formData.location} onChange={handleLocationChange} />
+						<CityOrProvinceSelector
+							value={formData.location}
+							onChange={handleLocationChange}
+							className='bg-transparent'
+						/>
 					</div>
-					{/*  */}
-					<div className='flex justify-between'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
 						<label htmlFor='email'>Email</label>
 						<input
 							type='text'
@@ -161,10 +198,10 @@ const ArtistDashboardEditProfile = () => {
 							name='email'
 							value={formData.email}
 							onChange={handleChange}
+							className='bg-transparent'
 						/>
 					</div>
-					{/*  */}
-					<div className='flex justify-between'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
 						<label htmlFor='phoneNumber'>Phone Number</label>
 						<input
 							type='tel'
@@ -172,25 +209,416 @@ const ArtistDashboardEditProfile = () => {
 							name='phoneNumber'
 							value={formData.phoneNumber}
 							onChange={handleChange}
+							className='bg-transparent'
 						/>
 					</div>
-					{/*  */}
-					<div className='flex justify-between'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
 						<label htmlFor='aboutYourself'>About yourself</label>
 						<textarea
 							id='aboutYourself'
 							name='aboutYourself'
 							value={formData.aboutYourself}
 							onChange={handleChange}
+							className='bg-transparent'
 						></textarea>
 					</div>
 				</form>
+				<button
+					type='button'
+					onClick={handleSubmit}
+					className='mt-5 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+				>
+					Confirm Changes
+				</button>
 			</div>
 		</div>
 	);
 };
 
 export default ArtistDashboardEditProfile;
+
+// const ArtistDashboardEditProfile = () => {
+// 	const [formData, setFormData] = useState({
+// 		avatar: '',
+// 		fullName: '',
+// 		firstName: '',
+// 		lastName: '',
+// 		gender: '',
+// 		dateOfBirth: '',
+// 		location: '',
+// 		email: '',
+// 		phoneNumber: '',
+// 		aboutYourself: '',
+// 	});
+
+// 	const avatarContent = useAvatar(formData.avatar, formData.fullName);
+
+// 	const handleLocationChange = location => {
+// 		setFormData(prev => ({ ...prev, location }));
+// 	};
+
+// 	useEffect(() => {
+// 		const fetchProfile = async () => {
+// 			const userId = localStorage.getItem('id');
+// 			const accessToken = localStorage.getItem('accessToken');
+
+// 			if (!userId || !accessToken) {
+// 				console.error('No user ID or access token found');
+// 				return;
+// 			}
+
+// 			try {
+// 				const response = await axios.get(
+// 					`http://localhost:5000/api/artist/dashboard-profile?id=${userId}`,
+// 					{
+// 						headers: {
+// 							Authorization: `Bearer ${accessToken}`,
+// 						},
+// 					}
+// 				);
+
+// 				const profileData = response.data.data;
+// 				const [firstName, lastName] = profileData.fullName.split(' ');
+
+// 				// Format dateOfBirth to yyyy-MM-dd
+// 				const formattedDate = profileData.dateOfBirth
+// 					? new Date(profileData.dateOfBirth).toISOString().split('T')[0]
+// 					: '';
+
+// 				setFormData({
+// 					avatar: profileData.avatar,
+// 					fullName: profileData.fullName,
+// 					firstName: firstName,
+// 					lastName: lastName,
+// 					gender: profileData.gender,
+// 					dateOfBirth: formattedDate,
+// 					email: profileData.email,
+// 					phoneNumber: profileData.phoneNumber,
+// 					location: profileData.location,
+// 					aboutYourself: profileData.aboutYourself,
+// 				});
+// 			} catch (error) {
+// 				console.error('Error fetching profile:', error);
+// 			}
+// 		};
+
+// 		fetchProfile();
+// 	}, []);
+
+// 	const handleChange = e => {
+// 		setFormData({
+// 			...formData,
+// 			[e.target.name]: e.target.value,
+// 		});
+// 	};
+
+// 	return (
+// 		<div className='text-sm md:text-base font-custom my-4'>
+// 			<div className='flex flex-col mb-5'>
+// 				<h1 className='text-base md:text-lg pb-1'>User Information</h1>
+// 				<p className='text-xs font-light text-slate-600'>Personal details and edit profile</p>
+// 			</div>
+
+// 			<div className='text-center flex gap-5 mb-5'>
+// 				<div className='w-20 h-20 flex-shrink-0 rounded-lg flex items-center justify-center bg-gray-300 text-white font-bold border-2 border-gray-300'>
+// 					{avatarContent}
+// 				</div>
+// 				<div className='flex flex-col items-start justify-center'>
+// 					<h1 className='text-base'>{`${formData.firstName} ${formData.lastName}` || 'My Name'}</h1>
+// 					<p className='text-xs'>{formData.email || 'My Email'}</p>
+// 				</div>
+// 			</div>
+
+// 			<div>
+// 				<form className='grid grid-cols-1'>
+// 					<div className='grid grid-cols-1 py-4 gap-y-1 border-t-2 md:grid-cols-2 '>
+// 						<label htmlFor='firstName'>First name</label>
+// 						<input
+// 							type='text'
+// 							id='firstName'
+// 							name='firstName'
+// 							value={formData.firstName}
+// 							onChange={handleChange}
+// 							className='bg-transparent'
+// 						/>
+// 					</div>
+// 					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
+// 						<label htmlFor='lastName'>Last name</label>
+// 						<input
+// 							type='text'
+// 							id='lastName'
+// 							name='lastName'
+// 							value={formData.lastName}
+// 							onChange={handleChange}
+// 							className='bg-transparent'
+// 						/>
+// 					</div>
+// 					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
+// 						<label htmlFor='gender'>Gender</label>
+// 						<select
+// 							id='gender'
+// 							name='gender'
+// 							value={formData.gender}
+// 							onChange={handleChange}
+// 							className='w-40 bg-transparent'
+// 						>
+// 							<option value='male'>Male</option>
+// 							<option value='female'>Female</option>
+// 							<option value='other'>Other</option>
+// 						</select>
+// 					</div>
+// 					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
+// 						<label htmlFor='dateOfBirth'>Date of Birth</label>
+// 						<input
+// 							type='date'
+// 							id='dateOfBirth'
+// 							name='dateOfBirth'
+// 							value={formData.dateOfBirth}
+// 							onChange={handleChange}
+// 							className='bg-transparent'
+// 						/>
+// 					</div>
+// 					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
+// 						<label htmlFor='location'>Location</label>
+// 						<CityOrProvinceSelector
+// 							value={formData.location}
+// 							onChange={handleLocationChange}
+// 							className='bg-transparent'
+// 						/>
+// 					</div>
+// 					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
+// 						<label htmlFor='email'>Email</label>
+// 						<input
+// 							type='text'
+// 							id='email'
+// 							name='email'
+// 							value={formData.email}
+// 							onChange={handleChange}
+// 							className='bg-transparent'
+// 						/>
+// 					</div>
+// 					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
+// 						<label htmlFor='phoneNumber'>Phone Number</label>
+// 						<input
+// 							type='tel'
+// 							id='phoneNumber'
+// 							name='phoneNumber'
+// 							value={formData.phoneNumber}
+// 							onChange={handleChange}
+// 							className='bg-transparent'
+// 						/>
+// 					</div>
+// 					<div className='grid grid-cols-1 py-4 gap-y-1  border-t-2 md:grid-cols-2 '>
+// 						<label htmlFor='aboutYourself'>About yourself</label>
+// 						<textarea
+// 							id='aboutYourself'
+// 							name='aboutYourself'
+// 							value={formData.aboutYourself}
+// 							onChange={handleChange}
+// 							className='bg-transparent'
+// 						></textarea>
+// 					</div>
+// 				</form>
+// 			</div>
+// 		</div>
+// 	);
+// };
+
+// export default ArtistDashboardEditProfile;
+
+// import { useState, useEffect } from 'react';
+// import axios from 'axios';
+
+// import CityOrProvinceSelector from './SelectorCityOrProvince';
+
+// const ArtistDashboardEditProfile = () => {
+// 	const [formData, setFormData] = useState({
+// 		avatar: '',
+// 		fullName: '',
+// 		firstName: '',
+// 		lastName: '',
+// 		gender: '',
+// 		dateOfBirth: '',
+// 		location: '',
+// 		email: '',
+// 		phoneNumber: '',
+// 		aboutYourself: '',
+// 	});
+// 	const [avatarURL, setAvatarURL] = useState('');
+
+// 	const handleLocationChange = location => {
+// 		setFormData(prev => ({ ...prev, location }));
+// 	};
+
+// 	useEffect(() => {
+// 		const fetchProfile = async () => {
+// 			const userId = localStorage.getItem('id');
+// 			const accessToken = localStorage.getItem('accessToken');
+
+// 			if (!userId || !accessToken) {
+// 				console.error('No user ID or access token found');
+// 				return;
+// 			}
+
+// 			try {
+// 				const response = await axios.get(
+// 					`http://localhost:5000/api/artist/dashboard-profile?id=${userId}`,
+// 					{
+// 						headers: {
+// 							Authorization: `Bearer ${accessToken}`,
+// 						},
+// 					}
+// 				);
+
+// 				const profileData = response.data.data;
+// 				const [firstName, lastName] = profileData.fullName.split(' ');
+
+// 				// Format dateOfBirth to yyyy-MM-dd
+// 				const formattedDate = profileData.dateOfBirth
+// 					? new Date(profileData.dateOfBirth).toISOString().split('T')[0]
+// 					: '';
+
+// 				setFormData({
+// 					avatar: profileData.avatar,
+// 					firstName: firstName,
+// 					lastName: lastName,
+// 					gender: profileData.gender,
+// 					dateOfBirth: formattedDate, // Use formatted date
+// 					email: profileData.email,
+// 					phoneNumber: profileData.phoneNumber,
+// 					location: profileData.location,
+// 					aboutYourself: profileData.aboutYourself,
+// 				});
+// 			} catch (error) {
+// 				console.error('Error fetching profile:', error);
+// 			}
+// 		};
+
+// 		fetchProfile();
+// 	}, []);
+
+// 	const handleChange = e => {
+// 		setFormData({
+// 			...formData,
+// 			[e.target.name]: e.target.value,
+// 		});
+// 	};
+
+// 	const renderAvatar = () => {
+// 		if (formData.avatar && formData.avatar.length === 2) {
+// 			return <span className='text-4xl'>{formData.avatar}</span>;
+// 		} else if (formData.avatar && formData.avatar.startsWith('https')) {
+// 			return <img src={formData.avatar} alt='User Avatar' className='w-full h-full object-cover' />;
+// 		} else {
+// 			return <span>{formData.fullName.slice(0, 2).toUpperCase()}</span>;
+// 		}
+// 	};
+
+// 	return (
+// 		<div className='text-sm md:text-base font-custom my-4'>
+// 			<div className='text-center flex gap-5'>
+// 				<div className='w-20 h-20 flex-shrink-0 rounded-lg flex items-center justify-center bg-gray-300 text-white font-bold border-2 border-gray-300'>
+// 					{renderAvatar()}
+// 				</div>
+// 				<div className='flex flex-col items-start justify-center'>
+// 					<h1 className='text-base'>{`${formData.firstName} ${formData.lastName}` || 'My Name'}</h1>
+// 					<p className='text-xs'>{formData.email || 'My Email'}</p>
+// 				</div>
+// 			</div>
+
+// 			<div>
+// 				<form>
+// 					<div className='flex justify-between'>
+// 						<label htmlFor='firstName'>First name</label>
+// 						<input
+// 							type='text'
+// 							id='firstName'
+// 							name='firstName'
+// 							value={formData.firstName}
+// 							onChange={handleChange}
+// 						/>
+// 					</div>
+// 					{/*  */}
+// 					<div className='flex justify-between'>
+// 						<label htmlFor='lastName'>Last name</label>
+// 						<input
+// 							type='text'
+// 							id='lastName'
+// 							name='lastName'
+// 							value={formData.lastName}
+// 							onChange={handleChange}
+// 						/>
+// 					</div>
+// 					{/*  */}
+// 					<div className='flex justify-between'>
+// 						<label htmlFor='gender'>Gender</label>
+// 						<select
+// 							id='gender'
+// 							name='gender'
+// 							value={formData.gender}
+// 							onChange={handleChange}
+// 							className='w-40'
+// 						>
+// 							<option value='male'>Male</option>
+// 							<option value='female'>Female</option>
+// 							<option value='other'>Other</option>
+// 						</select>
+// 					</div>
+// 					{/*  */}
+// 					<div className='flex justify-between'>
+// 						<label htmlFor='dateOfBirth'>Date of Birth</label>
+// 						<input
+// 							type='date'
+// 							id='dateOfBirth'
+// 							name='dateOfBirth'
+// 							value={formData.dateOfBirth}
+// 							onChange={handleChange}
+// 						/>
+// 					</div>
+// 					{/*  */}
+// 					<div className='flex justify-between'>
+// 						<label htmlFor='location'>Location</label>
+// 						<CityOrProvinceSelector value={formData.location} onChange={handleLocationChange} />
+// 					</div>
+// 					{/*  */}
+// 					<div className='flex justify-between'>
+// 						<label htmlFor='email'>Email</label>
+// 						<input
+// 							type='text'
+// 							id='email'
+// 							name='email'
+// 							value={formData.email}
+// 							onChange={handleChange}
+// 						/>
+// 					</div>
+// 					{/*  */}
+// 					<div className='flex justify-between'>
+// 						<label htmlFor='phoneNumber'>Phone Number</label>
+// 						<input
+// 							type='tel'
+// 							id='phoneNumber'
+// 							name='phoneNumber'
+// 							value={formData.phoneNumber}
+// 							onChange={handleChange}
+// 						/>
+// 					</div>
+// 					{/*  */}
+// 					<div className='flex justify-between'>
+// 						<label htmlFor='aboutYourself'>About yourself</label>
+// 						<textarea
+// 							id='aboutYourself'
+// 							name='aboutYourself'
+// 							value={formData.aboutYourself}
+// 							onChange={handleChange}
+// 						></textarea>
+// 					</div>
+// 				</form>
+// 			</div>
+// 		</div>
+// 	);
+// };
+
+// export default ArtistDashboardEditProfile;
 
 /////////////////////////////////////////////////////////////////////////////////////
 

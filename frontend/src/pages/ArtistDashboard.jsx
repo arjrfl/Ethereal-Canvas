@@ -1,4 +1,4 @@
-import ArtistDashboardEditProfile from '../components/ArtistDashboardEditProfile';
+import ArtistDashboardEditProfile from '../components/DashboardArtistEditProfile';
 
 import { TbEdit, TbUpload, TbImageInPicture, TbClipboardList } from 'react-icons/tb';
 
