@@ -1,5 +1,5 @@
 const DashboardArtistTransaction = () => {
-	return <h1>Dashboard artworks</h1>;
+	return <h1>Dashboard Transaction</h1>;
 };
 
 export default DashboardArtistTransaction;
