@@ -90,7 +90,6 @@ const ArtistDashboardEditProfile = () => {
 				if (profileData.avatar) {
 					setAvatarPreview(profileData.avatar);
 				}
-				console.log(profileData.avatar);
 			} catch (error) {
 				console.error('Error fetching profile:', error);
 			}
@@ -104,9 +103,14 @@ const ArtistDashboardEditProfile = () => {
 
 	return (
 		<div className='text-sm md:text-base font-custom my-4'>
+			<div className='flex flex-col mb-7'>
+				<h1 className='text-base md:text-lg pb-1'>User Information</h1>{' '}
+				<p className='text-xs font-light text-slate-600'>Personal details and edit profile</p>{' '}
+			</div>
+
 			{/* Avatar Section */}
-			<div className='text-center flex flex-col items-center gap-3 mb-5'>
-				<div className='w-20 h-20 rounded-lg flex items-center justify-center bg-gray-300 border-2 border-gray-300 overflow-hidden'>
+			<div className='text-center flex items-center  gap-5 mb-5'>
+				<div className='w-32 h-32 rounded-xl flex items-center justify-center bg-gray-300 border-gray-300 overflow-hidden'>
 					{avatarPreview ? (
 						<img src={avatarPreview} alt='Avatar' className='w-full h-full object-cover' />
 					) : (
@@ -122,7 +126,7 @@ const ArtistDashboardEditProfile = () => {
 					<button
 						type='button'
 						onClick={updateAvatar}
-						className='mt-2 bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'
+						className='mt-2 bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600'
 						disabled={isUploading}
 					>
 						{isUploading ? 'Uploading...' : 'Update Avatar'}
@@ -133,91 +137,107 @@ const ArtistDashboardEditProfile = () => {
 			{/* Form Section */}
 			<div>
 				<form className='grid grid-cols-1'>
-					<div className='grid grid-cols-1 py-4 gap-y-1 border-t-2 md:grid-cols-2 '>
-						<label htmlFor='firstName'>First name</label>{' '}
+					<div className='grid grid-cols-1 py-4 gap-y-1 md:grid-cols-2 '>
+						<label htmlFor='firstName' className='text-gray-500 text-xs'>
+							First name
+						</label>
 						<input
 							type='text'
 							id='firstName'
 							name='firstName'
 							value={formData.firstName}
 							onChange={handleChange}
-							className='bg-transparent'
+							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1 border-t-2 md:grid-cols-2 '>
-						<label htmlFor='lastName'>Last name</label>
+					<div className='grid grid-cols-1 py-4 gap-y-1 md:grid-cols-2 '>
+						<label htmlFor='lastName' className='text-gray-500 text-xs'>
+							Last name
+						</label>
 						<input
 							type='text'
 							id='lastName'
 							name='lastName'
 							value={formData.lastName}
 							onChange={handleChange}
-							className='bg-transparent'
+							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1 border-t-2 md:grid-cols-2 '>
-						<label htmlFor='gender'>Gender</label>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
+						<label htmlFor='gender' className='text-gray-500 text-xs'>
+							Gender
+						</label>
 						<select
 							id='gender'
 							name='gender'
 							value={formData.gender}
 							onChange={handleChange}
-							className='w-40 bg-transparent'
+							className='w-full bg-slate-200 px-3 py-2 rounded-md'
 						>
 							{' '}
 							<option value='male'>Male</option> <option value='female'>Female</option>
 							<option value='other'>Other</option>
 						</select>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1 border-t-2 md:grid-cols-2 '>
-						<label htmlFor='dateOfBirth'>Date of Birth</label>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
+						<label htmlFor='dateOfBirth' className='text-gray-500 text-xs'>
+							Date of Birth
+						</label>
 						<input
 							type='date'
 							id='dateOfBirth'
 							name='dateOfBirth'
 							value={formData.dateOfBirth}
 							onChange={handleChange}
-							className='bg-transparent'
+							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1 border-t-2 md:grid-cols-2 '>
-						<label htmlFor='location'>Location</label>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
+						<label htmlFor='location' className='text-gray-500 text-xs'>
+							Location
+						</label>
 						<CityOrProvinceSelector
 							value={formData.location}
 							onChange={handleLocationChange}
-							className='bg-transparent'
+							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1 border-t-2 md:grid-cols-2 '>
-						<label htmlFor='email'>Email</label>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
+						<label htmlFor='email' className='text-gray-500 text-xs'>
+							Email
+						</label>
 						<input
 							type='text'
 							id='email'
 							name='email'
 							value={formData.email}
 							onChange={handleChange}
-							className='bg-transparent'
+							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1 border-t-2 md:grid-cols-2 '>
-						<label htmlFor='phoneNumber'>Phone Number</label>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
+						<label htmlFor='phoneNumber' className='text-gray-500 text-xs'>
+							Phone Number
+						</label>
 						<input
 							type='tel'
 							id='phoneNumber'
 							name='phoneNumber'
 							value={formData.phoneNumber}
 							onChange={handleChange}
-							className='bg-transparent'
+							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1 border-t-2 md:grid-cols-2 '>
-						<label htmlFor='aboutYourself'>About yourself</label>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
+						<label htmlFor='aboutYourself' className='text-gray-500 text-xs'>
+							About yourself
+						</label>
 						<textarea
 							id='aboutYourself'
 							name='aboutYourself'
 							value={formData.aboutYourself}
 							onChange={handleChange}
-							className='bg-transparent'
+							className='bg-slate-200 px-3 py-2 rounded-md h-48'
 						></textarea>
 					</div>
 				</form>
