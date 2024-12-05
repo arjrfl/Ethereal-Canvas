@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Logo from '../assets/images/EC-logo.png';
-import { TbMoonFilled, TbSunFilled, TbMenu2, TbSearch } from 'react-icons/tb';
+import { TbMoonFilled, TbSunFilled, TbMenu2 } from 'react-icons/tb';
 import { CgCloseR } from 'react-icons/cg';
 import Dropdown from './Dropdown';
 import Avatar from './Avatar';

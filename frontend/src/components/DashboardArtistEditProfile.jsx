@@ -102,14 +102,14 @@ const ArtistDashboardEditProfile = () => {
 	};
 
 	return (
-		<div className='text-sm md:text-base font-custom my-4'>
-			<div className='flex flex-col mb-7'>
+		<div className='text-sm md:text-base font-custom'>
+			<div className='flex flex-col mb-8'>
 				<h1 className='text-base md:text-lg pb-1'>User Information</h1>{' '}
 				<p className='text-xs font-light text-slate-600'>Personal details and edit profile</p>{' '}
 			</div>
 
 			{/* Avatar Section */}
-			<div className='text-center flex items-center  gap-5 mb-5'>
+			<div className='text-center flex items-center gap-5 mb-5'>
 				<div className='w-32 h-32 rounded-xl flex items-center justify-center bg-gray-300 border-gray-300 overflow-hidden'>
 					{avatarPreview ? (
 						<img src={avatarPreview} alt='Avatar' className='w-full h-full object-cover' />

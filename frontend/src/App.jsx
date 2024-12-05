@@ -14,6 +14,11 @@ import RegisterCollector from './pages/RegisterCollector';
 import CollectorDashboard from './pages/CollectorDashboard';
 import ArtistDashboard from './pages/ArtistDashboard';
 
+import DashboardArtistEditProfile from './components/DashboardArtistEditProfile';
+import DashboardArtistUploadArtwork from './components/DashboardArtistUploadArtwork';
+import DashboardArtistArtworks from './components/DashboardArtistArtworks';
+import DashboardArtistTransaction from './components/DashboardArtistTransaction';
+
 const App = () => {
 	return (
 		<Router>
@@ -34,7 +39,15 @@ const App = () => {
 
 					{/* PRIVATE ROUTES */}
 					<Route path='/collector/dashboard' element={<CollectorDashboard />}></Route>
-					<Route path='/artist/dashboard' element={<ArtistDashboard />}></Route>
+
+					<Route path='/artist/dashboard' element={<ArtistDashboard />}>
+						<Route index element={<DashboardArtistEditProfile />} />
+
+						<Route path='edit-profile' element={<DashboardArtistEditProfile />} />
+						<Route path='upload-artwork' element={<DashboardArtistUploadArtwork />} />
+						<Route path='artworks' element={<DashboardArtistArtworks />} />
+						<Route path='transaction' element={<DashboardArtistTransaction />} />
+					</Route>
 				</Routes>
 			</div>
 		</Router>
