@@ -111,31 +111,6 @@ const ArtistDashboardEditProfile = () => {
 			</div>
 
 			{/* Avatar Section */}
-			{/* <div className='text-center flex items-center gap-5 mb-5'>
-				<div className='w-32 h-32 md:w-36 md:h-36 rounded-xl flex items-center justify-center bg-gray-300 border-gray-300 overflow-hidden'>
-					{avatarPreview ? (
-						<img src={avatarPreview} alt='Avatar' className='w-full h-full object-cover' />
-					) : (
-						avatarContent
-					)}
-				</div>
-
-				<div className='flex flex-col items-center'>
-					<label className='text-sm text-blue-500 cursor-pointer'>
-						Choose Image
-						<input type='file' accept='image/*' onChange={handleAvatarChange} className='hidden' />
-					</label>
-					<button
-						type='button'
-						onClick={updateAvatar}
-						className='mt-2 bg-blue-500 text-sm text-white px-3 py-1 rounded-lg hover:bg-blue-600'
-						disabled={isUploading}
-					>
-						{isUploading ? 'Uploading...' : 'Update Avatar'}
-					</button>
-				</div>
-			</div> */}
-			{/* Avatar Section */}
 			<div className='text-center flex items-center gap-5 mb-5'>
 				<div className='w-32 h-32 md:w-36 md:h-36 rounded-xl flex items-center justify-center bg-gray-300 border-gray-300 overflow-hidden'>
 					{avatarPreview ? (

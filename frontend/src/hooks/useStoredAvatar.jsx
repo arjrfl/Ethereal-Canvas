@@ -15,9 +15,9 @@ const useStoredAvatar = () => {
 			const updatedEmail = localStorage.getItem('email');
 
 			setUserData({
-				avatar: updatedAvatar || userData.avatar,
-				name: updatedName || userData.fullName,
-				email: updatedEmail || userData.email,
+				avatar: updatedAvatar || '',
+				name: updatedName || '',
+				email: updatedEmail || '',
 			});
 		};
 
@@ -32,13 +32,13 @@ const useStoredAvatar = () => {
 
 			if (
 				updatedAvatar !== userData.avatar ||
-				updatedName !== userData.fullName ||
+				updatedName !== userData.name ||
 				updatedEmail !== userData.email
 			) {
 				setUserData({
-					avatar: updatedAvatar || userData.avatar,
-					name: updatedName || userData.fullName,
-					email: updatedEmail || userData.email,
+					avatar: updatedAvatar || '',
+					name: updatedName || '',
+					email: updatedEmail || '',
 				});
 			}
 		}, 100);
