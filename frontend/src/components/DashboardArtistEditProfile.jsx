@@ -89,6 +89,7 @@ const ArtistDashboardEditProfile = () => {
 
 				if (profileData.avatar) {
 					setAvatarPreview(profileData.avatar);
+					localStorage.setItem('avatar', profileData.avatar);
 				}
 			} catch (error) {
 				console.error('Error fetching profile:', error);
@@ -104,13 +105,13 @@ const ArtistDashboardEditProfile = () => {
 	return (
 		<div className='text-sm md:text-base font-custom'>
 			<div className='flex flex-col mb-8'>
-				<h1 className='text-base md:text-lg pb-1'>User Information</h1>{' '}
+				<h1 className='text-base md:text-lg lg:text-xl pb-1'>User Information</h1>{' '}
 				<p className='text-xs font-light text-slate-600'>Personal details and edit profile</p>{' '}
 			</div>
 
 			{/* Avatar Section */}
 			<div className='text-center flex items-center gap-5 mb-5'>
-				<div className='w-32 h-32 rounded-xl flex items-center justify-center bg-gray-300 border-gray-300 overflow-hidden'>
+				<div className='w-32 h-32 md:w-36 md:h-36 rounded-xl flex items-center justify-center bg-gray-300 border-gray-300 overflow-hidden'>
 					{avatarPreview ? (
 						<img src={avatarPreview} alt='Avatar' className='w-full h-full object-cover' />
 					) : (
@@ -126,7 +127,7 @@ const ArtistDashboardEditProfile = () => {
 					<button
 						type='button'
 						onClick={updateAvatar}
-						className='mt-2 bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600'
+						className='mt-2 bg-blue-500 text-sm text-white px-3 py-1 rounded-lg hover:bg-blue-600'
 						disabled={isUploading}
 					>
 						{isUploading ? 'Uploading...' : 'Update Avatar'}
@@ -137,8 +138,8 @@ const ArtistDashboardEditProfile = () => {
 			{/* Form Section */}
 			<div>
 				<form className='grid grid-cols-1'>
-					<div className='grid grid-cols-1 py-4 gap-y-1 md:grid-cols-2 '>
-						<label htmlFor='firstName' className='text-gray-500 text-xs'>
+					<div className='grid grid-cols-1 py-4 gap-y-1 md:grid-cols-2 border-b-2 border-t-2'>
+						<label htmlFor='firstName' className='text-gray-500 text-xs md:flex md:items-center'>
 							First name
 						</label>
 						<input
@@ -150,8 +151,8 @@ const ArtistDashboardEditProfile = () => {
 							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1 md:grid-cols-2 '>
-						<label htmlFor='lastName' className='text-gray-500 text-xs'>
+					<div className='grid grid-cols-1 py-4 gap-y-1 md:grid-cols-2 border-b-2'>
+						<label htmlFor='lastName' className='text-gray-500 text-xs md:flex md:items-center'>
 							Last name
 						</label>
 						<input
@@ -163,8 +164,8 @@ const ArtistDashboardEditProfile = () => {
 							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
-						<label htmlFor='gender' className='text-gray-500 text-xs'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+						<label htmlFor='gender' className='text-gray-500 text-xs md:flex md:items-center'>
 							Gender
 						</label>
 						<select
@@ -179,8 +180,8 @@ const ArtistDashboardEditProfile = () => {
 							<option value='other'>Other</option>
 						</select>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
-						<label htmlFor='dateOfBirth' className='text-gray-500 text-xs'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+						<label htmlFor='dateOfBirth' className='text-gray-500 text-xs md:flex md:items-center'>
 							Date of Birth
 						</label>
 						<input
@@ -192,8 +193,8 @@ const ArtistDashboardEditProfile = () => {
 							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
-						<label htmlFor='location' className='text-gray-500 text-xs'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+						<label htmlFor='location' className='text-gray-500 text-xs md:flex md:items-center'>
 							Location
 						</label>
 						<CityOrProvinceSelector
@@ -202,8 +203,8 @@ const ArtistDashboardEditProfile = () => {
 							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
-						<label htmlFor='email' className='text-gray-500 text-xs'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+						<label htmlFor='email' className='text-gray-500 text-xs md:flex md:items-center'>
 							Email
 						</label>
 						<input
@@ -215,8 +216,8 @@ const ArtistDashboardEditProfile = () => {
 							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
-						<label htmlFor='phoneNumber' className='text-gray-500 text-xs'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+						<label htmlFor='phoneNumber' className='text-gray-500 text-xs md:flex md:items-center'>
 							Phone Number
 						</label>
 						<input
@@ -228,8 +229,11 @@ const ArtistDashboardEditProfile = () => {
 							className='bg-slate-200 px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 '>
-						<label htmlFor='aboutYourself' className='text-gray-500 text-xs'>
+					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+						<label
+							htmlFor='aboutYourself'
+							className='text-gray-500 text-xs md:flex md:items-center'
+						>
 							About yourself
 						</label>
 						<textarea

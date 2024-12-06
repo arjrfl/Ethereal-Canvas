@@ -1,20 +1,31 @@
 import { TbEdit, TbUpload, TbImageInPicture, TbClipboardList } from 'react-icons/tb';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
+import useStoredAvatar from '../hooks/useStoredAvatar';
+
 const ArtistDashboard = () => {
-	// Get the current location
+	const { avatar, name, email } = useStoredAvatar();
 	const location = useLocation();
 
+	const getInitials = name => {
+		if (!name) return '';
+		const nameParts = name.split(' ');
+		const initials = nameParts.map(part => part[0].toUpperCase()).join('');
+		return initials;
+	};
+
+	const initials = getInitials(name);
+
 	return (
-		<div className='container max-w-full mx-auto px-3 py-4 md:px-10 lg:grid lg:grid-cols-12 font-custom'>
+		<div className='container max-w-full xl:max-w-6xl mx-auto px-3 py-4 md:px-5 lg:py-9 lg:grid lg:grid-cols-10 lg:gap-x-10 font-custom '>
 			{/* SMALL SCREEN */}
 			<div className='min-[640px]:hidden mb-10'>
-				<ul className='grid grid-cols-4 items-center justify-items-center rounded-xl bg-cyan-600'>
+				<ul className='grid grid-cols-4 py-1 items-center justify-items-center rounded-xl bg-cyan-600'>
 					<li
 						className={`m-1 p-1 px-3 ${
 							location.pathname === '/artist/dashboard' ||
 							location.pathname === '/artist/dashboard/edit-profile'
-								? 'bg-cyan-700 rounded-lg'
+								? 'bg-cyan-700 rounded-lg border-l-4 border-b-4'
 								: 'hover:bg-cyan-400 hover:rounded-lg'
 						}`}
 					>
@@ -26,7 +37,7 @@ const ArtistDashboard = () => {
 					<li
 						className={`m-1 p-1 px-3 ${
 							location.pathname === '/artist/dashboard/upload-artwork'
-								? 'bg-cyan-700  rounded-lg'
+								? 'bg-cyan-700  rounded-lg border-l-4 border-b-4'
 								: 'hover:bg-cyan-400 hover:rounded-lg'
 						}`}
 					>
@@ -37,7 +48,7 @@ const ArtistDashboard = () => {
 					<li
 						className={`m-1 p-1 px-3 ${
 							location.pathname === '/artist/dashboard/artworks'
-								? 'bg-cyan-700 rounded-lg'
+								? 'bg-cyan-700 rounded-lg border-l-4 border-b-4'
 								: 'hover:bg-cyan-400 hover:rounded-lg'
 						}`}
 					>
@@ -48,7 +59,7 @@ const ArtistDashboard = () => {
 					<li
 						className={`m-1 p-1 px-3 ${
 							location.pathname === '/artist/dashboard/transaction'
-								? 'bg-cyan-700 rounded-lg'
+								? 'bg-cyan-700 rounded-lg border-l-4 border-b-4'
 								: 'hover:bg-cyan-400 hover:rounded-lg'
 						}`}
 					>
@@ -61,11 +72,12 @@ const ArtistDashboard = () => {
 
 			{/* MEDIUM SCREEN */}
 			<div className='hidden min-[640px]:block lg:hidden mb-10'>
-				<ul className='grid grid-cols-4 items-center justify-items-center rounded-xl bg-cyan-600'>
+				<ul className='grid grid-cols-4 py-2 items-center justify-items-center rounded-xl bg-cyan-600'>
 					<li
 						className={`m-1 p-1 px-3 ${
+							location.pathname === '/artist/dashboard' ||
 							location.pathname === '/artist/dashboard/edit-profile'
-								? 'bg-cyan-700 rounded-lg'
+								? 'bg-cyan-700 rounded-lg border-l-4 border-b-4'
 								: 'hover:bg-cyan-400 hover:rounded-lg'
 						}`}
 					>
@@ -79,7 +91,7 @@ const ArtistDashboard = () => {
 					<li
 						className={`m-1 p-1 px-3 ${
 							location.pathname === '/artist/dashboard/upload-artwork'
-								? 'bg-cyan-700 text-white rounded-lg'
+								? 'bg-cyan-700 rounded-lg border-l-4 border-b-4'
 								: 'hover:bg-cyan-400 hover:rounded-lg'
 						}`}
 					>
@@ -93,7 +105,7 @@ const ArtistDashboard = () => {
 					<li
 						className={`m-1 p-1 px-3 ${
 							location.pathname === '/artist/dashboard/artworks'
-								? 'bg-cyan-700 text-white rounded-lg'
+								? 'bg-cyan-700 rounded-lg border-l-4 border-b-4'
 								: 'hover:bg-cyan-400 hover:rounded-lg'
 						}`}
 					>
@@ -104,7 +116,7 @@ const ArtistDashboard = () => {
 					<li
 						className={`m-1 p-1 px-3 ${
 							location.pathname === '/artist/dashboard/transaction'
-								? 'bg-cyan-700 text-white rounded-lg'
+								? 'bg-cyan-700  rounded-lg border-l-4 border-b-4'
 								: 'hover:bg-cyan-400 hover:rounded-lg'
 						}`}
 					>
@@ -115,8 +127,86 @@ const ArtistDashboard = () => {
 				</ul>
 			</div>
 
+			{/* LARGE SCREEN */}
+			<div className='hidden lg:block lg:col-span-3 text-base'>
+				<div className='flex gap-x-4 items-center mb-5 p-3 bg-cyan-600 rounded-xl'>
+					<div className='h-12 w-12 rounded-full'>
+						{avatar ? (
+							<img src={avatar} alt='Avatar' className='w-full h-full object-cover rounded-full' />
+						) : (
+							// If avatar is not available, show initials
+							<div className='w-full h-full flex items-center justify-center bg-gray-400 rounded-full text-white'>
+								{initials || 'NA'}
+							</div>
+						)}
+					</div>
+					<div className='text-white'>
+						<p>{name}</p>
+						<p className='text-xs'>{email}</p>
+					</div>
+				</div>
+
+				<ul className='bg-cyan-600 rounded-xl py-4 px-1'>
+					<li
+						className={`m-1 p-1 px-3 ${
+							location.pathname === '/artist/dashboard' ||
+							location.pathname === '/artist/dashboard/edit-profile'
+								? 'bg-cyan-700 rounded-lg border-l-4 border-b-4'
+								: 'hover:bg-cyan-400 hover:rounded-lg '
+						}`}
+					>
+						<Link
+							to='/artist/dashboard/edit-profile'
+							className='flex items-center gap-2 text-white'
+						>
+							<TbEdit className='text-xl' />
+							<span>Edit Profile</span>
+						</Link>
+					</li>
+					<li
+						className={`m-1 p-1 px-3 ${
+							location.pathname === '/artist/dashboard/upload-artwork'
+								? 'bg-cyan-700 rounded-lg border-l-4 border-b-4'
+								: 'hover:bg-cyan-400 hover:rounded-lg'
+						}`}
+					>
+						<Link
+							to='/artist/dashboard/upload-artwork'
+							className='flex items-center gap-2 text-white'
+						>
+							<TbUpload className='text-xl' />
+							<span>Upload</span>
+						</Link>
+					</li>
+					<li
+						className={`m-1 p-1 px-3 ${
+							location.pathname === '/artist/dashboard/artworks'
+								? 'bg-cyan-700 rounded-lg border-l-4 border-b-4'
+								: 'hover:bg-cyan-400 hover:rounded-lg'
+						}`}
+					>
+						<Link to='/artist/dashboard/artworks' className='flex items-center gap-2 text-white'>
+							<TbImageInPicture className='text-xl' />
+							<span>Artworks</span>
+						</Link>
+					</li>
+					<li
+						className={`m-1 p-1 px-3 ${
+							location.pathname === '/artist/dashboard/transaction'
+								? 'bg-cyan-700  rounded-lg border-l-4 border-b-4'
+								: 'hover:bg-cyan-400 hover:rounded-lg'
+						}`}
+					>
+						<Link to='/artist/dashboard/transaction' className='flex items-center gap-2 text-white'>
+							<TbClipboardList className='text-xl' />
+							<span>Transaction</span>
+						</Link>
+					</li>
+				</ul>
+			</div>
+
 			{/* Content */}
-			<div className='md:col-span-9'>
+			<div className='lg:col-span-7 '>
 				<Outlet /> {/* Render nested routes here */}
 			</div>
 		</div>

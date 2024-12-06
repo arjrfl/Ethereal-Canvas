@@ -30,7 +30,6 @@ const useAvatar = (initialAvatar, fullName, setFormData) => {
 		if (file) {
 			const reader = new FileReader();
 			reader.onload = () => {
-				console.log('Selected file:', reader.result);
 				setAvatar(reader.result);
 				setAvatarPreview(reader.result);
 			};
@@ -57,6 +56,7 @@ const useAvatar = (initialAvatar, fullName, setFormData) => {
 				method: 'POST',
 				body: formData,
 			});
+
 			if (!cloudinaryResponse.ok) throw new Error('Failed to upload image to Cloudinary');
 			const cloudinaryData = await cloudinaryResponse.json();
 
@@ -65,10 +65,14 @@ const useAvatar = (initialAvatar, fullName, setFormData) => {
 				{ avatar: cloudinaryData.secure_url },
 				{ headers: { Authorization: `Bearer ${accessToken}` } }
 			);
+
 			if (response.status === 200) {
 				setAvatar(cloudinaryData.secure_url);
 				setFormData(prev => ({ ...prev, avatar: cloudinaryData.secure_url }));
 				alert('Avatar updated successfully!');
+
+				// Store the avatar URL in localStorage after upload
+				localStorage.setItem('avatar', cloudinaryData.secure_url);
 			} else {
 				throw new Error('Failed to update avatar on the backend');
 			}
