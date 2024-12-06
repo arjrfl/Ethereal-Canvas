@@ -4,11 +4,12 @@ import { TbMoonFilled, TbSunFilled, TbMenu2 } from 'react-icons/tb';
 import { CgCloseR } from 'react-icons/cg';
 import Dropdown from './Dropdown';
 import Avatar from './Avatar';
-
 import { CiSearch } from 'react-icons/ci';
 
 import LogoMobileSize from '../assets/images/EC-logo-mobile-size.svg';
 import LogoMediumUpSize from '../assets/images/EC-logo-md-up-screen.svg';
+
+import useStoredAvatar from '../hooks/useStoredAvatar';
 
 const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,6 +18,7 @@ const Navbar = () => {
 	const [fullName, setFullName] = useState('');
 	const [role, setRole] = useState('');
 	const [email, setEmail] = useState('');
+	const { avatar, name, email: storedEmail } = useStoredAvatar();
 	const navigate = useNavigate();
 	const menuRef = useRef(null);
 
@@ -25,17 +27,44 @@ const Navbar = () => {
 		const userFullName = localStorage.getItem('fullName');
 		const userRole = localStorage.getItem('role');
 		const userEmail = localStorage.getItem('email');
-		setIsLoggedIn(!!userToken); // if token is null/empty = false, else = true
+
+		setIsLoggedIn(!!userToken);
 		setFullName(userFullName || '');
-		setRole(userRole);
-		setEmail(userEmail);
+		setRole(userRole || '');
+		setEmail(userEmail || '');
 	};
 
 	useEffect(() => {
 		updateLoginState();
-		window.addEventListener('storage', updateLoginState);
+	}, []);
+
+	useEffect(() => {
+		const handleStorageChange = () => updateLoginState();
+		window.addEventListener('storage', handleStorageChange);
+		return () => window.removeEventListener('storage', handleStorageChange);
+	}, []);
+
+	useEffect(() => {
+		console.log('isLoggedIn changed:', isLoggedIn);
+	}, [isLoggedIn]);
+
+	useEffect(() => {
+		updateLoginState();
+
+		const handleStorageChange = event => {
+			if (
+				event.key === 'accessToken' ||
+				event.key === 'avatar' ||
+				event.key === 'fullName' ||
+				event.key === 'email'
+			) {
+				updateLoginState();
+			}
+		};
+
+		window.addEventListener('storage', handleStorageChange);
 		return () => {
-			window.removeEventListener('storage', updateLoginState);
+			window.removeEventListener('storage', handleStorageChange);
 		};
 	}, []);
 
@@ -57,19 +86,10 @@ const Navbar = () => {
 	};
 
 	const handleLogout = () => {
-		localStorage.removeItem('accessToken');
-		localStorage.removeItem('refreshToken');
-		localStorage.removeItem('fullName');
-		localStorage.removeItem('role');
-		localStorage.removeItem('email');
-		localStorage.removeItem('id');
-		localStorage.removeItem('avatar');
+		localStorage.clear();
 		setIsLoggedIn(false);
-		setFullName('');
 		navigate('/home');
-		setIsMenuOpen(false);
 	};
-
 	const handleLinkClick = () => setIsMenuOpen(false);
 
 	const options = [{ label: fullName, value: 'dashboard' }];
@@ -102,6 +122,7 @@ const Navbar = () => {
 					</div>
 				</div>
 
+				{/* Avatar and Dark Mode */}
 				<div className='shrink-0 flex items-center'>
 					{isLoggedIn ? (
 						<div className='hidden lg:flex'>
@@ -109,7 +130,7 @@ const Navbar = () => {
 								label={fullName}
 								options={options}
 								logout={handleLogout}
-								avatar={<Avatar src={null} name={fullName} alt='User Avatar' />}
+								avatar={<Avatar src={avatar} name={name || fullName} alt='User Avatar' />}
 								role={role}
 							/>
 						</div>
@@ -168,7 +189,7 @@ const Navbar = () => {
 				{isLoggedIn ? (
 					<div className='border-t-2 grid grid-cols-2 grid-rows-3 my-3 pt-3 font-custom text-sm md:text-base'>
 						<div className='flex items-center'>
-							<Avatar src={null} name={fullName} alt='User Avatar' />
+							<Avatar src={avatar} name={fullName} alt='User Avatar' />
 							<div className='pl-3'>
 								<p className='text-base text-slate-800'>{fullName}</p>
 								<p className='text-xs text-slate-500'>{email}</p>
@@ -177,45 +198,30 @@ const Navbar = () => {
 
 						<div className='flex items-center justify-end'>
 							<button
-								onClick={toggleDarkMode}
-								className='text-2xl pl-3 py-3'
-								aria-label='Toggle Dark Mode'
+								className='text-blue-600 font-medium pr-2 hover:text-blue-800'
+								onClick={handleLogout}
 							>
-								{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
+								Logout
 							</button>
 						</div>
-
-						<Link
-							to={`/${role}/dashboard`}
-							className='col-span-2 flex pl-3 items-center mt-1  hover:bg-zinc-200 hover:border-l-4 hover:border-l-orange-400 hover:rounded'
-							onClick={handleLinkClick}
-						>
-							View Profile
-						</Link>
-
-						<Link
-							to='/'
-							onClick={handleLogout}
-							className='col-span-2 flex pl-3 items-center  hover:bg-red-100 hover:border-l-4 hover:border-l-red-500 hover:rounded'
-						>
-							Logout
-						</Link>
 					</div>
 				) : (
-					<div className='border-t-2 flex justify-between items-center my-4 mb-6 px-5 pt-3 hover:underline hover:decoration-blue-600 hover:rounded'>
-						<Link to='/login' className='flex font-custom' onClick={handleLinkClick}>
-							Login / Register
-						</Link>
-
-						<button
-							onClick={toggleDarkMode}
-							className='flex text-3xl'
-							aria-label='Toggle Dark Mode'
-						>
-							{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
-						</button>
-					</div>
+					<Link
+						to='/login'
+						className='flex font-custom text-base text-center px-3 pt-3 hover:underline hover:decoration-blue-600 hover:rounded'
+						onClick={handleLinkClick}
+					>
+						Login / Register
+					</Link>
 				)}
+
+				<button
+					onClick={toggleDarkMode}
+					className='flex text-3xl py-3 px-5'
+					aria-label='Toggle Dark Mode'
+				>
+					{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
+				</button>
 			</div>
 		</nav>
 	);
