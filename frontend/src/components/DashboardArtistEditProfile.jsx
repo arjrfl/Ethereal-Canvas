@@ -105,7 +105,7 @@ const ArtistDashboardEditProfile = () => {
 
 	return (
 		<div className='text-sm md:text-base font-custom'>
-			<div className='flex flex-col mb-8'>
+			<div className='mb-8'>
 				<h1 className='text-base md:text-lg lg:text-xl pb-1'>User Information</h1>{' '}
 				<p className='text-xs font-light text-slate-600'>Personal details and edit profile</p>{' '}
 			</div>
@@ -121,14 +121,14 @@ const ArtistDashboardEditProfile = () => {
 				</div>
 
 				<div className='flex flex-col items-center'>
-					<label className='text-sm text-blue-500 cursor-pointer'>
+					<label className='text-xs text-blue-500 cursor-pointer'>
 						Choose Image
 						<input type='file' accept='image/*' onChange={handleAvatarChange} className='hidden' />
 					</label>
 					<button
 						type='button'
 						onClick={updateAvatar}
-						className='mt-2 bg-blue-500 text-sm text-white px-3 py-1 rounded-lg hover:bg-blue-600'
+						className='mt-2 bg-blue-500 text-xs text-white px-3 py-1 rounded-md hover:bg-blue-600'
 						disabled={isUploading}
 					>
 						{isUploading ? 'Uploading...' : 'Update Avatar'}
@@ -138,7 +138,7 @@ const ArtistDashboardEditProfile = () => {
 					<button
 						type='button'
 						onClick={removeAvatar}
-						className='mt-2 bg-red-500 text-sm text-white px-3 py-1 rounded-lg hover:bg-red-600'
+						className='mt-2 bg-red-500 text-xs text-white px-3 py-1 rounded-md hover:bg-red-600'
 					>
 						Remove Avatar
 					</button>
@@ -147,8 +147,8 @@ const ArtistDashboardEditProfile = () => {
 
 			{/* Form Section */}
 			<div>
-				<form className='grid grid-cols-1'>
-					<div className='grid grid-cols-1 py-4 gap-y-1 md:grid-cols-2 border-b-2 border-t-2'>
+				<form className='grid grid-cols-1 gap-y-8 border-b-2 pb-10'>
+					<div className='grid grid-cols-1 gap-y-2 border-t-2 pt-5 md:grid-cols-2'>
 						<label htmlFor='firstName' className='text-gray-500 text-xs md:flex md:items-center'>
 							First name
 						</label>
@@ -158,10 +158,11 @@ const ArtistDashboardEditProfile = () => {
 							name='firstName'
 							value={formData.firstName}
 							onChange={handleChange}
-							className='bg-slate-200 px-3 py-2 rounded-md'
+							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1 md:grid-cols-2 border-b-2'>
+
+					<div className='grid grid-cols-1 gap-y-1 md:grid-cols-2'>
 						<label htmlFor='lastName' className='text-gray-500 text-xs md:flex md:items-center'>
 							Last name
 						</label>
@@ -171,10 +172,11 @@ const ArtistDashboardEditProfile = () => {
 							name='lastName'
 							value={formData.lastName}
 							onChange={handleChange}
-							className='bg-slate-200 px-3 py-2 rounded-md'
+							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+
+					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
 						<label htmlFor='gender' className='text-gray-500 text-xs md:flex md:items-center'>
 							Gender
 						</label>
@@ -183,14 +185,15 @@ const ArtistDashboardEditProfile = () => {
 							name='gender'
 							value={formData.gender}
 							onChange={handleChange}
-							className='w-full bg-slate-200 px-3 py-2 rounded-md'
+							className='w-full border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
 						>
 							{' '}
 							<option value='male'>Male</option> <option value='female'>Female</option>
 							<option value='other'>Other</option>
 						</select>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+
+					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
 						<label htmlFor='dateOfBirth' className='text-gray-500 text-xs md:flex md:items-center'>
 							Date of Birth
 						</label>
@@ -200,20 +203,22 @@ const ArtistDashboardEditProfile = () => {
 							name='dateOfBirth'
 							value={formData.dateOfBirth}
 							onChange={handleChange}
-							className='bg-slate-200 px-3 py-2 rounded-md'
+							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+
+					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
 						<label htmlFor='location' className='text-gray-500 text-xs md:flex md:items-center'>
 							Location
 						</label>
 						<CityOrProvinceSelector
 							value={formData.location}
 							onChange={handleLocationChange}
-							className='bg-slate-200 px-3 py-2 rounded-md'
+							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+
+					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
 						<label htmlFor='email' className='text-gray-500 text-xs md:flex md:items-center'>
 							Email
 						</label>
@@ -223,10 +228,11 @@ const ArtistDashboardEditProfile = () => {
 							name='email'
 							value={formData.email}
 							onChange={handleChange}
-							className='bg-slate-200 px-3 py-2 rounded-md'
+							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+
+					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
 						<label htmlFor='phoneNumber' className='text-gray-500 text-xs md:flex md:items-center'>
 							Phone Number
 						</label>
@@ -236,10 +242,11 @@ const ArtistDashboardEditProfile = () => {
 							name='phoneNumber'
 							value={formData.phoneNumber}
 							onChange={handleChange}
-							className='bg-slate-200 px-3 py-2 rounded-md'
+							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
 						/>
 					</div>
-					<div className='grid grid-cols-1 py-4 gap-y-1  md:grid-cols-2 border-b-2'>
+
+					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
 						<label
 							htmlFor='aboutYourself'
 							className='text-gray-500 text-xs md:flex md:items-center'
@@ -251,14 +258,14 @@ const ArtistDashboardEditProfile = () => {
 							name='aboutYourself'
 							value={formData.aboutYourself}
 							onChange={handleChange}
-							className='bg-slate-200 px-3 py-2 rounded-md h-48'
+							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md h-48'
 						></textarea>
 					</div>
 				</form>
 				<button
 					type='button'
 					onClick={handleSubmit}
-					className='mt-5 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600'
+					className='mt-4 bg-blue-500 w-full text-white px-4 py-2 rounded hover:bg-blue-600'
 				>
 					Confirm Changes
 				</button>

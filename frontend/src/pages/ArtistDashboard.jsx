@@ -10,14 +10,14 @@ const ArtistDashboard = () => {
 	const getInitials = name => {
 		if (!name) return '';
 		const nameParts = name.split(' ');
-		const initials = nameParts.map(part => part[0].toUpperCase()).join('');
+		const initials = nameParts.map(part => part[0]?.toUpperCase() || '').join('');
 		return initials;
 	};
 
 	const initials = getInitials(name);
 
 	return (
-		<div className='container max-w-full xl:max-w-6xl mx-auto px-3 py-4 md:px-5 lg:py-9 lg:grid lg:grid-cols-10 lg:gap-x-10 font-custom '>
+		<div className='container max-w-full xl:max-w-6xl mx-auto px-4 py-4 md:px-5 lg:py-9 lg:grid lg:grid-cols-10 lg:gap-x-10 font-custom '>
 			{/* SMALL SCREEN */}
 			<div className='min-[640px]:hidden mb-10'>
 				<ul className='grid grid-cols-4 py-1 items-center justify-items-center rounded-xl bg-cyan-600'>

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { HiOutlineUpload } from 'react-icons/hi';
+import { FaImage } from 'react-icons/fa';
 
 const ImageUpload = ({ label, name, onChange, initialValue }) => {
 	const [preview, setPreview] = useState(
@@ -22,7 +22,7 @@ const ImageUpload = ({ label, name, onChange, initialValue }) => {
 	}, [initialValue]);
 
 	return (
-		<div className='w-full p-6 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center'>
+		<div className='w-full p-6 bg-gray-100 border-dashed border-[1px] border-gray-400 rounded-lg items-center mx-auto text-center'>
 			<input
 				id={name}
 				type='file'
@@ -38,13 +38,14 @@ const ImageUpload = ({ label, name, onChange, initialValue }) => {
 					<img src={preview} alt='Preview' className='max-h-48 rounded-lg mx-auto' />
 				) : (
 					<div>
-						<HiOutlineUpload className='w-8 h-8 text-gray-700 mx-auto mb-4' />
+						<FaImage className='w-8 h-8 text-gray-300 mx-auto mb-4' />
 						<h5 className='mb-2 text-lg font-bold tracking-tight text-gray-700'>{label}</h5>
 						<p className='font-custom text-xs md:text-sm text-gray-400 md:px-6'>
-							Choose photo size should be less than <b className='text-gray-600'>2mb</b>
-						</p>
-						<p className='font-custom text-xs md:text-sm text-gray-400 md:px-6'>
-							and should be in <b className='text-gray-600'>JPG, PNG, or GIF</b> format.
+							Choose a photo, and it should be in{' '}
+							<b className='text-gray-600'>
+								JPG <span className='text-gray-400'>or</span> PNG.
+							</b>{' '}
+							format.
 						</p>
 					</div>
 				)}
