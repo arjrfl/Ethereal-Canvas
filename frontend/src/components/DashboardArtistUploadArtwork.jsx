@@ -109,6 +109,19 @@ const DashboardArtistUploadArtwork = () => {
 
 			console.log('Saved all data to the database:', response.data);
 			alert('Artwork uploaded and saved successfully!');
+
+			// Reset the form and images after successful submission
+			setFormData({
+				title: '',
+				artistName: '',
+				yearCreated: '',
+				medium: '',
+				dimension: '',
+				description: '',
+				display: '',
+				price: '',
+			});
+			setSelectedFiles({});
 		} catch (error) {
 			console.error('Error uploading artwork:', error);
 
@@ -257,7 +270,12 @@ const DashboardArtistUploadArtwork = () => {
 						<label htmlFor='frontView' className='text-gray-500 text-xs'>
 							Front view
 						</label>
-						<ImageUpload label='Front View' name='frontView' onChange={handleImageChange} />
+						<ImageUpload
+							label='Front View'
+							name='frontView'
+							onChange={handleImageChange}
+							reset={!loading}
+						/>
 					</div>
 
 					<div className='flex flex-col gap-y-2'>
@@ -268,6 +286,7 @@ const DashboardArtistUploadArtwork = () => {
 							label='With materials'
 							name='artworkWithMaterials'
 							onChange={handleImageChange}
+							reset={!loading}
 						/>
 					</div>
 
@@ -279,6 +298,7 @@ const DashboardArtistUploadArtwork = () => {
 							label='Artist with artwork'
 							name='selfieWithArtwork'
 							onChange={handleImageChange}
+							reset={!loading}
 						/>
 					</div>
 
@@ -286,28 +306,43 @@ const DashboardArtistUploadArtwork = () => {
 						<label htmlFor='angleOne' className='text-gray-500 text-xs'>
 							Angle one
 						</label>
-						<ImageUpload label='Angle one' name='angleOne' onChange={handleImageChange} />
+						<ImageUpload
+							label='Angle one'
+							name='angleOne'
+							onChange={handleImageChange}
+							reset={!loading}
+						/>
 					</div>
 
 					<div className='flex flex-col gap-y-2'>
 						<label htmlFor='angleTwo' className='text-gray-500 text-xs'>
 							Angle two
 						</label>
-						<ImageUpload label='Angle Two' name='angleTwo' onChange={handleImageChange} />
+						<ImageUpload
+							label='Angle Two'
+							name='angleTwo'
+							onChange={handleImageChange}
+							reset={!loading}
+						/>
 					</div>
 
 					<div className='flex flex-col gap-y-2'>
 						<label htmlFor='angleThree' className='text-gray-500 text-xs'>
 							Angle three
 						</label>
-						<ImageUpload label='Angle Three' name='angleThree' onChange={handleImageChange} />
+						<ImageUpload
+							label='Angle Three'
+							name='angleThree'
+							onChange={handleImageChange}
+							reset={!loading}
+						/>
 					</div>
 
 					{/* Submit Button */}
 					<button
 						type='submit'
 						className='px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'
-						disabled={loading} // Disable button while loading
+						disabled={loading}
 					>
 						{loading ? 'Uploading...' : 'Submit'}
 					</button>

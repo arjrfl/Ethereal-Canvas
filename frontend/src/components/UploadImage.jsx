@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaImage } from 'react-icons/fa';
 
-const ImageUpload = ({ label, name, onChange, initialValue }) => {
+const ImageUpload = ({ label, name, onChange, initialValue, reset }) => {
 	const [preview, setPreview] = useState(
 		initialValue && initialValue.length > 0 ? URL.createObjectURL(initialValue[0]) : null
 	);
@@ -14,6 +14,15 @@ const ImageUpload = ({ label, name, onChange, initialValue }) => {
 			onChange(name, files);
 		}
 	};
+
+	useEffect(() => {
+		if (reset) {
+			setPreview(null);
+			if (inputRef.current) {
+				inputRef.current.value = ''; // Clear file input field
+			}
+		}
+	}, [reset]);
 
 	useEffect(() => {
 		if (initialValue && initialValue.length > 0) {
