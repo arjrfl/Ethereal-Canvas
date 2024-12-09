@@ -1,20 +1,3 @@
-// import mongoose from 'mongoose';
-
-// const artworkSchema = new mongoose.Schema({
-// 	images: {
-// 		frontView: { type: String, required: true },
-// 		artworkWithMaterials: { type: String, required: true },
-// 		selfieWithArtwork: { type: String, required: true },
-// 		angleOne: { type: String, required: true },
-// 		angleTwo: { type: String, required: true },
-// 		angleThree: { type: String, required: true },
-// 	},
-// });
-
-// const Artwork = mongoose.model('Artwork', artworkSchema);
-
-// export default Artwork;
-
 import mongoose from 'mongoose';
 
 const ArtworkSchema = new mongoose.Schema(
