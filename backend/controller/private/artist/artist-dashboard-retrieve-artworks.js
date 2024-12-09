@@ -2,12 +2,13 @@ import Artwork from '../../../models/model-artwork.js';
 
 export const RetrieveArtworks = async (req, res) => {
 	try {
-		const { display, status } = req.body; // Get filters from the request body
+		const { display, status } = req.query; // Get filters from the query parameters
 		const artistId = req.user.id; // Extract artist ID from the authorized user
 
 		// Create the filter object
 		const filters = { user: artistId };
 
+		// Apply filters if provided
 		if (display) {
 			filters.display = display; // Filter by marketplace or museum
 		}
