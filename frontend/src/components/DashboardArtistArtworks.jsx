@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useFetchData from '../hooks/useFetchDataPrivateRoute';
+import { CgClose } from 'react-icons/cg';
+import { MdKeyboardArrowDown } from 'react-icons/md';
 
 const DashboardArtistArtworks = () => {
 	const [filters, setFilters] = useState({
@@ -15,7 +17,6 @@ const DashboardArtistArtworks = () => {
 		error,
 	} = useFetchData('/artist/dashboard-retrieve-artworks', filters);
 
-	// Handle filter changes
 	const handleFilterChange = e => {
 		setFilters({
 			...filters,
@@ -23,34 +24,29 @@ const DashboardArtistArtworks = () => {
 		});
 	};
 
-	// Handle artwork click to open modal
 	const handleArtworkClick = artwork => {
-		setSelectedArtwork(artwork); // Set the selected artwork
-		setIsModalOpen(true); // Open the modal
+		setSelectedArtwork(artwork);
+		setIsModalOpen(true);
 	};
 
-	// Close modal
 	const closeModal = () => {
 		setIsModalOpen(false);
-		setSelectedArtwork(null); // Clear the selected artwork when modal closes
+		setSelectedArtwork(null);
 	};
 
-	// Close modal when clicked outside of the modal
 	const handleBackdropClick = e => {
 		if (e.target === e.currentTarget) {
 			closeModal();
 		}
 	};
 
-	// Prevent body scroll when modal is open
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isModalOpen) {
-			document.body.style.overflow = 'hidden'; // Disable scrolling
+			document.body.style.overflow = 'hidden';
 		} else {
-			document.body.style.overflow = 'auto'; // Enable scrolling again
+			document.body.style.overflow = 'auto';
 		}
 
-		// Cleanup on component unmount or when modal is closed
 		return () => {
 			document.body.style.overflow = 'auto';
 		};
@@ -64,29 +60,39 @@ const DashboardArtistArtworks = () => {
 			</div>
 
 			{/* Filters Section */}
-			<div className='mb-4 flex gap-4'>
-				<select
-					name='display'
-					value={filters.display}
-					onChange={handleFilterChange}
-					className='border p-2 rounded'
-				>
-					<option value=''>Select Display</option>
-					<option value='marketplace'>Marketplace</option>
-					<option value='museum'>Museum</option>
-				</select>
+			<div className='mb-4 text-sm flex justify-between gap-4 sm:justify-start'>
+				<div className='relative inline-block'>
+					<select
+						name='display'
+						value={filters.display}
+						onChange={handleFilterChange}
+						className='border p-2 pr-8 rounded-md appearance-none'
+					>
+						<option value=''>Select Display</option>
+						<option value='marketplace'>Marketplace</option>
+						<option value='museum'>Museum</option>
+					</select>
+					<span className='absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none'>
+						<MdKeyboardArrowDown></MdKeyboardArrowDown>
+					</span>
+				</div>
 
-				<select
-					name='status'
-					value={filters.status}
-					onChange={handleFilterChange}
-					className='border p-2 rounded'
-				>
-					<option value=''>Select Status</option>
-					<option value='pending'>Pending</option>
-					<option value='approve'>Approve</option>
-					<option value='reject'>Reject</option>
-				</select>
+				<div className='relative inline-block'>
+					<select
+						name='status'
+						value={filters.status}
+						onChange={handleFilterChange}
+						className='border p-2 pr-8 rounded-md appearance-none'
+					>
+						<option value=''>Select Status</option>
+						<option value='pending'>Pending</option>
+						<option value='approve'>Approve</option>
+						<option value='reject'>Reject</option>
+					</select>
+					<span className='absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none'>
+						<MdKeyboardArrowDown></MdKeyboardArrowDown>
+					</span>
+				</div>
 			</div>
 
 			{/* Loading State */}
@@ -103,20 +109,19 @@ const DashboardArtistArtworks = () => {
 					artworks?.map(artwork => (
 						<div
 							key={artwork._id}
-							className='border p-4 rounded-lg shadow-lg cursor-pointer'
-							onClick={() => handleArtworkClick(artwork)} // Open modal when artwork is clicked
+							className='border p-4 rounded-xl shadow-sm cursor-pointer'
+							onClick={() => handleArtworkClick(artwork)}
 						>
 							<img
 								src={artwork.images.frontView}
 								alt={artwork.title}
-								className='w-full h-48 object-cover mb-4'
+								className='w-full h-48 object-cover mb-4 rounded-lg'
 							/>
 							<h2 className='font-semibold text-lg'>{artwork.title}</h2>
 							<p className='text-sm text-gray-600'>{artwork.artistName}</p>
 							<p className='text-sm'>{artwork.yearCreated}</p>
 							<p className='text-sm'>{artwork.status}</p>
 
-							{/* Conditionally render the price if the display is "marketplace" */}
 							{filters.display === 'marketplace' && artwork.price && (
 								<p className='text-sm font-semibold text-gray-900 mt-2'>Price: ${artwork.price}</p>
 							)}
@@ -128,35 +133,67 @@ const DashboardArtistArtworks = () => {
 			{/* Modal */}
 			{isModalOpen && selectedArtwork && (
 				<div
-					className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'
-					onClick={handleBackdropClick} // Close modal when backdrop is clicked
+					className='fixed text-sm inset-0 bg-black bg-opacity-80 flex justify-center items-center'
+					onClick={handleBackdropClick}
 				>
-					<div className='bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full overflow-auto max-h-[80vh]'>
-						<button className='absolute top-4 right-4 text-xl text-gray-600' onClick={closeModal}>
-							&times;
+					<div className='bg-white m-2 rounded-xl shadow-lg max-w-4xl w-full overflow-auto max-h-[80vh] md:w-[700px]'>
+						<button className='absolute top-4 right-2 text-2xl text-white' onClick={closeModal}>
+							<CgClose />
 						</button>
-						<h2 className='text-xl font-semibold'>{selectedArtwork.title}</h2>
-						<p className='text-sm text-gray-600'>{selectedArtwork.artistName}</p>
-						<p className='text-sm'>{selectedArtwork.yearCreated}</p>
-						<p className='text-sm'>{selectedArtwork.medium}</p>
-						<p className='text-sm'>{selectedArtwork.dimension}</p>
-						<p className='text-sm'>{selectedArtwork.description}</p>
 
-						{/* Display price if it's a marketplace artwork or display filter is not set */}
+						<h1 className='text-base font-semibold px-3 pt-8 pb-3 md:px-5 md:text-lg'>
+							Artwork Details
+						</h1>
+
+						<div className='border-b px-3 md:px-5 pb-5 md:grid md:grid-cols-2'>
+							<p className='text-gray-900 font-medium pb-1'>Title</p>
+							<p className='text-gray-700	'>{selectedArtwork.title}</p>
+						</div>
+
+						<div className='border-b px-3 md:px-5 py-5 md:grid md:grid-cols-2'>
+							<p className='text-gray-900 font-medium pb-1'>Name</p>
+							<p className='text-gray-700	'>{selectedArtwork.artistName}</p>
+						</div>
+
+						<div className='border-b px-3 md:px-5 py-5 md:grid md:grid-cols-2'>
+							<p className='text-gray-900 font-medium pb-1'>Year</p>
+							<p className='text-gray-700'>{selectedArtwork.yearCreated}</p>
+						</div>
+
+						<div className='border-b px-3 md:px-5 py-5 md:grid md:grid-cols-2'>
+							<p className='text-gray-900 font-medium pb-1'>Medium</p>
+							<p className='text-gray-700'>{selectedArtwork.medium}</p>
+						</div>
+
+						<div className='border-b px-3 md:px-5 py-5 md:grid md:grid-cols-2'>
+							<p className='text-gray-900 font-medium pb-1'>Dimension</p>
+							<p className='text-gray-700'>{selectedArtwork.dimension}</p>
+						</div>
+
+						<div className='border-b px-3 md:px-5 py-5 md:grid md:grid-cols-2'>
+							<p className='text-gray-900 font-medium pb-1'>Description</p>
+							<p className='text-gray-700'>{selectedArtwork.description}</p>
+						</div>
+
 						{(filters.display === 'marketplace' || filters.display === '') &&
 							selectedArtwork.price && (
-								<p className='text-sm font-semibold text-gray-900 mt-2'>
-									Price: ${selectedArtwork.price}
-								</p>
+								<div className='border-b px-3 md:px-5 py-5 md:grid md:grid-cols-2'>
+									<p className='text-gray-900 font-medium pb-1	'>Price</p>
+									<p className='text-gray-700'>₱ {selectedArtwork.price}</p>
+								</div>
 							)}
 
-						<div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4'>
+						<h1 className='text-base font-semibold px-3 md:px-5 pt-8 pb-3 md:text-lg'>
+							Artwork Images
+						</h1>
+
+						<div className='grid grid-cols-1 px-2 md:px-5 sm:grid-cols-2 gap-4'>
 							{Object.keys(selectedArtwork.images).map(key => (
 								<img
 									key={key}
 									src={selectedArtwork.images[key]}
 									alt={key}
-									className='w-full mb-4' // Keep original size of images
+									className='w-full mb-4 rounded-lg'
 								/>
 							))}
 						</div>
