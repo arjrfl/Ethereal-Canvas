@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import useFetchData from '../hooks/useFetchDataPrivateRoute';
 
 const DashboardArtistArtworks = () => {
-	const [artworks, setArtworks] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
 	const [filters, setFilters] = useState({
 		display: '',
 		status: '',
@@ -12,32 +9,11 @@ const DashboardArtistArtworks = () => {
 	const [selectedArtwork, setSelectedArtwork] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	// Fetch the artworks when the component mounts or when filters change
-	useEffect(() => {
-		const fetchArtworks = async () => {
-			setLoading(true);
-			try {
-				const accessToken = localStorage.getItem('accessToken'); // Retrieve the access token from localStorage
-				const response = await axios.get(
-					'http://localhost:5000/api/artist/dashboard-retrieve-artworks', // Using GET method
-					{
-						headers: {
-							Authorization: `Bearer ${accessToken}`,
-						},
-						params: filters, // Send filters as query parameters
-					}
-				);
-				console.log(response.data); // Log the full response to inspect
-				setArtworks(response.data.data); // Access data property for the artworks
-			} catch (err) {
-				setError('Failed to load artworks');
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchArtworks();
-	}, [filters]); // Run effect when filters change
+	const {
+		responseData: artworks,
+		loading,
+		error,
+	} = useFetchData('/artist/dashboard-retrieve-artworks', filters);
 
 	// Handle filter changes
 	const handleFilterChange = e => {
@@ -58,6 +34,27 @@ const DashboardArtistArtworks = () => {
 		setIsModalOpen(false);
 		setSelectedArtwork(null); // Clear the selected artwork when modal closes
 	};
+
+	// Close modal when clicked outside of the modal
+	const handleBackdropClick = e => {
+		if (e.target === e.currentTarget) {
+			closeModal();
+		}
+	};
+
+	// Prevent body scroll when modal is open
+	React.useEffect(() => {
+		if (isModalOpen) {
+			document.body.style.overflow = 'hidden'; // Disable scrolling
+		} else {
+			document.body.style.overflow = 'auto'; // Enable scrolling again
+		}
+
+		// Cleanup on component unmount or when modal is closed
+		return () => {
+			document.body.style.overflow = 'auto';
+		};
+	}, [isModalOpen]);
 
 	return (
 		<div className='text-sm md:text-base font-custom'>
@@ -100,10 +97,10 @@ const DashboardArtistArtworks = () => {
 
 			{/* Artworks Display */}
 			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-				{artworks.length === 0 ? (
+				{artworks?.length === 0 ? (
 					<p>No artworks available.</p>
 				) : (
-					artworks.map(artwork => (
+					artworks?.map(artwork => (
 						<div
 							key={artwork._id}
 							className='border p-4 rounded-lg shadow-lg cursor-pointer'
@@ -118,6 +115,11 @@ const DashboardArtistArtworks = () => {
 							<p className='text-sm text-gray-600'>{artwork.artistName}</p>
 							<p className='text-sm'>{artwork.yearCreated}</p>
 							<p className='text-sm'>{artwork.status}</p>
+
+							{/* Conditionally render the price if the display is "marketplace" */}
+							{filters.display === 'marketplace' && artwork.price && (
+								<p className='text-sm font-semibold text-gray-900 mt-2'>Price: ${artwork.price}</p>
+							)}
 						</div>
 					))
 				)}
@@ -125,7 +127,10 @@ const DashboardArtistArtworks = () => {
 
 			{/* Modal */}
 			{isModalOpen && selectedArtwork && (
-				<div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'>
+				<div
+					className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center'
+					onClick={handleBackdropClick} // Close modal when backdrop is clicked
+				>
 					<div className='bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full overflow-auto max-h-[80vh]'>
 						<button className='absolute top-4 right-4 text-xl text-gray-600' onClick={closeModal}>
 							&times;
@@ -136,6 +141,14 @@ const DashboardArtistArtworks = () => {
 						<p className='text-sm'>{selectedArtwork.medium}</p>
 						<p className='text-sm'>{selectedArtwork.dimension}</p>
 						<p className='text-sm'>{selectedArtwork.description}</p>
+
+						{/* Display price if it's a marketplace artwork or display filter is not set */}
+						{(filters.display === 'marketplace' || filters.display === '') &&
+							selectedArtwork.price && (
+								<p className='text-sm font-semibold text-gray-900 mt-2'>
+									Price: ${selectedArtwork.price}
+								</p>
+							)}
 
 						<div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4'>
 							{Object.keys(selectedArtwork.images).map(key => (
