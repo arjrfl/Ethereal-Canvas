@@ -55,6 +55,10 @@ export const loginAdmin = async (req, res) => {
 			message: 'Login successful',
 			accessToken,
 			refreshToken,
+			id: admin.id,
+			fullName: admin.fullName,
+			email: admin.email,
+			role: admin.role,
 		});
 	} catch (error) {
 		console.error('Error during login:', error.message);

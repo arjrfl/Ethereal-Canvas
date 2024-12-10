@@ -1,19 +1,16 @@
 import Artist from '../../../models/model-artist.js';
 import Collector from '../../../models/model-collector.js';
 
-// endpoint: approve, pending, reject
+// Artists endpoint: Filtering by status
 // /api/admin/artist?status=approve
 // /api/admin/artist?status=pending
-// /api/admin/artist?status=reject
+// /api/admin/artist?status=rejected
 export const artists = async (req, res) => {
 	try {
 		const { status } = req.query;
 
-		if (!status) {
-			return res.status(400).json({ success: false, message: 'Missing status' });
-		}
-
-		const filter = { status };
+		// If status is provided, filter artists by status
+		const filter = status ? { status } : {};
 
 		const artist = await Artist.find(filter);
 		res.status(200).json({ success: true, data: artist });
@@ -23,20 +20,15 @@ export const artists = async (req, res) => {
 	}
 };
 
-// export const artworks = async (req, res) => {};
-
-// endpoint: active, disable
-// /api/admin/collector/?status=active
-// /api/admin/collector/?status=disable
+// Collectors endpoint: Filtering by status (active or disable)
+// /api/admin/collector?status=active
+// /api/admin/collector?status=disable
 export const collectors = async (req, res) => {
 	try {
 		const { status } = req.query;
 
-		if (!status) {
-			return res.status(400).json({ success: false, message: 'Missing status' });
-		}
-
-		const filter = { status };
+		// If status is provided, filter collectors by status
+		const filter = status ? { status } : {};
 
 		const collector = await Collector.find(filter);
 		res.status(200).json({ success: true, data: collector });
