@@ -143,209 +143,214 @@ const DashboardArtistUploadArtwork = () => {
 			</div>
 
 			<div>
-				<form onSubmit={handleSubmit} className='grid grid-cols-1 gap-y-8'>
-					<div className='grid grid-cols-1 gap-y-2 border-t-2 pt-5'>
-						<label htmlFor='title' className='text-gray-500 text-xs'>
-							Title
-						</label>
-						<input
-							type='text'
-							id='title'
-							name='title'
-							value={formData.title}
-							onChange={handleInputChange}
-							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
-						/>
-					</div>
+				<form onSubmit={handleSubmit}>
+					<div className='grid grid-cols-1 gap-y-6 sm:grid-cols-2 mb-10 sm:gap-x-5  sm:content-start'>
+						<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+							<label htmlFor='title' className='text-gray-500 text-xs'>
+								Title
+							</label>
+							<input
+								type='text'
+								id='title'
+								name='title'
+								value={formData.title}
+								onChange={handleInputChange}
+								className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
+							/>
+						</div>
 
-					<div className='grid grid-cols-1 gap-y-2'>
-						<label htmlFor='artistName' className='text-gray-500 text-xs'>
-							Artist name
-						</label>
-						<input
-							type='text'
-							id='artistName'
-							name='artistName'
-							value={formData.artistName}
-							onChange={handleInputChange}
-							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
-						/>
-					</div>
+						<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+							<label htmlFor='artistName' className='text-gray-500 text-xs'>
+								Artist name
+							</label>
+							<input
+								type='text'
+								id='artistName'
+								name='artistName'
+								value={formData.artistName}
+								onChange={handleInputChange}
+								className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
+							/>
+						</div>
 
-					<div className='grid grid-cols-1 gap-y-2'>
-						<label htmlFor='yearCreated' className='text-gray-500 text-xs'>
-							Year created
-						</label>
-						<input
-							type='text'
-							id='yearCreated'
-							name='yearCreated'
-							value={formData.yearCreated}
-							onChange={handleInputChange}
-							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
-						/>
-					</div>
+						<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+							<label htmlFor='yearCreated' className='text-gray-500 text-xs'>
+								Year created
+							</label>
+							<input
+								type='text'
+								id='yearCreated'
+								name='yearCreated'
+								value={formData.yearCreated}
+								onChange={handleInputChange}
+								className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
+							/>
+						</div>
 
-					<div className='grid grid-cols-1 gap-y-2'>
-						<label htmlFor='medium' className='text-gray-500 text-xs'>
-							Medium used
-						</label>
-						<input
-							type='text'
-							id='medium'
-							name='medium'
-							value={formData.medium}
-							onChange={handleInputChange}
-							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
-						/>
-					</div>
+						<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+							<label htmlFor='medium' className='text-gray-500 text-xs'>
+								Medium used
+							</label>
+							<input
+								type='text'
+								id='medium'
+								name='medium'
+								value={formData.medium}
+								onChange={handleInputChange}
+								className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
+							/>
+						</div>
 
-					<div className='grid grid-cols-1 gap-y-2'>
-						<label htmlFor='dimension' className='text-gray-500 text-xs'>
-							Dimensions
-						</label>
-						<input
-							type='text'
-							id='dimension'
-							name='dimension'
-							value={formData.dimension}
-							onChange={handleInputChange}
-							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
-						/>
-					</div>
+						<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+							<label htmlFor='dimension' className='text-gray-500 text-xs'>
+								Dimensions
+							</label>
+							<input
+								type='text'
+								id='dimension'
+								name='dimension'
+								value={formData.dimension}
+								onChange={handleInputChange}
+								className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
+							/>
+						</div>
 
-					<div className='grid grid-cols-1 gap-y-2'>
-						<label htmlFor='description' className='text-gray-500 text-xs'>
-							Description
-						</label>
-						<textarea
-							name='description'
-							id='description'
-							value={formData.description}
-							onChange={handleInputChange}
-							rows='3'
-							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
-						></textarea>
-					</div>
+						<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+							<label htmlFor='description' className='text-gray-500 text-xs'>
+								Description
+							</label>
+							<textarea
+								name='description'
+								id='description'
+								value={formData.description}
+								onChange={handleInputChange}
+								rows='3'
+								className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
+							></textarea>
+						</div>
 
-					<div className='grid grid-cols-1 gap-y-2'>
-						<label htmlFor='display' className='text-gray-500 text-xs'>
-							Display
-						</label>
-						<select
-							name='display'
-							id='display'
-							value={formData.display}
-							onChange={handleInputChange}
-							className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
-						>
-							<option value='' disabled>
-								Choose where to display
-							</option>
-							<option value='museum'>Museum</option>
-							<option value='marketplace'>Marketplace</option>
-						</select>
-					</div>
+						<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+							<label htmlFor='display' className='text-gray-500 text-xs'>
+								Display
+							</label>
+							<select
+								name='display'
+								id='display'
+								value={formData.display}
+								onChange={handleInputChange}
+								className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
+							>
+								<option value='' disabled>
+									Choose where to display
+								</option>
+								<option value='museum'>Museum</option>
+								<option value='marketplace'>Marketplace</option>
+							</select>
+						</div>
 
-					<div className='grid grid-cols-1 gap-y-2'>
-						<label htmlFor='price' className='text-gray-500 text-xs'>
-							Price
-						</label>
-						<input
-							type='number'
-							name='price'
-							value={formData.price}
-							onChange={handleInputChange}
-							disabled={formData.display === 'museum'}
-							className={
-								formData.display === 'museum'
-									? 'hidden'
-									: 'border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
-							}
-						/>
+						<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+							<label htmlFor='price' className='text-gray-500 text-xs'>
+								Price
+							</label>
+							<input
+								type='number'
+								name='price'
+								value={formData.price}
+								onChange={handleInputChange}
+								disabled={formData.display === 'museum'}
+								className={
+									formData.display === 'museum'
+										? 'hidden'
+										: 'border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
+								}
+							/>
+						</div>
 					</div>
 
 					{/* Image uploads */}
-					<div className='flex flex-col gap-y-2'>
-						<label htmlFor='frontView' className='text-gray-500 text-xs'>
-							Front view
-						</label>
-						<ImageUpload
-							label='Front View'
-							name='frontView'
-							onChange={handleImageChange}
-							reset={!loading}
-						/>
-					</div>
+					<div className='grid grid-1 gap-y-6 sm:grid-cols-2 mb-10 sm:gap-x-5 sm:gap-y-5 sm:content-start'>
+						<div className='flex flex-col gap-y-2'>
+							<label htmlFor='frontView' className='text-gray-500 text-xs'>
+								Front view
+							</label>
+							<ImageUpload
+								label='Front View'
+								name='frontView'
+								onChange={handleImageChange}
+								reset={!loading}
+							/>
+						</div>
 
-					<div className='flex flex-col gap-y-2'>
-						<label htmlFor='artworkWithMaterials' className='text-gray-500 text-xs'>
-							Artwork image with materials
-						</label>
-						<ImageUpload
-							label='With materials'
-							name='artworkWithMaterials'
-							onChange={handleImageChange}
-							reset={!loading}
-						/>
-					</div>
+						<div className='flex flex-col gap-y-2'>
+							<label htmlFor='artworkWithMaterials' className='text-gray-500 text-xs'>
+								Artwork image with materials
+							</label>
+							<ImageUpload
+								label='With materials'
+								name='artworkWithMaterials'
+								onChange={handleImageChange}
+								reset={!loading}
+							/>
+						</div>
 
-					<div className='flex flex-col gap-y-2'>
-						<label htmlFor='selfieWithArtwork' className='text-gray-500 text-xs'>
-							Selfie with the artwork
-						</label>
-						<ImageUpload
-							label='Artist with artwork'
-							name='selfieWithArtwork'
-							onChange={handleImageChange}
-							reset={!loading}
-						/>
-					</div>
+						<div className='flex flex-col gap-y-2'>
+							<label htmlFor='selfieWithArtwork' className='text-gray-500 text-xs'>
+								Selfie with the artwork
+							</label>
+							<ImageUpload
+								label='Artist with artwork'
+								name='selfieWithArtwork'
+								onChange={handleImageChange}
+								reset={!loading}
+							/>
+						</div>
 
-					<div className='flex flex-col gap-y-2'>
-						<label htmlFor='angleOne' className='text-gray-500 text-xs'>
-							Angle one
-						</label>
-						<ImageUpload
-							label='Angle one'
-							name='angleOne'
-							onChange={handleImageChange}
-							reset={!loading}
-						/>
-					</div>
+						<div className='flex flex-col gap-y-2'>
+							<label htmlFor='angleOne' className='text-gray-500 text-xs'>
+								Angle one
+							</label>
+							<ImageUpload
+								label='Angle one'
+								name='angleOne'
+								onChange={handleImageChange}
+								reset={!loading}
+							/>
+						</div>
 
-					<div className='flex flex-col gap-y-2'>
-						<label htmlFor='angleTwo' className='text-gray-500 text-xs'>
-							Angle two
-						</label>
-						<ImageUpload
-							label='Angle Two'
-							name='angleTwo'
-							onChange={handleImageChange}
-							reset={!loading}
-						/>
-					</div>
+						<div className='flex flex-col gap-y-2'>
+							<label htmlFor='angleTwo' className='text-gray-500 text-xs'>
+								Angle two
+							</label>
+							<ImageUpload
+								label='Angle Two'
+								name='angleTwo'
+								onChange={handleImageChange}
+								reset={!loading}
+							/>
+						</div>
 
-					<div className='flex flex-col gap-y-2'>
-						<label htmlFor='angleThree' className='text-gray-500 text-xs'>
-							Angle three
-						</label>
-						<ImageUpload
-							label='Angle Three'
-							name='angleThree'
-							onChange={handleImageChange}
-							reset={!loading}
-						/>
+						<div className='flex flex-col gap-y-2'>
+							<label htmlFor='angleThree' className='text-gray-500 text-xs'>
+								Angle three
+							</label>
+							<ImageUpload
+								label='Angle Three'
+								name='angleThree'
+								onChange={handleImageChange}
+								reset={!loading}
+							/>
+						</div>
 					</div>
-
 					{/* Submit Button */}
-					<button
-						type='submit'
-						className='px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600'
-						disabled={loading}
-					>
-						{loading ? 'Uploading...' : 'Submit'}
-					</button>
+					<div className='flex sm:justify-end'>
+						<button
+							type='submit'
+							className='px-4 py-2 w-full sm:w-auto bg-blue-600  text-white rounded-lg hover:bg-blue-600'
+							disabled={loading}
+						>
+							{loading ? 'Uploading...' : 'Submit'}
+						</button>
+					</div>
 				</form>
 			</div>
 		</div>

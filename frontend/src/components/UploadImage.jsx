@@ -63,7 +63,7 @@ const ImageUpload = ({ label, name, onChange, initialValue, reset }) => {
 			<div className='mt-4'>
 				<label
 					htmlFor={name}
-					className='px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg cursor-pointer hover:bg-blue-500'
+					className='px-4 py-2 text-sm font-medium text-white bg-blue-400 rounded-lg cursor-pointer hover:bg-blue-500'
 				>
 					Choose Image
 				</label>

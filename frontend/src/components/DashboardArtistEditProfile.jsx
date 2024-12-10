@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CityOrProvinceSelector from './SelectorCityOrProvince';
 import useAvatar from '../hooks/useAvatar';
+import { FaRegTrashCan } from 'react-icons/fa6';
+import { FaCheck } from 'react-icons/fa';
 
 const ArtistDashboardEditProfile = () => {
 	const [formData, setFormData] = useState({
@@ -120,36 +122,42 @@ const ArtistDashboardEditProfile = () => {
 					)}
 				</div>
 
-				<div className='flex flex-col items-center'>
-					<label className='text-xs text-blue-500 cursor-pointer'>
-						Choose Image
+				<div className='flex flex-col items-center gap-1'>
+					<label className='text-sm text-blue-500 cursor-pointer rounded'>
+						{isUploading ? (
+							<p className='text-sm'>Uploading...</p>
+						) : (
+							<p className='text-sm'>Change avatar</p>
+						)}
 						<input type='file' accept='image/*' onChange={handleAvatarChange} className='hidden' />
 					</label>
-					<button
-						type='button'
-						onClick={updateAvatar}
-						className='mt-2 bg-blue-500 text-xs text-white px-3 py-1 rounded-md hover:bg-blue-600'
-						disabled={isUploading}
-					>
-						{isUploading ? 'Uploading...' : 'Update Avatar'}
-					</button>
 
-					{/* Add Remove Avatar button */}
-					<button
-						type='button'
-						onClick={removeAvatar}
-						className='mt-2 bg-red-500 text-xs text-white px-3 py-1 rounded-md hover:bg-red-600'
-					>
-						Remove Avatar
-					</button>
+					<div className='w-full flex justify-around gap-2'>
+						<button
+							type='button'
+							onClick={updateAvatar}
+							className='bg-blue-500 text-xs w-full text-white py-1 rounded-md hover:bg-blue-600'
+							disabled={isUploading}
+						>
+							<FaCheck className='mx-auto' />
+						</button>
+
+						<button
+							type='button'
+							onClick={removeAvatar}
+							className=' bg-red-500 text-xs w-full text-white py-1 rounded-md hover:bg-red-600'
+						>
+							<FaRegTrashCan className='mx-auto'></FaRegTrashCan>
+						</button>
+					</div>
 				</div>
 			</div>
 
 			{/* Form Section */}
 			<div>
-				<form className='grid grid-cols-1 gap-y-8 border-b-2 pb-10'>
-					<div className='grid grid-cols-1 gap-y-2 border-t-2 pt-5 md:grid-cols-2'>
-						<label htmlFor='firstName' className='text-gray-500 text-xs md:flex md:items-center'>
+				<form className='grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-5 sm:content-start'>
+					<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+						<label htmlFor='firstName' className='text-gray-500 text-xs'>
 							First name
 						</label>
 						<input
@@ -162,8 +170,8 @@ const ArtistDashboardEditProfile = () => {
 						/>
 					</div>
 
-					<div className='grid grid-cols-1 gap-y-1 md:grid-cols-2'>
-						<label htmlFor='lastName' className='text-gray-500 text-xs md:flex md:items-center'>
+					<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+						<label htmlFor='lastName' className='text-gray-500 text-xs'>
 							Last name
 						</label>
 						<input
@@ -176,8 +184,8 @@ const ArtistDashboardEditProfile = () => {
 						/>
 					</div>
 
-					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
-						<label htmlFor='gender' className='text-gray-500 text-xs md:flex md:items-center'>
+					<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+						<label htmlFor='gender' className='text-gray-500 text-xs'>
 							Gender
 						</label>
 						<select
@@ -193,8 +201,8 @@ const ArtistDashboardEditProfile = () => {
 						</select>
 					</div>
 
-					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
-						<label htmlFor='dateOfBirth' className='text-gray-500 text-xs md:flex md:items-center'>
+					<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+						<label htmlFor='dateOfBirth' className='text-gray-500 text-xs'>
 							Date of Birth
 						</label>
 						<input
@@ -207,8 +215,8 @@ const ArtistDashboardEditProfile = () => {
 						/>
 					</div>
 
-					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
-						<label htmlFor='location' className='text-gray-500 text-xs md:flex md:items-center'>
+					<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+						<label htmlFor='location' className='text-gray-500 text-xs'>
 							Location
 						</label>
 						<CityOrProvinceSelector
@@ -218,8 +226,8 @@ const ArtistDashboardEditProfile = () => {
 						/>
 					</div>
 
-					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
-						<label htmlFor='email' className='text-gray-500 text-xs md:flex md:items-center'>
+					<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+						<label htmlFor='email' className='text-gray-500 text-xs'>
 							Email
 						</label>
 						<input
@@ -232,8 +240,8 @@ const ArtistDashboardEditProfile = () => {
 						/>
 					</div>
 
-					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
-						<label htmlFor='phoneNumber' className='text-gray-500 text-xs md:flex md:items-center'>
+					<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+						<label htmlFor='phoneNumber' className='text-gray-500 text-xs'>
 							Phone Number
 						</label>
 						<input
@@ -246,11 +254,8 @@ const ArtistDashboardEditProfile = () => {
 						/>
 					</div>
 
-					<div className='grid grid-cols-1 gap-y-1  md:grid-cols-2'>
-						<label
-							htmlFor='aboutYourself'
-							className='text-gray-500 text-xs md:flex md:items-center'
-						>
+					<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+						<label htmlFor='aboutYourself' className='text-gray-500 text-xs'>
 							About yourself
 						</label>
 						<textarea
@@ -262,13 +267,15 @@ const ArtistDashboardEditProfile = () => {
 						></textarea>
 					</div>
 				</form>
-				<button
-					type='button'
-					onClick={handleSubmit}
-					className='mt-4 bg-blue-500 w-full text-white px-4 py-2 rounded hover:bg-blue-600'
-				>
-					Confirm Changes
-				</button>
+				<div className='flex sm:justify-end mt-10'>
+					<button
+						type='button'
+						onClick={handleSubmit}
+						className=' bg-blue-600 w-full rounded-lg sm:w-auto text-white px-4 py-2 hover:bg-blue-600'
+					>
+						Confirm Changes
+					</button>
+				</div>
 			</div>
 		</div>
 	);

@@ -187,13 +187,13 @@ const DashboardArtistArtworks = () => {
 							Artwork Images
 						</h1>
 
-						<div className='grid grid-cols-1 px-2 md:px-5 sm:grid-cols-2 gap-4'>
+						<div className='grid grid-cols-1 px-2 md:px-5 sm:grid-cols-2 sm:mb-4 gap-3 mb-3'>
 							{Object.keys(selectedArtwork.images).map(key => (
 								<img
 									key={key}
 									src={selectedArtwork.images[key]}
 									alt={key}
-									className='w-full mb-4 rounded-lg'
+									className='w-full rounded-lg'
 								/>
 							))}
 						</div>
