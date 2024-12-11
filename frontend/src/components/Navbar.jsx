@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { TbMoonFilled, TbSunFilled, TbMenu2 } from 'react-icons/tb';
-import { CgCloseR } from 'react-icons/cg';
-import Dropdown from './Dropdown';
-import Avatar from './Avatar';
-import { CiSearch } from 'react-icons/ci';
-
 import LogoMobileSize from '../assets/images/EC-logo-mobile-size.svg';
 import LogoMediumUpSize from '../assets/images/EC-logo-md-up-screen.svg';
+
+import { TbMoonFilled, TbSunFilled, TbMenu2 } from 'react-icons/tb';
+
+import { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { CgCloseR } from 'react-icons/cg';
+import { CiSearch } from 'react-icons/ci';
+
+import Dropdown from './Dropdown';
+import Avatar from './Avatar';
 
 import useStoredAvatar from '../hooks/useStoredAvatar';
 
@@ -28,15 +31,22 @@ const Navbar = () => {
 		const userRole = localStorage.getItem('role');
 		const userEmail = localStorage.getItem('email');
 
-		setIsLoggedIn(!!userToken);
-		setFullName(userFullName || '');
-		setRole(userRole || '');
-		setEmail(userEmail || '');
+		if (userToken && (userRole === 'artist' || userRole === 'collector')) {
+			setIsLoggedIn(true);
+			setFullName(userFullName || '');
+			setRole(userRole || '');
+			setEmail(userEmail || '');
+		} else {
+			setIsLoggedIn(false);
+		}
 	};
 
 	useEffect(() => {
 		updateLoginState();
 	}, []);
+
+	// Do not render the Navbar for admins
+	if (role === 'admin') return null;
 
 	useEffect(() => {
 		const handleStorageChange = () => updateLoginState();
@@ -124,7 +134,7 @@ const Navbar = () => {
 
 				{/* Avatar and Dark Mode */}
 				<div className='shrink-0 flex items-center'>
-					{isLoggedIn ? (
+					{isLoggedIn && (role === 'artist' || role === 'collector') ? (
 						<div className='hidden lg:flex'>
 							<Dropdown
 								label={fullName}
