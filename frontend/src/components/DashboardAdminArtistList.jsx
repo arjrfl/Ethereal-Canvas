@@ -54,6 +54,18 @@ const DashboardAdminArtistList = () => {
 		});
 	};
 
+	// Calculate age based on date of birth
+	const calculateAge = dob => {
+		const birthDate = new Date(dob);
+		const today = new Date();
+		let age = today.getFullYear() - birthDate.getFullYear();
+		const monthDifference = today.getMonth() - birthDate.getMonth();
+		if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+			age--;
+		}
+		return age;
+	};
+
 	// Generate initials from the full name
 	const getInitials = name => {
 		if (!name) return '';
@@ -104,11 +116,13 @@ const DashboardAdminArtistList = () => {
 			{error && <p className='text-red-500'>{error}</p>}
 
 			{/* ARTIST LIST */}
-			<div className='grid grid-cols-3 text-sm font-medium pb-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 lg:px-2'>
+			<div className='grid grid-cols-3 text-sm font-medium pb-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 lg:px-2 xl:grid-cols-12'>
 				<p className='col-span-2'>Name</p>
 				<p className='hidden sm:block col-span-2'>Email</p>
-				<p className='hidden md:block col-span-2 pl-6 lg:pl-8'>Gender</p>
+				<p className='hidden md:block col-span-2 pl-6 lg:pl-8 xl:pl-0'>Gender</p>
 				<p className='hidden lg:block col-span-2'>Location</p>
+				<p className='hidden xl:block col-span-2'>Number</p>
+				<p className='hidden xl:block col-span-1'>Age</p>
 				<div className='relative inline-block w-24 mx-auto text-center'>
 					<select
 						name='status'
@@ -128,11 +142,11 @@ const DashboardAdminArtistList = () => {
 			</div>
 
 			{/* Scrollable Artist List */}
-			<div className='text-sm overflow-y-auto max-h-[444px] border rounded-lg'>
+			<div className='text-sm overflow-y-auto lg:max-h-[587px] xl:max-h-[586px] rounded-lg scrollbar-none'>
 				{artists?.map(artist => (
 					<div
 						key={artist._id}
-						className='border-b grid grid-cols-3 bg-white sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 items-center py-3 px-2'
+						className='border-b grid grid-cols-3 bg-white sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-12 items-center py-3 px-2'
 					>
 						{/* Avatar with fallback */}
 						<div className='col-span-2 flex items-center'>
@@ -150,13 +164,12 @@ const DashboardAdminArtistList = () => {
 
 							<p className='pl-3'>{artist.fullName}</p>
 						</div>
-
 						<p className='hidden sm:block col-span-2 sm:text-gray-500'>{artist.email}</p>
-
-						<p className='hidden md:block col-span-2 pl-6 lg:pl-8'>{artist.gender}</p>
-
+						<p className='hidden md:block col-span-2 pl-6 lg:pl-8 xl:pl-0'>{artist.gender}</p>
 						<p className='hidden lg:block col-span-2'>{artist.location}</p>
-
+						<p className='hidden xl:block col-span-2'>{artist.phoneNumber}</p>
+						<p className='hidden xl:block col-span-1'>{calculateAge(artist.dateOfBirth)}</p>{' '}
+						{/* Display age */}
 						{/* Status */}
 						<p className='text-center'>{artist.status}</p>
 					</div>

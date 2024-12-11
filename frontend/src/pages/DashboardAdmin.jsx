@@ -163,7 +163,7 @@ const AdminDashboard = () => {
 						location.pathname === '/admin/dashboard/list-collector'
 							? 'bg-cyan-700 rounded-lg border-l-4 border-b-4'
 							: 'hover:bg-cyan-400 hover:rounded-lg'
-					} bg-cyan-700 rounded-lg flex`}
+					} bg-cyan-700 rounded-lg`}
 				>
 					<Link
 						to='/admin/dashboard/list-collector'
@@ -194,7 +194,7 @@ const AdminDashboard = () => {
 			</ul>
 
 			{/* CONTENT */}
-			<div className='lg:ml-[11rem] lg:mr-4 lg:h-full lg:flex-1'>
+			<div className='lg:ml-[11rem] lg:mr-4 xl:ml-[14rem] lg:h-full lg:flex-1'>
 				<Outlet />
 			</div>
 		</div>
