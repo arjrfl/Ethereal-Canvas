@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
+import logo from '../assets/images/logo-ec.svg';
+
 const NavbarAdmin = () => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -35,10 +37,11 @@ const NavbarAdmin = () => {
 	};
 
 	return (
-		<nav className='border-b border-gray-300 drop-shadow'>
+		<nav className='border-b border-gray-300 drop-shadow lg:hidden'>
 			{/* SMALL SCREEN NAV */}
 			<div className='font-custom flex items-center justify-between p-2'>
-				<p className='text-xl font-extrabold'>Admin Dashboard</p>
+				{/* <p className='text-xl font-extrabold'>Admin Dashboard</p> */}
+				<img src={logo} alt='logo' className='h-auto w-[6rem]' />
 
 				{/* Avatar */}
 				<div className='relative' ref={dropdownRef}>

@@ -11,7 +11,21 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+	origin: (origin, callback) => {
+		if (origin === process.env.FRONTEND_URL || origin === process.env.FRONTEND_URL + '/') {
+			callback(null, true);
+		} else {
+			callback(new Error('Not allowed by CORS'));
+		}
+	},
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+	allowedHeaders: ['Content-Type', 'Authorization'],
+	credentials: true,
+	optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 // middleware
 app.use(express.json());
