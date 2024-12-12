@@ -12,6 +12,10 @@ export const loginArtist = async (req, res) => {
 			return res.status(404).json({ error: 'Artist not found' });
 		}
 
+		if (artist.status === 'disable') {
+			return res.status(403).json({ error: 'Account is disabled. Please contact support.' });
+		}
+
 		const isMatch = await bcrypt.compare(password, artist.password);
 
 		if (!isMatch) {

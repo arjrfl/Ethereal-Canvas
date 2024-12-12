@@ -47,7 +47,12 @@ const Login = () => {
 						navigate('/');
 				}
 			} else {
-				console.error('Login failed:', data.error);
+				if (data.error === 'Account is disabled. Please contact support.') {
+					alert('Your account is disabled. Please contact support.');
+					navigate('/');
+				} else {
+					console.error('Login failed:', data.error);
+				}
 			}
 		} catch (error) {
 			console.error('Error during login:', error.message);
