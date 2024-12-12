@@ -12,6 +12,7 @@ const DashboardAdminArtistList = () => {
 	const [selectedArtist, setSelectedArtist] = useState(null);
 	const [reason, setReason] = useState(''); // Reason for rejection
 	const [showRejectionForm, setShowRejectionForm] = useState(false); // Show rejection reason form
+	const [actionType, setActionType] = useState('');
 
 	const artistModalRef = useRef(null);
 
@@ -28,20 +29,15 @@ const DashboardAdminArtistList = () => {
 				{},
 				'PATCH'
 			);
-			if (!error) {
-				console.log('Artist approved successfully!', responseData);
-			} else {
-				console.error('Approval failed:', error);
-			}
+			if (!error) console.log('Artist approved successfully!', responseData);
+			else console.error('Approval failed:', error);
 		} catch (error) {
 			console.error('Unexpected error:', error);
 		}
 	};
 
 	const handleReject = async () => {
-		if (!reason.trim()) {
-			return alert('Please provide a reason for rejection');
-		}
+		if (!reason.trim()) return alert('Please provide a reason for rejection');
 
 		try {
 			const { responseData, error } = await postData(
@@ -49,11 +45,27 @@ const DashboardAdminArtistList = () => {
 				{ reason },
 				'PATCH'
 			);
-			if (!error) {
-				console.log('Artist rejected successfully!', responseData);
-			} else {
-				console.error('Rejection failed:', error);
-			}
+			if (!error) console.log('Artist rejected successfully!', responseData);
+			else console.error('Rejection failed:', error);
+		} catch (error) {
+			console.error('Unexpected error:', error);
+		}
+		setShowRejectionForm(false);
+		setReason(''); // Clear the reason after rejection
+	};
+
+	const handleDisable = async () => {
+		if (!reason.trim()) return alert('Please provide a reason for rejection');
+
+		try {
+			const { responseData, error } = await postData(
+				`/admin/disable-artist/${selectedArtist._id}`,
+				{ reason },
+				'PATCH'
+			);
+
+			if (!error) console.log('Artist rejected successfully!', responseData);
+			else console.error('Rejection failed:', error);
 		} catch (error) {
 			console.error('Unexpected error:', error);
 		}
@@ -86,14 +98,10 @@ const DashboardAdminArtistList = () => {
 	};
 
 	useEffect(() => {
-		if (selectedArtist) {
-			document.body.style.overflow = 'hidden';
-		} else {
-			document.body.style.overflow = 'auto';
-		}
-		return () => {
-			document.body.style.overflow = 'auto';
-		};
+		if (selectedArtist) document.body.style.overflow = 'hidden';
+		else document.body.style.overflow = 'auto';
+
+		return () => (document.body.style.overflow = 'auto');
 	}, [selectedArtist]);
 
 	return (
@@ -163,7 +171,9 @@ const DashboardAdminArtistList = () => {
 										? 'bg-green-100 text-green-600'
 										: artist.status === 'reject'
 											? 'bg-red-100 text-red-600'
-											: 'bg-yellow-100 text-yellow-600'
+											: artist.status === 'pending'
+												? 'bg-yellow-100 text-yellow-600'
+												: 'bg-gray-100 text-gray-600'
 								}`}
 							>
 								{artist.status}
@@ -185,9 +195,9 @@ const DashboardAdminArtistList = () => {
 							<p className='text-gray-600'>Gender: {selectedArtist.gender}</p>
 							<p className='text-gray-600'>Location: {selectedArtist.location}</p>
 							<p className='text-gray-600'>Phone: {selectedArtist.phoneNumber}</p>
-							{/* Make sure the age is correctly calculated */}
 							<p className='text-gray-600'>Age: {useCalculateAge(selectedArtist.dateOfBirth)}</p>
 						</div>
+
 						{selectedArtist.status === 'pending' && (
 							<div className='flex justify-end gap-4'>
 								<button
@@ -197,10 +207,27 @@ const DashboardAdminArtistList = () => {
 									Approve
 								</button>
 								<button
-									onClick={() => setShowRejectionForm(true)} // Show rejection form
+									onClick={() => {
+										setShowRejectionForm(true);
+										setActionType('reject');
+									}}
 									className='px-4 py-2 text-white bg-red-500 rounded-lg'
 								>
 									Reject
+								</button>
+							</div>
+						)}
+
+						{selectedArtist.status === 'approve' && (
+							<div className='flex justify-end gap-4'>
+								<button
+									onClick={() => {
+										setShowRejectionForm(true);
+										setActionType('disable');
+									}}
+									className='px-4 py-2 text-white bg-red-500 rounded-lg'
+								>
+									Disable Artist
 								</button>
 							</div>
 						)}
@@ -211,19 +238,32 @@ const DashboardAdminArtistList = () => {
 								<textarea
 									className='w-full p-2 border border-gray-300 rounded-md'
 									rows='4'
-									placeholder='Enter rejection reason...'
+									placeholder={
+										actionType === 'reject'
+											? 'Enter reason for rejection...'
+											: 'Enter reason for disabling the artist...'
+									}
 									value={reason}
 									onChange={e => setReason(e.target.value)}
 								></textarea>
 								<div className='mt-2 flex justify-end gap-4'>
+									{/* Confirm button with dynamic label */}
 									<button
-										onClick={handleReject}
+										onClick={() => {
+											actionType === 'reject' ? handleReject() : handleDisable();
+											setSelectedArtist(null);
+											setShowRejectionForm(false);
+										}}
 										className='px-4 py-2 text-white bg-red-500 rounded-lg'
 									>
-										Confirm Reject
+										{actionType === 'reject`' ? 'Confirm Reject' : 'Confirm Disable'}
 									</button>
+									{/* Cancel button */}
 									<button
-										onClick={() => setShowRejectionForm(false)}
+										onClick={() => {
+											setShowRejectionForm(false);
+											setReason('');
+										}}
 										className='px-4 py-2 text-white bg-gray-500 rounded-lg'
 									>
 										Cancel

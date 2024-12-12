@@ -9,6 +9,7 @@ import { collectors } from '../controller/private/admin/admin-get-users.js';
 import {
 	approveArtist,
 	rejectArtist,
+	disableArtist,
 } from '../controller/private/admin/admin-update-artist-status.js';
 
 import { disableCollector } from '../controller/private/admin/admin-update-collector-status.js';
@@ -32,6 +33,7 @@ router.get('/admin/collectors', authorizeRoles('admin'), collectors);
 // UPDATE ARTIST STATUS
 router.patch('/admin/approve-artist/:id', authorizeRoles('admin'), approveArtist);
 router.patch('/admin/reject-artist/:id', authorizeRoles('admin'), rejectArtist);
+router.patch('/admin/disable-artist/:id', authorizeRoles('admin'), disableArtist);
 
 // UPDATE COLLECTOR STATUS
 router.patch('/admin/disable-collector/:id', authorizeRoles('admin'), disableCollector);

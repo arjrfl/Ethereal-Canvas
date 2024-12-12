@@ -24,7 +24,7 @@ const artistSchema = new mongoose.Schema(
 		role: { type: String, default: 'artist', enum: ['artist'] },
 		status: {
 			type: String,
-			enum: ['pending', 'approve', 'reject'],
+			enum: ['pending', 'approve', 'reject', 'disable'],
 			default: 'pending',
 		},
 		refreshToken: { type: String, select: false },

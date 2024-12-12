@@ -91,3 +91,44 @@ export const rejectArtist = async (req, res) => {
 		res.status(500).json({ error: 'Error rejecting artist', details: error.message });
 	}
 };
+
+export const disableArtist = async (req, res) => {
+	try {
+		const artistId = req.params.id;
+		const { reason } = req.body; // Reason for rejection coming from the frontend
+
+		const artist = await Artist.findById(artistId);
+
+		if (!artist) {
+			return res.status(404).json({ error: 'Artist not found' });
+		}
+
+		if (artist.status === 'disable') {
+			return res.status(400).json({ error: 'Artist is already disable.' });
+		}
+
+		artist.status = 'disable';
+		await artist.save();
+
+		const transporter = nodemailer.createTransport({
+			service: 'Gmail',
+			auth: {
+				user: process.env.EMAIL_USER,
+				pass: process.env.EMAIL_PASS,
+			},
+		});
+
+		const mailOptions = {
+			from: 'Ethereal Yeah Yeah Canvas',
+			to: artist.email,
+			subject: 'Your Artist Account Registration Has Been Rejected',
+			text: `We regret to inform you that your artist account registration has been rejected.\n\nReason for rejection: ${reason}\n\nIf you believe this was a mistake or need further clarification, please contact our support team.\n\nThank you for your interest in Ethereal Canvas.`,
+		};
+
+		await transporter.sendMail(mailOptions);
+
+		res.status(200).json({ message: 'Artist rejected and email sent.' });
+	} catch (error) {
+		res.status(500).json({ error: 'Error rejecting artist', details: error.message });
+	}
+};
