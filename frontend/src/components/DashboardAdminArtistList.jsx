@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { CgClose } from 'react-icons/cg';
 
+import { showToast } from '../utils/toastUtils';
+
 import useFetchData from '../hooks/useFetchDataPrivateRoute';
 import usePostData from '../hooks/usePostData';
 import useCalculateAge from '../hooks/useCalAge';
@@ -10,8 +12,8 @@ import Navbar from './NavbarAdminDashboard';
 
 const DashboardAdminArtistList = () => {
 	const [selectedArtist, setSelectedArtist] = useState(null);
-	const [reason, setReason] = useState(''); // Reason for rejection
-	const [showRejectionForm, setShowRejectionForm] = useState(false); // Show rejection reason form
+	const [reason, setReason] = useState('');
+	const [showRejectionForm, setShowRejectionForm] = useState(false);
 	const [actionType, setActionType] = useState('');
 
 	const artistModalRef = useRef(null);
@@ -21,52 +23,81 @@ const DashboardAdminArtistList = () => {
 	const { postData, isPosting, postError, postResponse } = usePostData();
 
 	const handleApprove = async artistId => {
-		if (!artistId) return console.error('Artist ID is missing');
+		if (!artistId) {
+			showToast.error('Artist ID is missing');
+			return;
+		}
 
 		try {
+			showToast.info('Processing approval...');
 			const { responseData, error } = await postData(
 				`/admin/approve-artist/${artistId}`,
 				{},
 				'PATCH'
 			);
-			if (!error) console.log('Artist approved successfully!', responseData);
-			else console.error('Approval failed:', error);
+			if (!error) {
+				showToast.success('Artist approved successfully!');
+				console.log('Artist approved successfully!', responseData);
+			} else {
+				showToast.error('Approval failed');
+				console.error('Approval failed:', error);
+			}
 		} catch (error) {
+			showToast.error('Unexpected error occurred');
 			console.error('Unexpected error:', error);
 		}
 	};
 
 	const handleReject = async () => {
-		if (!reason.trim()) return alert('Please provide a reason for rejection');
+		if (!reason.trim()) {
+			showToast.error('Please provide a reason for rejection');
+			return;
+		}
 
 		try {
+			showToast.info('Processing rejection...');
 			const { responseData, error } = await postData(
 				`/admin/reject-artist/${selectedArtist._id}`,
 				{ reason },
 				'PATCH'
 			);
-			if (!error) console.log('Artist rejected successfully!', responseData);
-			else console.error('Rejection failed:', error);
+			if (!error) {
+				showToast.success('Artist rejected successfully!');
+				console.log('Artist rejected successfully!', responseData);
+			} else {
+				showToast.error('Rejection failed');
+				console.error('Rejection failed:', error);
+			}
 		} catch (error) {
+			showToast.error('Unexpected error occurred');
 			console.error('Unexpected error:', error);
 		}
 		setShowRejectionForm(false);
-		setReason(''); // Clear the reason after rejection
+		setReason('');
 	};
 
 	const handleDisable = async () => {
-		if (!reason.trim()) return alert('Please provide a reason for rejection');
+		if (!reason.trim()) {
+			showToast.error('Please provide a reason for disabling the artist');
+			return;
+		}
 
 		try {
+			showToast.info('Processing disabling...');
 			const { responseData, error } = await postData(
 				`/admin/disable-artist/${selectedArtist._id}`,
 				{ reason },
 				'PATCH'
 			);
-
-			if (!error) console.log('Artist rejected successfully!', responseData);
-			else console.error('Rejection failed:', error);
+			if (!error) {
+				showToast.success('Artist disabled successfully!');
+				console.log('Artist disabled successfully!', responseData);
+			} else {
+				showToast.error('Disabling failed');
+				console.error('Disabling failed:', error);
+			}
 		} catch (error) {
+			showToast.error('Unexpected error occurred');
 			console.error('Unexpected error:', error);
 		}
 		setShowRejectionForm(false);
@@ -201,7 +232,10 @@ const DashboardAdminArtistList = () => {
 						{selectedArtist.status === 'pending' && (
 							<div className='flex justify-end gap-4'>
 								<button
-									onClick={() => handleApprove(selectedArtist._id)}
+									onClick={() => {
+										handleApprove(selectedArtist._id);
+										setSelectedArtist(null);
+									}}
 									className='px-4 py-2 text-white bg-green-500 rounded-lg'
 								>
 									Approve
@@ -232,7 +266,6 @@ const DashboardAdminArtistList = () => {
 							</div>
 						)}
 
-						{/* Show rejection reason form */}
 						{showRejectionForm && (
 							<div className='mt-4'>
 								<textarea
@@ -247,7 +280,6 @@ const DashboardAdminArtistList = () => {
 									onChange={e => setReason(e.target.value)}
 								></textarea>
 								<div className='mt-2 flex justify-end gap-4'>
-									{/* Confirm button with dynamic label */}
 									<button
 										onClick={() => {
 											actionType === 'reject' ? handleReject() : handleDisable();
@@ -258,7 +290,7 @@ const DashboardAdminArtistList = () => {
 									>
 										{actionType === 'reject`' ? 'Confirm Reject' : 'Confirm Disable'}
 									</button>
-									{/* Cancel button */}
+
 									<button
 										onClick={() => {
 											setShowRejectionForm(false);

@@ -1,5 +1,8 @@
 import './styles/App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the toast CSS
+
 import ProtectedRoute from './components/isAuthenticated';
 
 import Home from './pages/Home';
@@ -74,8 +77,7 @@ const App = () => {
 					</Route>
 				</Route>
 
-				{/* Admin routes (currently empty, for future use) */}
-				{/* PRIVATE ROUTES */}
+				{/* Admin routes */}
 				<Route element={<AdminLayout />}>
 					<Route
 						path='/admin/dashboard'
@@ -93,6 +95,9 @@ const App = () => {
 					</Route>
 				</Route>
 			</Routes>
+
+			{/* Toast Container */}
+			<ToastContainer />
 		</Router>
 	);
 };
