@@ -167,7 +167,7 @@ const DashboardArtistArtworks = () => {
 
 						<div className='border-b px-3 md:px-5 py-5 md:grid md:grid-cols-2'>
 							<p className='text-gray-900 font-medium pb-1'>Dimension</p>
-							<p className='text-gray-700'>{selectedArtwork.dimension}</p>
+							<p className='text-gray-700 break-words'>{selectedArtwork.dimension}</p>
 						</div>
 
 						<div className='border-b px-3 md:px-5 py-5 md:grid md:grid-cols-2'>

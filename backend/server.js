@@ -12,17 +12,9 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-	origin: (origin, callback) => {
-		if (origin === process.env.FRONTEND_URL || origin === process.env.FRONTEND_URL + '/') {
-			callback(null, true);
-		} else {
-			callback(new Error('Not allowed by CORS'));
-		}
-	},
-	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-	allowedHeaders: ['Content-Type', 'Authorization'],
-	credentials: true,
-	optionsSuccessStatus: 200,
+	origin: process.env.FRONTEND_URL, // Replace with your client app's origin
+	methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], // Include PATCH
+	allowedHeaders: ['Content-Type', 'Authorization'], // Ensure Authorization header is allowed
 };
 
 app.use(cors(corsOptions));

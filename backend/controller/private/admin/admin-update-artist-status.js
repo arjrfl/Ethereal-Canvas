@@ -54,6 +54,7 @@ export const approveArtist = async (req, res) => {
 export const rejectArtist = async (req, res) => {
 	try {
 		const artistId = req.params.id;
+		const { reason } = req.body; // Reason for rejection coming from the frontend
 
 		const artist = await Artist.findById(artistId);
 
@@ -80,7 +81,7 @@ export const rejectArtist = async (req, res) => {
 			from: 'Ethereal Yeah Yeah Canvas',
 			to: artist.email,
 			subject: 'Your Artist Account Registration Has Been Rejected',
-			text: `We regret to inform you that your artist account registration has been rejected.\n\nIf you believe this was a mistake or need further clarification, please contact our support team.\n\nThank you for your interest in Ethereal Canvas.`,
+			text: `We regret to inform you that your artist account registration has been rejected.\n\nReason for rejection: ${reason}\n\nIf you believe this was a mistake or need further clarification, please contact our support team.\n\nThank you for your interest in Ethereal Canvas.`,
 		};
 
 		await transporter.sendMail(mailOptions);
