@@ -9,11 +9,11 @@ export const artists = async (req, res) => {
 	try {
 		const { status } = req.query;
 
-		// If status is provided, filter artists by status
 		const filter = status ? { status } : {};
 
-		const artist = await Artist.find(filter);
-		res.status(200).json({ success: true, data: artist });
+		const artists = await Artist.find(filter).sort({ createdAt: -1 });
+
+		res.status(200).json({ success: true, data: artists });
 	} catch (error) {
 		console.log(`Error: ${error}`);
 		res.status(500).json({ message: 'Error fetching artists', error });
@@ -27,10 +27,10 @@ export const collectors = async (req, res) => {
 	try {
 		const { status } = req.query;
 
-		// If status is provided, filter collectors by status
 		const filter = status ? { status } : {};
 
-		const collector = await Collector.find(filter);
+		const collector = await Collector.find(filter).sort({ createdAt: -1 });
+
 		res.status(200).json({ success: true, data: collector });
 	} catch (error) {
 		console.log(`Error: ${error}`);

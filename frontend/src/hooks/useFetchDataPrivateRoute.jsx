@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// Custom hook to fetch data
-const useFetchData = (endpoint, data) => {
+const useFetchData = (endpoint, data, refetchTrigger = 0) => {
 	const [responseData, setResponseData] = useState(null); // Holds the fetched data
 	const [loading, setLoading] = useState(true); // Tracks if the request is still in progress
 	const [error, setError] = useState(null); // Holds any error messages
 
-	// useEffect to trigger the API call when the component mounts or when endpoint/data changes
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const accessToken = localStorage.getItem('accessToken'); // Retrieve the access token from localStorage
+				const accessToken = localStorage.getItem('accessToken'); // Retrieve the access token
 
 				// Base URL for the API
 				const baseURL = 'http://localhost:5000/api';
@@ -27,6 +25,7 @@ const useFetchData = (endpoint, data) => {
 				// Set the fetched data to responseData and stop loading
 				setResponseData(response.data.data);
 				setLoading(false);
+				setError(null); // Clear any previous errors
 			} catch (err) {
 				// Handle errors by setting the error state
 				setError('Failed to load data');
@@ -34,8 +33,8 @@ const useFetchData = (endpoint, data) => {
 			}
 		};
 
-		fetchData(); // Call the function to fetch data when the hook is used
-	}, [endpoint, data]); // Re-run the effect when `endpoint` or `data` changes
+		fetchData(); // Fetch data when dependencies change
+	}, [endpoint, data, refetchTrigger]); // Add `refetchTrigger` to the dependency array
 
 	return { responseData, loading, error }; // Return the data, loading state, and error
 };

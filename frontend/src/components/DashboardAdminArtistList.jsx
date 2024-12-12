@@ -13,11 +13,8 @@ import Navbar from './NavbarAdminDashboard';
 const DashboardAdminArtistList = () => {
 	const [selectedArtist, setSelectedArtist] = useState(null);
 	const [reason, setReason] = useState('');
-	const [showRejectionForm, setShowRejectionForm] = useState(false);
-	const [actionType, setActionType] = useState('');
-
+	const [refetchTrigger, setRefetchTrigger] = useState(0);
 	const artistModalRef = useRef(null);
-
 	const artistAge = dob => useCalculateAge(dob);
 
 	const { postData, isPosting, postError, postResponse } = usePostData();
@@ -37,7 +34,7 @@ const DashboardAdminArtistList = () => {
 			);
 			if (!error) {
 				showToast.success('Artist approved successfully!');
-				console.log('Artist approved successfully!', responseData);
+				setRefetchTrigger(prev => prev + 1);
 			} else {
 				showToast.error('Approval failed');
 				console.error('Approval failed:', error);
@@ -63,7 +60,7 @@ const DashboardAdminArtistList = () => {
 			);
 			if (!error) {
 				showToast.success('Artist rejected successfully!');
-				console.log('Artist rejected successfully!', responseData);
+				setRefetchTrigger(prev => prev + 1);
 			} else {
 				showToast.error('Rejection failed');
 				console.error('Rejection failed:', error);
@@ -72,7 +69,6 @@ const DashboardAdminArtistList = () => {
 			showToast.error('Unexpected error occurred');
 			console.error('Unexpected error:', error);
 		}
-		setShowRejectionForm(false);
 		setReason('');
 	};
 
@@ -89,26 +85,29 @@ const DashboardAdminArtistList = () => {
 				{ reason },
 				'PATCH'
 			);
+
 			if (!error) {
 				showToast.success('Artist disabled successfully!');
-				console.log('Artist disabled successfully!', responseData);
+				setRefetchTrigger(prev => prev + 1);
 			} else {
 				showToast.error('Disabling failed');
 				console.error('Disabling failed:', error);
 			}
 		} catch (error) {
 			showToast.error('Unexpected error occurred');
-			console.error('Unexpected error:', error);
 		}
-		setShowRejectionForm(false);
-		setReason(''); // Clear the reason after rejection
+		setReason('');
 	};
 
 	const [filters, setFilters] = useState({
 		status: '',
 	});
 
-	const { responseData: artists, loading, error } = useFetchData('/admin/artists', filters);
+	const {
+		responseData: artists,
+		loading,
+		error,
+	} = useFetchData('/admin/artists', filters, refetchTrigger);
 
 	const handleFilterChange = e => {
 		setFilters({
@@ -135,8 +134,33 @@ const DashboardAdminArtistList = () => {
 		return () => (document.body.style.overflow = 'auto');
 	}, [selectedArtist]);
 
+	const [checkboxes, setCheckboxes] = useState({
+		name: false,
+		email: false,
+		gender: false,
+		location: false,
+		number: false,
+		age: false,
+		about: false,
+		driveLink: false,
+		workspace: false,
+		withWorkspace: false,
+		validId: false,
+		withValidId: false,
+	});
+
+	const allChecked = Object.values(checkboxes).every(checked => checked);
+
+	const handleCheckboxChange = e => {
+		const { name, checked } = e.target;
+		setCheckboxes(prevState => ({
+			...prevState,
+			[name]: checked,
+		}));
+	};
+
 	return (
-		<div className='container mx-auto'>
+		<div className='container mx-auto font-custom'>
 			<Navbar />
 
 			{loading && <p>Loading artists...</p>}
@@ -165,7 +189,8 @@ const DashboardAdminArtistList = () => {
 					</span>
 				</div>
 			</div>
-			<div className='text-sm overflow-y-auto lg:max-h-[587px] xl:max-h-[586px] rounded-lg scrollbar-none'>
+
+			<div className='text-xs overflow-y-auto lg:max-h-[587px] xl:max-h-[586px] rounded-lg scrollbar-none'>
 				{artists?.map(artist => (
 					<div
 						key={artist._id}
@@ -197,7 +222,7 @@ const DashboardAdminArtistList = () => {
 						<p className='hidden xl:block col-span-1'>{artistAge(artist.dateOfBirth)}</p>
 						<div className='flex justify-center'>
 							<span
-								className={`text-xs font-medium px-2 py-1 rounded-full ${
+								className={`text-xs font-medium px-2 py-1 rounded-md ${
 									artist.status === 'approve'
 										? 'bg-green-100 text-green-600'
 										: artist.status === 'reject'
@@ -214,100 +239,276 @@ const DashboardAdminArtistList = () => {
 				))}
 			</div>
 
+			{/* MODAL */}
 			{selectedArtist && (
 				<div
 					ref={artistModalRef}
-					className='fixed top-0 left-0 w-full h-full bg-gray-600 bg-opacity-50 flex items-center justify-center z-50'
+					className='fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center'
 				>
-					<div className='bg-white rounded-lg w-[450px] p-5 relative'>
-						<h2 className='font-bold text-lg mb-3'>{selectedArtist.fullName}</h2>
-						<p className='mb-4'>{selectedArtist.email}</p>
-						<div className='mb-4'>
-							<p className='text-gray-600'>Gender: {selectedArtist.gender}</p>
-							<p className='text-gray-600'>Location: {selectedArtist.location}</p>
-							<p className='text-gray-600'>Phone: {selectedArtist.phoneNumber}</p>
-							<p className='text-gray-600'>Age: {useCalculateAge(selectedArtist.dateOfBirth)}</p>
+					<div className='grid grid-cols-3 overflow-y-auto bg-white relative rounded-xl shadow-lg max-w-[59rem] w-full h-[89vh]'>
+						<button
+							className='absolute top-4 right-4 cursor-pointer text-xl'
+							onClick={() => {
+								setSelectedArtist(null);
+								setReason('');
+								setCheckboxes({
+									name: false,
+									email: false,
+									gender: false,
+									location: false,
+									number: false,
+									age: false,
+									about: false,
+									driveLink: false,
+									workspace: false,
+									withWorkspace: false,
+									validId: false,
+									withValidId: false,
+								});
+							}}
+						>
+							<CgClose />
+						</button>
+
+						<div className='overflow-y-auto col-span-2 text-sm scrollbar-none'>
+							<div className='inline-block p-1 px-2 mt-2 ml-2 rounded-md'>
+								<span
+									className={`text-xs font-medium px-4 py-1 rounded-md ${
+										selectedArtist.status === 'approve'
+											? 'bg-green-100 text-green-500'
+											: selectedArtist.status === 'reject'
+												? 'bg-red-100 text-red-500'
+												: selectedArtist.status === 'pending'
+													? 'bg-yellow-100 text-yellow-500'
+													: 'bg-gray-100 text-gray-600'
+									}`}
+								>
+									{selectedArtist.status}
+								</span>
+							</div>
+
+							<h1 className='text-base font-semibold px-3 pt-6 pb-3 md:px-5 md:text-lg'>
+								Artist Details
+							</h1>
+
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>Name</p>
+								<p className='text-gray-600'>{selectedArtist.fullName}</p>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>Email</p>
+								<p className='text-gray-600'>{selectedArtist.email}</p>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>Gender</p>
+								<p className='text-gray-600'>{selectedArtist.gender}</p>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>Location</p>
+								<p className='text-gray-600'>{selectedArtist.location}</p>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>Number</p>
+								<p className='text-gray-600'>{selectedArtist.phoneNumber}</p>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>Age</p>
+								<p className='text-gray-600'>{useCalculateAge(selectedArtist.dateOfBirth)}</p>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>About</p>
+								<p className='text-gray-600 text-pretty'>{selectedArtist.aboutYourself}</p>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>
+									Drive link{' '}
+									<small className='text-slate-500 text-xs font-light'>(Click the link)</small>
+								</p>
+								<a href={selectedArtist.sharedDrive} target='_blank'>
+									<p className='text-blue-600 text-sm text-pretty line-clamp-4'>
+										{selectedArtist.sharedDrive}
+									</p>
+								</a>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>Workspace</p>
+								<a
+									href={selectedArtist.images.workspace}
+									target='_blank'
+									className='flex justify-center'
+								>
+									<img
+										src={selectedArtist.images.workspace}
+										alt='workspace'
+										className='h-auto w-56 rounded-xl'
+									/>
+								</a>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>With Workspace</p>
+								<a
+									href={selectedArtist.images.selfieWithWorkspace}
+									target='_blank'
+									className='flex justify-center'
+								>
+									<img
+										src={selectedArtist.images.selfieWithWorkspace}
+										alt='workspace'
+										className='h-auto w-56 rounded-xl'
+									/>
+								</a>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>validId</p>
+								<a
+									href={selectedArtist.images.validId}
+									target='_blank'
+									className='flex justify-center'
+								>
+									<img
+										src={selectedArtist.images.validId}
+										alt='workspace'
+										className='h-auto w-56 rounded-xl'
+									/>
+								</a>
+							</div>
+							<div className='border-b px-4 grid grid-cols-2 py-4'>
+								<p className='text-gray-900 font-medium'>selfieWithId</p>
+								<a
+									href={selectedArtist.images.selfieWithId}
+									target='_blank'
+									className='flex justify-center'
+								>
+									<img
+										src={selectedArtist.images.selfieWithId}
+										alt='workspace'
+										className='h-auto w-72 rounded-xl'
+									/>
+								</a>
+							</div>
 						</div>
 
-						{selectedArtist.status === 'pending' && (
-							<div className='flex justify-end gap-4'>
-								<button
-									onClick={() => {
-										handleApprove(selectedArtist._id);
-										setSelectedArtist(null);
-									}}
-									className='px-4 py-2 text-white bg-green-500 rounded-lg'
-								>
-									Approve
-								</button>
-								<button
-									onClick={() => {
-										setShowRejectionForm(true);
-										setActionType('reject');
-									}}
-									className='px-4 py-2 text-white bg-red-500 rounded-lg'
-								>
-									Reject
-								</button>
-							</div>
-						)}
+						<div className='bg-slate-200 flex flex-col justify-between p-5 text-sm'>
+							<div>
+								{selectedArtist.status === 'pending' && (
+									<>
+										<form className='mb-3'>
+											{Object.keys(checkboxes).map(key => (
+												<div key={key} className='flex gap-2 pb-1'>
+													<input
+														type='checkbox'
+														id={key}
+														name={key}
+														checked={checkboxes[key]}
+														onChange={handleCheckboxChange}
+													/>
+													<label htmlFor={key}>{key.replace(/([A-Z])/g, ' $1')}</label>
+												</div>
+											))}
+										</form>
 
-						{selectedArtist.status === 'approve' && (
-							<div className='flex justify-end gap-4'>
-								<button
-									onClick={() => {
-										setShowRejectionForm(true);
-										setActionType('disable');
-									}}
-									className='px-4 py-2 text-white bg-red-500 rounded-lg'
-								>
-									Disable Artist
-								</button>
+										{!allChecked && (
+											<div className='flex flex-col gap-1'>
+												<label htmlFor='rejectReason'>Provide reasons for rejection</label>
+												<textarea
+													className='rounded w-full p-2 text-sm'
+													placeholder='Additional information...'
+													id='rejectReason'
+													value={reason}
+													onChange={e => setReason(e.target.value)}
+												></textarea>
+											</div>
+										)}
+									</>
+								)}
 							</div>
-						)}
 
-						{showRejectionForm && (
-							<div className='mt-4'>
-								<textarea
-									className='w-full p-2 border border-gray-300 rounded-md'
-									rows='4'
-									placeholder={
-										actionType === 'reject'
-											? 'Enter reason for rejection...'
-											: 'Enter reason for disabling the artist...'
-									}
-									value={reason}
-									onChange={e => setReason(e.target.value)}
-								></textarea>
-								<div className='mt-2 flex justify-end gap-4'>
+							{selectedArtist.status === 'pending' && (
+								<div className=' grid grid-cols-2 gap-5'>
+									{/* APPROVE */}
 									<button
+										className={`px-4 py-2 rounded-lg ${
+											allChecked
+												? 'text-white bg-green-500 cursor-pointer'
+												: 'text-gray-400 bg-green-300 cursor-not-allowed'
+										}`}
 										onClick={() => {
-											actionType === 'reject' ? handleReject() : handleDisable();
+											handleApprove(selectedArtist._id);
 											setSelectedArtist(null);
-											setShowRejectionForm(false);
+											setCheckboxes({
+												name: false,
+												email: false,
+												gender: false,
+												location: false,
+												number: false,
+												age: false,
+												about: false,
+												driveLink: false,
+												workspace: false,
+												withWorkspace: false,
+												validId: false,
+												withValidId: false,
+											});
 										}}
-										className='px-4 py-2 text-white bg-red-500 rounded-lg'
+										disabled={!allChecked}
 									>
-										{actionType === 'reject`' ? 'Confirm Reject' : 'Confirm Disable'}
+										Approve
 									</button>
 
+									{/* REJECT */}
 									<button
+										className='px-4 py-2 text-white bg-red-500 rounded-lg'
 										onClick={() => {
-											setShowRejectionForm(false);
+											handleReject(selectedArtist._id);
+											setSelectedArtist(null);
 											setReason('');
+											setCheckboxes({
+												name: false,
+												email: false,
+												gender: false,
+												location: false,
+												number: false,
+												age: false,
+												about: false,
+												driveLink: false,
+												workspace: false,
+												withWorkspace: false,
+												validId: false,
+												withValidId: false,
+											});
 										}}
-										className='px-4 py-2 text-white bg-gray-500 rounded-lg'
 									>
-										Cancel
+										Reject
 									</button>
 								</div>
-							</div>
-						)}
+							)}
 
-						<CgClose
-							className='absolute top-2 right-2 cursor-pointer'
-							onClick={() => setSelectedArtist(null)}
-						/>
+							{selectedArtist.status === 'approve' && (
+								<div className='flex flex-col gap-3'>
+									<div className='flex flex-col gap-1'>
+										<label htmlFor='rejectReason'>Provide reasons</label>
+										<textarea
+											className='rounded w-full p-2 text-sm'
+											rows='10'
+											placeholder='Additional information...'
+											id='rejectReason'
+											value={reason}
+											onChange={e => setReason(e.target.value)}
+										></textarea>
+									</div>
+									<button
+										className='px-4 py-2 text-white bg-red-500 rounded-lg'
+										onClick={() => {
+											handleDisable(selectedArtist._id);
+											setSelectedArtist(null);
+											setReason('');
+										}}
+									>
+										Disable
+									</button>
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
 			)}

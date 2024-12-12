@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import useFetchData from '../hooks/useFetchDataPrivateRoute';
 import { CgClose } from 'react-icons/cg';
 import { MdKeyboardArrowDown } from 'react-icons/md';
+
+import useFetchData from '../hooks/useFetchDataPrivateRoute';
 
 const DashboardArtistArtworks = () => {
 	const [filters, setFilters] = useState({
@@ -73,7 +74,7 @@ const DashboardArtistArtworks = () => {
 						<option value='museum'>Museum</option>
 					</select>
 					<span className='absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none'>
-						<MdKeyboardArrowDown></MdKeyboardArrowDown>
+						<MdKeyboardArrowDown />
 					</span>
 				</div>
 
@@ -90,7 +91,7 @@ const DashboardArtistArtworks = () => {
 						<option value='reject'>Reject</option>
 					</select>
 					<span className='absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none'>
-						<MdKeyboardArrowDown></MdKeyboardArrowDown>
+						<MdKeyboardArrowDown />
 					</span>
 				</div>
 			</div>
@@ -133,10 +134,10 @@ const DashboardArtistArtworks = () => {
 			{/* Modal */}
 			{isModalOpen && selectedArtwork && (
 				<div
-					className='fixed text-sm inset-0 bg-black bg-opacity-80 flex justify-center items-center'
+					className='fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center'
 					onClick={handleBackdropClick}
 				>
-					<div className='bg-white m-2 rounded-xl shadow-lg max-w-4xl w-full overflow-auto max-h-[80vh] md:w-[700px]'>
+					<div className='relative bg-white m-2 rounded-xl shadow-lg max-w-4xl w-full overflow-auto max-h-[80vh] md:w-[700px]'>
 						<button className='absolute top-4 right-2 text-2xl text-white' onClick={closeModal}>
 							<CgClose />
 						</button>
