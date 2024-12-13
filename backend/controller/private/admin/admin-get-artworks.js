@@ -4,14 +4,11 @@ export const artworks = async (req, res) => {
 	try {
 		const { status } = req.query;
 
-		if (!status) {
-			return res.status(400).json({ success: false, message: 'Missing status' });
-		}
+		const filter = status ? { status } : {};
 
-		const filter = { status };
+		const artwork = await Artwork.find(filter);
 
-		const artist = await Artwork.find(filter);
-		res.status(200).json({ success: true, data: artist });
+		res.status(200).json({ success: true, data: artwork });
 	} catch (error) {
 		console.error(`Error: ${error.message}`);
 		res.status(500).json({ success: false, message: 'Server error' });

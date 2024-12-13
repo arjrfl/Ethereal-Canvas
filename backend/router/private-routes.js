@@ -12,6 +12,12 @@ import {
 	disableArtist,
 } from '../controller/private/admin/admin-update-artist-status.js';
 
+import {
+	artworkApprove,
+	artworkReject,
+	artworkDisable,
+} from '../controller/private/admin/admin-update-artwork-status.js';
+
 import { disableCollector } from '../controller/private/admin/admin-update-collector-status.js';
 
 import { getArtistDashboardProfile } from '../controller/private/artist/artist-dashboard-get-profile.js';
@@ -34,6 +40,11 @@ router.get('/admin/collectors', authorizeRoles('admin'), collectors);
 router.patch('/admin/approve-artist/:id', authorizeRoles('admin'), approveArtist);
 router.patch('/admin/reject-artist/:id', authorizeRoles('admin'), rejectArtist);
 router.patch('/admin/disable-artist/:id', authorizeRoles('admin'), disableArtist);
+
+// UPDATE ARTWORK STATUS
+router.patch('/admin/approve-artwork/:id', authorizeRoles('admin'), artworkApprove);
+router.patch('/admin/reject-artwork/:id', authorizeRoles('admin'), artworkReject);
+router.patch('/admin/disable-artwork/:id', authorizeRoles('admin'), artworkDisable);
 
 // UPDATE COLLECTOR STATUS
 router.patch('/admin/disable-collector/:id', authorizeRoles('admin'), disableCollector);

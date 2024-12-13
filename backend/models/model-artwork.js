@@ -26,7 +26,7 @@ const ArtworkSchema = new mongoose.Schema(
 		user: { type: mongoose.Schema.Types.ObjectId, ref: 'Artist', required: true },
 		status: {
 			type: String,
-			enum: ['pending', 'approve', 'reject'],
+			enum: ['pending', 'approve', 'reject', 'disable'],
 			default: 'pending',
 		},
 	},

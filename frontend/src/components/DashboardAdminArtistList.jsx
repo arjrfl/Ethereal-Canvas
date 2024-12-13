@@ -16,8 +16,13 @@ const DashboardAdminArtistList = () => {
 	const [refetchTrigger, setRefetchTrigger] = useState(0);
 	const artistModalRef = useRef(null);
 	const artistAge = dob => useCalculateAge(dob);
-
 	const { postData, isPosting, postError, postResponse } = usePostData();
+	const [filters, setFilters] = useState({ status: '' });
+	const {
+		responseData: artists,
+		loading,
+		error,
+	} = useFetchData('/admin/artists', filters, refetchTrigger);
 
 	const handleApprove = async artistId => {
 		if (!artistId) {
@@ -58,6 +63,7 @@ const DashboardAdminArtistList = () => {
 				{ reason },
 				'PATCH'
 			);
+
 			if (!error) {
 				showToast.success('Artist rejected successfully!');
 				setRefetchTrigger(prev => prev + 1);
@@ -99,16 +105,6 @@ const DashboardAdminArtistList = () => {
 		setReason('');
 	};
 
-	const [filters, setFilters] = useState({
-		status: '',
-	});
-
-	const {
-		responseData: artists,
-		loading,
-		error,
-	} = useFetchData('/admin/artists', filters, refetchTrigger);
-
 	const handleFilterChange = e => {
 		setFilters({
 			...filters,
@@ -135,18 +131,18 @@ const DashboardAdminArtistList = () => {
 	}, [selectedArtist]);
 
 	const [checkboxes, setCheckboxes] = useState({
-		name: false,
-		email: false,
-		gender: false,
-		location: false,
-		number: false,
-		age: false,
-		about: false,
-		driveLink: false,
-		workspace: false,
-		withWorkspace: false,
-		validId: false,
-		withValidId: false,
+		Name: false,
+		Email: false,
+		Gender: false,
+		Location: false,
+		Number: false,
+		Age: false,
+		About: false,
+		DriveLink: false,
+		Workspace: false,
+		WithWorkspace: false,
+		ValidId: false,
+		WithValidId: false,
 	});
 
 	const allChecked = Object.values(checkboxes).every(checked => checked);
@@ -165,6 +161,8 @@ const DashboardAdminArtistList = () => {
 
 			{loading && <p>Loading artists...</p>}
 			{error && <p className='text-red-500'>{error}</p>}
+
+			{/* HEADERS */}
 			<div className='grid grid-cols-3 text-sm font-medium pb-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 lg:px-2 xl:grid-cols-12'>
 				<p className='col-span-2'>Name</p>
 				<p className='hidden sm:block col-span-2'>Email</p>
@@ -172,24 +170,24 @@ const DashboardAdminArtistList = () => {
 				<p className='hidden lg:block col-span-2'>Location</p>
 				<p className='hidden xl:block col-span-2'>Number</p>
 				<p className='hidden xl:block col-span-1'>Age</p>
-				<div className='relative inline-block w-24 mx-auto text-center'>
+				<div className='relative flex items-center col-span-1'>
 					<select
 						name='status'
 						value={filters.status}
 						onChange={handleFilterChange}
-						className='rounded-sm w-24 text-center appearance-none bg-transparent'
+						className='appearance-none bg-transparent flex-1 text-center pr-2'
 					>
 						<option value=''>All Status</option>
 						<option value='approve'>Approve</option>
 						<option value='pending'>Pending</option>
 						<option value='reject'>Reject</option>
+						<option value='disable'>Disable</option>
 					</select>
-					<span className='absolute right-0 lg:right-1 top-1/2 transform -translate-y-1/2 pointer-events-none'>
-						<MdKeyboardArrowDown />
-					</span>
+					<MdKeyboardArrowDown className='absolute right-0 top-1/2 transform -translate-y-1/2 pointer-events-none' />
 				</div>
 			</div>
 
+			{/* ARTIST LIST */}
 			<div className='text-xs overflow-y-auto lg:max-h-[587px] xl:max-h-[586px] rounded-lg scrollbar-none'>
 				{artists?.map(artist => (
 					<div
@@ -252,18 +250,18 @@ const DashboardAdminArtistList = () => {
 								setSelectedArtist(null);
 								setReason('');
 								setCheckboxes({
-									name: false,
-									email: false,
-									gender: false,
-									location: false,
-									number: false,
-									age: false,
-									about: false,
-									driveLink: false,
-									workspace: false,
-									withWorkspace: false,
-									validId: false,
-									withValidId: false,
+									Name: false,
+									Email: false,
+									Gender: false,
+									Location: false,
+									Number: false,
+									Age: false,
+									About: false,
+									DriveLink: false,
+									Workspace: false,
+									WithWorkspace: false,
+									ValidId: false,
+									WithValidId: false,
 								});
 							}}
 						>
@@ -330,6 +328,7 @@ const DashboardAdminArtistList = () => {
 									</p>
 								</a>
 							</div>
+
 							<div className='border-b px-4 grid grid-cols-2 py-4'>
 								<p className='text-gray-900 font-medium'>Workspace</p>
 								<a
@@ -344,6 +343,7 @@ const DashboardAdminArtistList = () => {
 									/>
 								</a>
 							</div>
+
 							<div className='border-b px-4 grid grid-cols-2 py-4'>
 								<p className='text-gray-900 font-medium'>With Workspace</p>
 								<a
@@ -411,11 +411,11 @@ const DashboardAdminArtistList = () => {
 											<div className='flex flex-col gap-1'>
 												<label htmlFor='rejectReason'>Provide reasons for rejection</label>
 												<textarea
-													className='rounded w-full p-2 text-sm'
-													placeholder='Additional information...'
 													id='rejectReason'
+													placeholder='Additional information...'
 													value={reason}
 													onChange={e => setReason(e.target.value)}
+													className='rounded w-full p-2 text-sm'
 												></textarea>
 											</div>
 										)}
@@ -436,18 +436,18 @@ const DashboardAdminArtistList = () => {
 											handleApprove(selectedArtist._id);
 											setSelectedArtist(null);
 											setCheckboxes({
-												name: false,
-												email: false,
-												gender: false,
-												location: false,
-												number: false,
-												age: false,
-												about: false,
-												driveLink: false,
-												workspace: false,
-												withWorkspace: false,
-												validId: false,
-												withValidId: false,
+												Name: false,
+												Email: false,
+												Gender: false,
+												Location: false,
+												Number: false,
+												Age: false,
+												About: false,
+												DriveLink: false,
+												Workspace: false,
+												WithWorkspace: false,
+												ValidId: false,
+												WithValidId: false,
 											});
 										}}
 										disabled={!allChecked}
@@ -463,18 +463,18 @@ const DashboardAdminArtistList = () => {
 											setSelectedArtist(null);
 											setReason('');
 											setCheckboxes({
-												name: false,
-												email: false,
-												gender: false,
-												location: false,
-												number: false,
-												age: false,
-												about: false,
-												driveLink: false,
-												workspace: false,
-												withWorkspace: false,
-												validId: false,
-												withValidId: false,
+												Name: false,
+												Email: false,
+												Gender: false,
+												Location: false,
+												Number: false,
+												Age: false,
+												About: false,
+												DriveLink: false,
+												Workspace: false,
+												WithWorkspace: false,
+												ValidId: false,
+												WithValidId: false,
 											});
 										}}
 									>

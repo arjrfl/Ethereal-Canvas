@@ -8,16 +8,12 @@ import Artist from '../../../models/model-artist.js';
 export const approveArtist = async (req, res) => {
 	try {
 		const artistId = req.params.id;
-
 		const artist = await Artist.findById(artistId);
 
-		if (!artist) {
-			return res.status(404).json({ error: 'Artist not found' });
-		}
+		if (!artist) return res.status(404).json({ error: 'Artist not found' });
 
-		if (artist.status === 'approve') {
+		if (artist.status === 'approve')
 			return res.status(400).json({ error: 'Artist is already approved.' });
-		}
 
 		const temporaryPassword = Math.random().toString(36).slice(-8);
 		const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
@@ -54,17 +50,13 @@ export const approveArtist = async (req, res) => {
 export const rejectArtist = async (req, res) => {
 	try {
 		const artistId = req.params.id;
-		const { reason } = req.body; // Reason for rejection coming from the frontend
-
+		const { reason } = req.body;
 		const artist = await Artist.findById(artistId);
 
-		if (!artist) {
-			return res.status(404).json({ error: 'Artist not found' });
-		}
+		if (!artist) return res.status(404).json({ error: 'Artist not found' });
 
-		if (artist.status === 'reject') {
+		if (artist.status === 'reject')
 			return res.status(400).json({ error: 'Artist is already rejected.' });
-		}
 
 		artist.status = 'reject';
 		await artist.save();

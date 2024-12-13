@@ -76,7 +76,6 @@ const cities = [
 	'Parañaque',
 	'Pasay',
 	'Pasig',
-	'Philippine City',
 	'Puerto Princesa',
 	'Quezon City',
 	'Roxas',

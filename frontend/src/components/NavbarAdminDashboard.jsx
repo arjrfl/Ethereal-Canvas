@@ -35,7 +35,7 @@ const Navbar = () => {
 	}, []);
 
 	return (
-		<nav className='border-b border-gray-300 drop-shadow lg:block hidden mb-10'>
+		<nav className='border-b border-gray-300 drop-shadow lg:block hidden mb-5'>
 			<div className='font-custom flex items-center justify-between pb-2'>
 				<img src={logo} alt='logo' className='h-auto w-[7rem]' />
 
