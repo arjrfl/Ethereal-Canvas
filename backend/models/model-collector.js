@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const collectorSchema = new mongoose.Schema(
 	{
 		fullName: { type: String, required: true, trim: true },
+		avatar: { type: String, default: '' },
 		gender: { type: String, enum: ['male', 'female', 'other'], required: true },
 		email: { type: String, required: true, unique: true, trim: true },
 		password: { type: String, required: true, select: false },

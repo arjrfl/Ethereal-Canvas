@@ -6,7 +6,7 @@ export const artworks = async (req, res) => {
 
 		const filter = status ? { status } : {};
 
-		const artwork = await Artwork.find(filter);
+		const artwork = await Artwork.find(filter).sort({ createdAt: -1 });
 
 		res.status(200).json({ success: true, data: artwork });
 	} catch (error) {

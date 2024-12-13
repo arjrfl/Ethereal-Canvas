@@ -7,6 +7,7 @@ import { showToast } from '../utils/toastUtils';
 import useFetchData from '../hooks/useFetchDataPrivateRoute';
 import usePostData from '../hooks/usePostData';
 import useCalculateAge from '../hooks/useCalAge';
+import useRandomColor from '../hooks/useRandomColor';
 
 import Navbar from './NavbarAdminDashboard';
 
@@ -23,6 +24,14 @@ const DashboardAdminArtistList = () => {
 		loading,
 		error,
 	} = useFetchData('/admin/artists', filters, refetchTrigger);
+
+	const { generateColorArray } = useRandomColor();
+	const randomColorsRef = useRef([]);
+	useEffect(() => {
+		if (artists && artists.length > 0 && randomColorsRef.current.length === 0) {
+			randomColorsRef.current = generateColorArray(artists.length);
+		}
+	}, [artists, generateColorArray]);
 
 	const handleApprove = async artistId => {
 		if (!artistId) {
@@ -189,7 +198,7 @@ const DashboardAdminArtistList = () => {
 
 			{/* ARTIST LIST */}
 			<div className='text-xs overflow-y-auto lg:max-h-[587px] xl:max-h-[586px] rounded-lg scrollbar-none'>
-				{artists?.map(artist => (
+				{artists?.map((artist, index) => (
 					<div
 						key={artist._id}
 						className='border-b grid grid-cols-3 bg-white sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-12 items-center py-3 px-2'
@@ -202,7 +211,11 @@ const DashboardAdminArtistList = () => {
 									className='w-7 h-7 rounded-md object-cover'
 								/>
 							) : (
-								<div className='w-7 h-7 rounded-md bg-gray-300 flex items-center justify-center text-white text-xs font-semibold'>
+								// FALLBACK AVATAR
+								<div
+									className='w-7 h-7 rounded-md flex items-center justify-center text-white text-xs font-semibold'
+									style={{ backgroundColor: randomColorsRef.current[index] }}
+								>
 									{getInitials(artist.fullName)}
 								</div>
 							)}
