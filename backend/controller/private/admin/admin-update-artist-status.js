@@ -31,10 +31,24 @@ export const approveArtist = async (req, res) => {
 		});
 
 		const mailOptions = {
-			from: 'Ethereal Yeah Yeah Canvas',
+			from: 'Ethereal Canvas <no-reply@etherealcanvas.com>',
 			to: artist.email,
-			subject: 'Your Artist Account Has Been Approved',
-			text: `Congratulations! Your artist account has been approved.\n\nUsername: ${artist.email}\nTemporary Password: ${temporaryPassword}\n\nPlease log in and change your password.`,
+			subject: 'Welcome to Ethereal Canvas: Your Artist Account Is Approved',
+			text: `Dear ${artist.name || 'Artist'},
+
+We are thrilled to inform you that your artist account has been approved! You can now log in and start showcasing your creativity on Ethereal Canvas.
+
+Here are your login details:
+
+Username: ${artist.email}
+Temporary Password: ${temporaryPassword}
+
+For your security, please log in and change your password immediately.
+
+Welcome to our vibrant community of artists. We look forward to seeing your work!
+
+Best regards,
+Ethereal Canvas Team`,
 		};
 
 		await transporter.sendMail(mailOptions);
@@ -70,10 +84,21 @@ export const rejectArtist = async (req, res) => {
 		});
 
 		const mailOptions = {
-			from: 'Ethereal Yeah Yeah Canvas',
+			from: 'Ethereal Canvas <no-reply@etherealcanvas.com>',
 			to: artist.email,
-			subject: 'Your Artist Account Registration Has Been Rejected',
-			text: `We regret to inform you that your artist account registration has been rejected.\n\nReason for rejection: ${reason}\n\nIf you believe this was a mistake or need further clarification, please contact our support team.\n\nThank you for your interest in Ethereal Canvas.`,
+			subject: 'Your Artist Account Registration Status',
+			text: `Dear ${artist.name || 'Artist'},
+
+Thank you for your interest in joining Ethereal Canvas. After careful review, we regret to inform you that your artist account registration has been rejected.
+
+Reason for rejection: ${reason}
+
+If you have any questions or believe this decision was made in error, please don’t hesitate to contact our support team at support@etherealcanvas.com.
+
+We appreciate your understanding and wish you all the best in your artistic endeavors.
+
+Sincerely,
+Ethereal Canvas Team`,
 		};
 
 		await transporter.sendMail(mailOptions);
@@ -87,7 +112,7 @@ export const rejectArtist = async (req, res) => {
 export const disableArtist = async (req, res) => {
 	try {
 		const artistId = req.params.id;
-		const { reason } = req.body; // Reason for rejection coming from the frontend
+		const { reason } = req.body;
 
 		const artist = await Artist.findById(artistId);
 
@@ -96,7 +121,7 @@ export const disableArtist = async (req, res) => {
 		}
 
 		if (artist.status === 'disable') {
-			return res.status(400).json({ error: 'Artist is already disable.' });
+			return res.status(400).json({ error: 'Artist is already disabled.' });
 		}
 
 		artist.status = 'disable';
@@ -111,16 +136,27 @@ export const disableArtist = async (req, res) => {
 		});
 
 		const mailOptions = {
-			from: 'Ethereal Yeah Yeah Canvas',
+			from: 'Ethereal Canvas <no-reply@etherealcanvas.com>',
 			to: artist.email,
-			subject: 'Your Artist Account Registration Has Been Rejected',
-			text: `We regret to inform you that your artist account registration has been rejected.\n\nReason for rejection: ${reason}\n\nIf you believe this was a mistake or need further clarification, please contact our support team.\n\nThank you for your interest in Ethereal Canvas.`,
+			subject: 'Your Artist Account Has Been Disabled',
+			text: `Dear ${artist.name || 'Artist'},
+
+We regret to inform you that your artist account has been disabled.
+
+Reason: ${reason}
+
+If you have any questions or require further clarification, please contact our support team at support@etherealcanvas.com.
+
+Thank you for your understanding.
+
+Sincerely,
+Ethereal Canvas Team`,
 		};
 
 		await transporter.sendMail(mailOptions);
 
-		res.status(200).json({ message: 'Artist rejected and email sent.' });
+		res.status(200).json({ message: 'Artist disabled and email sent.' });
 	} catch (error) {
-		res.status(500).json({ error: 'Error rejecting artist', details: error.message });
+		res.status(500).json({ error: 'Error disabling artist', details: error.message });
 	}
 };
