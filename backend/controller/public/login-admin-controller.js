@@ -30,7 +30,7 @@ export const loginAdmin = async (req, res) => {
 				role: admin.role,
 			},
 			process.env.JWT_SECRET,
-			{ expiresIn: '1h' }
+			{ expiresIn: '20m' }
 		);
 
 		const refreshToken = jwt.sign(
