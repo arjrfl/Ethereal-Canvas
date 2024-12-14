@@ -21,6 +21,7 @@ const DashboardAdminCollectorList = () => {
 	const { postData, isPosting, postError, postResponse } = usePostData();
 	const {
 		responseData: collectors,
+		statusSummary,
 		loading,
 		error,
 	} = useFetchData('/admin/collectors', filters, refetchTrigger);
@@ -84,6 +85,22 @@ const DashboardAdminCollectorList = () => {
 			{loading && <p>Loading collector...</p>}
 			{error && <p className='text-red-500'>{error}</p>}
 
+			{/* SUM OF EACH STATUS */}
+			<div className='grid grid-cols-4 text-sm xl:text-base gap-3 mb-6'>
+				<div className='bg-green-200 rounded-xl flex flex-col px-4 gap-2 py-2 xl:py-4'>
+					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-green-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
+						{statusSummary?.active || 0}
+					</p>
+					<p className='text-green-800'>Collector Active</p>
+				</div>
+				<div className='bg-gray-200 rounded-xl flex flex-col px-4 gap-2 py-2 xl:py-4'>
+					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-gray-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
+						{statusSummary?.disable || 0}
+					</p>
+					<p className='text-gray-800'>Collector Disable</p>
+				</div>
+			</div>
+
 			{/* HEADERS */}
 			<div className='grid grid-cols-3 text-sm font-medium pb-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 lg:px-2 xl:grid-cols-12'>
 				<p className='col-span-2'>Name</p>
@@ -136,7 +153,17 @@ const DashboardAdminCollectorList = () => {
 							{formatDate(collector.createdAt)}
 						</p>
 						<p className='col-span-1 text-center xl:col-span-2'>{collector.gender}</p>
-						<p className='col-span-1 text-center xl:col-span-2'>{collector.status}</p>
+						<div className='flex justify-center'>
+							<span
+								className={`text-xs font-medium px-2 py-1 rounded-md ${
+									collector.status === 'active'
+										? 'bg-green-100 text-green-600'
+										: 'bg-gray-100 text-gray-600'
+								}`}
+							>
+								{collector.status}
+							</span>
+						</div>
 						<button
 							className='col-span-1 xl:col-span-2 bg-red-500 mx-auto max-w-20 w-full text-white text-[10px] py-1 rounded-md hover:bg-red-600'
 							onClick={() => setSelectedCollector(collector)}

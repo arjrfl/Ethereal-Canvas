@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const useFetchData = (endpoint, data, refetchTrigger = 0) => {
 	const [responseData, setResponseData] = useState(null); // Holds the fetched data
+	const [statusSummary, setStatusSummary] = useState(null); // Holds the status summary
 	const [loading, setLoading] = useState(true); // Tracks if the request is still in progress
 	const [error, setError] = useState(null); // Holds any error messages
 
@@ -22,8 +23,25 @@ const useFetchData = (endpoint, data, refetchTrigger = 0) => {
 					params: data, // Passing filters (or parameters) as query params
 				});
 
-				// Set the fetched data to responseData and stop loading
+				// Assuming the response includes "data" and "statusSummary"
 				setResponseData(response.data.data);
+
+				// Calculate and set the status summary if available in response
+				if (response.data.statusSummary) {
+					setStatusSummary(response.data.statusSummary);
+				} else {
+					// Fallback logic to compute status counts locally from the fetched data
+					const counts = response.data.data.reduce((summary, item) => {
+						const { status } = item;
+						if (status) {
+							summary[status] = (summary[status] || 0) + 1;
+						}
+						return summary;
+					}, {});
+
+					setStatusSummary(counts);
+				}
+
 				setLoading(false);
 				setError(null); // Clear any previous errors
 			} catch (err) {
@@ -36,7 +54,7 @@ const useFetchData = (endpoint, data, refetchTrigger = 0) => {
 		fetchData(); // Fetch data when dependencies change
 	}, [endpoint, data, refetchTrigger]); // Add `refetchTrigger` to the dependency array
 
-	return { responseData, loading, error }; // Return the data, loading state, and error
+	return { responseData, statusSummary, loading, error }; // Return data, statusSummary, loading state, and error
 };
 
 export default useFetchData;

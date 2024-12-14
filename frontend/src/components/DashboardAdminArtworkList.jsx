@@ -42,6 +42,7 @@ const DashboardAdminArtworkList = () => {
 
 	const {
 		responseData: artworks,
+		statusSummary,
 		loading,
 		error,
 	} = useFetchData('/admin/artworks', filters, refetchTrigger);
@@ -161,6 +162,37 @@ const DashboardAdminArtworkList = () => {
 			{loading && <p>Loading artists...</p>}
 			{error && <p className='text-red-500'>{error}</p>}
 
+			{/* SUM OF EACH STATUS */}
+			<div className='grid grid-cols-4 text-sm xl:text-base gap-4 mb-6'>
+				<div className='bg-blue-200 rounded-xl flex flex-col px-4 gap-2 py-2 xl:py-4'>
+					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-blue-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
+						{statusSummary?.approve || 0}
+					</p>
+					<p className='text-blue-800'>Artwork Approved</p>
+				</div>
+
+				<div className='bg-yellow-200 rounded-xl flex flex-col px-4 gap-2 py-2 xl:py-4'>
+					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-yellow-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
+						{statusSummary?.pending || 0}
+					</p>
+					<p className='text-yellow-800'>Artwork Awaiting Approval</p>
+				</div>
+
+				<div className='bg-red-200 rounded-xl flex flex-col px-4 gap-2 py-2 xl:py-4'>
+					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-red-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
+						{statusSummary?.reject || 0}
+					</p>
+					<p className='text-red-800'>Artwork Declined</p>
+				</div>
+
+				<div className='bg-gray-200 rounded-xl flex flex-col px-4 gap-2 py-2 xl:py-4'>
+					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-gray-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
+						{statusSummary?.disable || 0}
+					</p>
+					<p className='text-gray-800'>Artwork Inactive</p>
+				</div>
+			</div>
+
 			{/* HEADERS */}
 			<div className='grid grid-cols-3 text-sm font-medium pb-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 lg:px-2 xl:grid-cols-12'>
 				<p className='col-span-2'>Title</p>
@@ -181,6 +213,7 @@ const DashboardAdminArtworkList = () => {
 						<option value='approve'>Approve</option>
 						<option value='pending'>Pending</option>
 						<option value='reject'>Reject</option>
+						<option value='disable'>Disable</option>
 					</select>
 					<MdKeyboardArrowDown className='absolute right-0 top-1/2 transform -translate-y-1/2 pointer-events-none' />
 				</div>
@@ -210,7 +243,7 @@ const DashboardAdminArtworkList = () => {
 								<span
 									className={`text-xs font-medium px-2 py-1 rounded-md ${
 										artwork.status === 'approve'
-											? 'bg-green-100 text-green-600'
+											? 'bg-blue-100 text-blue-600'
 											: artwork.status === 'reject'
 												? 'bg-red-100 text-red-600'
 												: artwork.status === 'pending'

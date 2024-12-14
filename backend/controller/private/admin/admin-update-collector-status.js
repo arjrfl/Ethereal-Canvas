@@ -45,7 +45,7 @@ If you believe this was a mistake or need further assistance, please contact our
 Thank you for your understanding.
 
 Sincerely,
-Ethereal Yeah Yeah Canvas Team`,
+Ethereal Canvas Team`,
 		};
 
 		// Send the email
