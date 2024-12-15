@@ -59,98 +59,262 @@
 
 // export default useFetchData;
 
+// import { useState, useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
+
+// const useFetchData = (endpoint, data, refetchTrigger = 0) => {
+// 	const [responseData, setResponseData] = useState(null);
+// 	const [statusSummary, setStatusSummary] = useState(null);
+// 	const [loading, setLoading] = useState(true);
+// 	const [error, setError] = useState(null);
+// 	const navigate = useNavigate();
+
+// 	let refreshTimer; // Timer for refreshing token
+
+// 	// Helper function to refresh access token
+// 	const refreshAccessToken = async () => {
+// 		const refreshToken = localStorage.getItem('refreshToken');
+// 		try {
+// 			const response = await axios.post('http://localhost:5000/refresh-token', { refreshToken });
+// 			const { accessToken, refreshToken: newRefreshToken } = response.data;
+
+// 			// Update tokens in localStorage
+// 			localStorage.setItem('accessToken', accessToken);
+// 			if (newRefreshToken) {
+// 				localStorage.setItem('refreshToken', newRefreshToken);
+// 			}
+
+// 			// Decode access token to get expiration
+// 			const decoded = JSON.parse(atob(accessToken.split('.')[1]));
+// 			const expiration = decoded.exp * 1000; // Convert expiration to milliseconds
+// 			const timeRemaining = expiration - Date.now();
+// 			console.log(`Access token expires in ${Math.round(timeRemaining / 1000)} seconds`);
+
+// 			// Schedule the next token refresh slightly before expiration
+// 			const delay = timeRemaining - 5000; // Refresh 5 seconds before expiry
+
+// 			if (refreshTimer) clearTimeout(refreshTimer);
+// 			refreshTimer = setTimeout(refreshAccessToken, delay);
+
+// 			console.log('Access token refreshed.');
+// 			return accessToken;
+// 		} catch (error) {
+// 			console.error('Failed to refresh token:', error);
+// 			handleLogout(); // Log out user if refresh fails
+// 			return null;
+// 		}
+// 	};
+
+// 	// Helper function to handle logout
+// 	const handleLogout = () => {
+// 		localStorage.clear();
+// 		navigate('/login');
+// 	};
+
+// 	// Function to check if access token is expired
+// 	const isAccessTokenExpired = accessToken => {
+// 		if (!accessToken) return true;
+// 		const [, payload] = accessToken.split('.');
+// 		const decoded = JSON.parse(atob(payload));
+// 		const expiration = decoded.exp * 1000; // Convert expiration to milliseconds
+// 		const expired = expiration < Date.now();
+
+// 		if (expired) {
+// 			console.log('Access token has expired.');
+// 		} else {
+// 			const timeRemaining = expiration - Date.now();
+// 			console.log(
+// 				`Access token is valid. Time remaining: ${Math.round(timeRemaining / 1000)} seconds`
+// 			);
+// 		}
+
+// 		return expired;
+// 	};
+
+// 	useEffect(() => {
+// 		const fetchData = async () => {
+// 			setLoading(true);
+// 			try {
+// 				let accessToken = localStorage.getItem('accessToken');
+
+// 				// If access token is expired, refresh it
+// 				if (isAccessTokenExpired(accessToken)) {
+// 					accessToken = await refreshAccessToken();
+// 					if (!accessToken) return; // Exit if token refresh fails
+// 				}
+
+// 				const baseURL = 'http://localhost:5000/api';
+
+// 				const response = await axios.get(`${baseURL}${endpoint}`, {
+// 					headers: { Authorization: `Bearer ${accessToken}` },
+// 					params: data,
+// 				});
+
+// 				setResponseData(response.data.data);
+
+// 				if (response.data.statusSummary) {
+// 					setStatusSummary(response.data.statusSummary);
+// 				} else {
+// 					const counts = response.data.data.reduce((summary, item) => {
+// 						const { status } = item;
+// 						if (status) {
+// 							summary[status] = (summary[status] || 0) + 1;
+// 						}
+// 						return summary;
+// 					}, {});
+// 					setStatusSummary(counts);
+// 				}
+
+// 				setError(null);
+// 			} catch (err) {
+// 				console.error(err);
+// 				setError('Failed to load data');
+// 			} finally {
+// 				setLoading(false);
+// 			}
+// 		};
+
+// 		fetchData();
+
+// 		return () => {
+// 			// Cleanup the refresh timer
+// 			if (refreshTimer) clearTimeout(refreshTimer);
+// 		};
+// 	}, [endpoint, data, refetchTrigger]);
+
+// 	return { responseData, statusSummary, loading, error };
+// };
+
+// export default useFetchData;
+
+// import { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import useTokenHandler from './useTokenHandler';
+
+// const useFetchData = (endpoint, data, refetchTrigger = 0) => {
+// 	const [responseData, setResponseData] = useState(null);
+// 	const [statusSummary, setStatusSummary] = useState(null);
+// 	const [loading, setLoading] = useState(true);
+// 	const [error, setError] = useState(null);
+
+// 	const { refreshAccessToken, isAccessTokenExpired } = useTokenHandler();
+
+// 	useEffect(() => {
+// 		const fetchData = async () => {
+// 			setLoading(true);
+// 			try {
+// 				let accessToken = localStorage.getItem('accessToken');
+
+// 				// If access token is expired, refresh it
+// 				if (isAccessTokenExpired(accessToken)) {
+// 					accessToken = await refreshAccessToken();
+// 					if (!accessToken) return; // Exit if token refresh fails
+// 				}
+
+// 				const baseURL = 'http://localhost:5000/api';
+
+// 				const response = await axios.get(`${baseURL}${endpoint}`, {
+// 					headers: { Authorization: `Bearer ${accessToken}` },
+// 					params: data,
+// 				});
+
+// 				setResponseData(response.data.data);
+
+// 				// Calculate status summary if not provided by the API
+// 				if (response.data.statusSummary) {
+// 					setStatusSummary(response.data.statusSummary);
+// 				} else {
+// 					const counts = response.data.data.reduce((summary, item) => {
+// 						const { status } = item;
+// 						if (status) {
+// 							summary[status] = (summary[status] || 0) + 1;
+// 						}
+// 						return summary;
+// 					}, {});
+// 					setStatusSummary(counts);
+// 				}
+
+// 				setError(null);
+// 			} catch (err) {
+// 				console.error(err);
+// 				setError('Failed to load data');
+// 			} finally {
+// 				setLoading(false);
+// 			}
+// 		};
+
+// 		fetchData();
+// 	}, [endpoint, data, refetchTrigger]);
+
+// 	return { responseData, statusSummary, loading, error };
+// };
+
+// export default useFetchData;
+
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+import useTokenHandler from './useTokenHandler';
 
 const useFetchData = (endpoint, data, refetchTrigger = 0) => {
 	const [responseData, setResponseData] = useState(null);
 	const [statusSummary, setStatusSummary] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const navigate = useNavigate();
 
-	let refreshTimer; // Timer for refreshing token
+	const { refreshAccessToken, isAccessTokenExpired } = useTokenHandler();
 
-	// Helper function to refresh access token
-	const refreshAccessToken = async () => {
-		const refreshToken = localStorage.getItem('refreshToken');
-		try {
-			const response = await axios.post('http://localhost:5000/refresh-token', { refreshToken });
-			const { accessToken, refreshToken: newRefreshToken } = response.data;
-
-			// Update tokens in localStorage
-			localStorage.setItem('accessToken', accessToken);
-			if (newRefreshToken) {
-				localStorage.setItem('refreshToken', newRefreshToken);
-			}
-
-			// Decode access token to get expiration
-			const decoded = JSON.parse(atob(accessToken.split('.')[1]));
-			const expiration = decoded.exp * 1000; // Convert expiration to milliseconds
-			const timeRemaining = expiration - Date.now();
-			console.log(`Access token expires in ${Math.round(timeRemaining / 1000)} seconds`);
-
-			// Schedule the next token refresh slightly before expiration
-			const delay = timeRemaining - 5000; // Refresh 5 seconds before expiry
-
-			if (refreshTimer) clearTimeout(refreshTimer);
-			refreshTimer = setTimeout(refreshAccessToken, delay);
-
-			console.log('Access token refreshed.');
-			return accessToken;
-		} catch (error) {
-			console.error('Failed to refresh token:', error);
-			handleLogout(); // Log out user if refresh fails
-			return null;
-		}
-	};
-
-	// Helper function to handle logout
-	const handleLogout = () => {
-		localStorage.clear();
-		navigate('/login');
-	};
-
-	// Function to check if access token is expired
-	const isAccessTokenExpired = accessToken => {
-		if (!accessToken) return true;
-		const [, payload] = accessToken.split('.');
-		const decoded = JSON.parse(atob(payload));
-		const expiration = decoded.exp * 1000; // Convert expiration to milliseconds
-		const expired = expiration < Date.now();
-
-		if (expired) {
-			console.log('Access token has expired.');
-		} else {
-			const timeRemaining = expiration - Date.now();
-			console.log(
-				`Access token is valid. Time remaining: ${Math.round(timeRemaining / 1000)} seconds`
-			);
-		}
-
-		return expired;
-	};
+	const api = axios.create({
+		baseURL: 'http://localhost:5000/api',
+	});
 
 	useEffect(() => {
-		const fetchData = async () => {
-			setLoading(true);
-			try {
+		const requestInterceptor = api.interceptors.request.use(
+			async config => {
 				let accessToken = localStorage.getItem('accessToken');
 
 				// If access token is expired, refresh it
 				if (isAccessTokenExpired(accessToken)) {
 					accessToken = await refreshAccessToken();
-					if (!accessToken) return; // Exit if token refresh fails
+					if (!accessToken) throw new Error('Token refresh failed');
 				}
 
-				const baseURL = 'http://localhost:5000/api';
+				if (accessToken) {
+					config.headers.Authorization = `Bearer ${accessToken}`;
+				}
 
-				const response = await axios.get(`${baseURL}${endpoint}`, {
-					headers: { Authorization: `Bearer ${accessToken}` },
-					params: data,
-				});
+				return config;
+			},
+			error => {
+				return Promise.reject(error);
+			}
+		);
 
+		const responseInterceptor = api.interceptors.response.use(
+			response => response,
+			async error => {
+				if (error.response?.status === 401) {
+					console.error('Unauthorized! Redirecting to login.');
+					localStorage.clear();
+					window.location.href = '/login';
+				}
+				return Promise.reject(error);
+			}
+		);
+
+		return () => {
+			api.interceptors.request.eject(requestInterceptor);
+			api.interceptors.response.eject(responseInterceptor);
+		};
+	}, [api, refreshAccessToken, isAccessTokenExpired]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			setLoading(true);
+
+			try {
+				const response = await api.get(endpoint, { params: data });
 				setResponseData(response.data.data);
 
 				if (response.data.statusSummary) {
@@ -168,7 +332,7 @@ const useFetchData = (endpoint, data, refetchTrigger = 0) => {
 
 				setError(null);
 			} catch (err) {
-				console.error(err);
+				console.error('Error fetching data:', err);
 				setError('Failed to load data');
 			} finally {
 				setLoading(false);
@@ -176,11 +340,6 @@ const useFetchData = (endpoint, data, refetchTrigger = 0) => {
 		};
 
 		fetchData();
-
-		return () => {
-			// Cleanup the refresh timer
-			if (refreshTimer) clearTimeout(refreshTimer);
-		};
 	}, [endpoint, data, refetchTrigger]);
 
 	return { responseData, statusSummary, loading, error };
