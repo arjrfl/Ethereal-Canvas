@@ -1,5 +1,6 @@
 import Collector from '../../../models/model-collector.js';
 import Artist from '../../../models/model-artist.js';
+import Admin from '../../../models/model-admin.js';
 
 // Artists endpoint: Filtering by status and providing summary
 export const artists = async (req, res) => {
@@ -74,5 +75,27 @@ export const collectors = async (req, res) => {
 	} catch (error) {
 		console.log(`Error: ${error}`);
 		res.status(500).json({ message: 'Error fetching collectors', error });
+	}
+};
+
+export const admins = async (req, res) => {
+	try {
+		// Retrieve all admins from the database
+		const admins = await Admin.find({}, '-password -refreshToken'); // Exclude sensitive fields
+
+		if (!admins || admins.length === 0) {
+			return res.status(404).json({ error: 'No admins found' });
+		}
+
+		// Respond with the list of admins
+		res.status(200).json({
+			message: 'Admins retrieved successfully',
+			data: admins,
+		});
+	} catch (error) {
+		console.error('Error retrieving admins:', error.message);
+		res
+			.status(500)
+			.json({ error: 'An error occurred while retrieving admins', details: error.message });
 	}
 };

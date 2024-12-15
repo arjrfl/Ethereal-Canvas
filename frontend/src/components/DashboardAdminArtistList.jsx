@@ -174,32 +174,32 @@ const DashboardAdminArtistList = () => {
 
 			{/* SUM OF EACH STATUS */}
 			<div className='grid grid-cols-4 text-sm xl:text-base gap-3 mb-6'>
-				<div className='bg-blue-200 rounded-xl flex flex-col px-4 gap-2 py-2 xl:py-4'>
+				<div className='bg-blue-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-blue-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.approve || 0}
 					</p>
-					<p className='text-blue-800'>Artists Approved</p>
+					<p className='text-blue-500 font-bold'>Artists Approved</p>
 				</div>
 
-				<div className='bg-yellow-200 rounded-xl flex flex-col px-4 gap-2 py-2 xl:py-4'>
+				<div className='bg-yellow-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-yellow-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.pending || 0}
 					</p>
-					<p className='text-yellow-800'>Artists Awaiting Approval</p>
+					<p className='text-yellow-500 font-bold'>Artists Awaiting Approval</p>
 				</div>
 
-				<div className='bg-red-200 rounded-xl flex flex-col px-4 gap-2 py-2 xl:py-4'>
+				<div className='bg-red-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-red-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.reject || 0}
 					</p>
-					<p className='text-red-800'>Artists Declined</p>
+					<p className='text-red-500 font-bold'>Artists Declined</p>
 				</div>
 
-				<div className='bg-gray-200 rounded-xl flex flex-col px-4 gap-2 py-2 xl:py-4'>
+				<div className='bg-gray-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-gray-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.disable || 0}
 					</p>
-					<p className='text-gray-800'>Artists Inactive</p>
+					<p className='text-gray-500 font-bold'>Artists Inactive</p>
 				</div>
 			</div>
 

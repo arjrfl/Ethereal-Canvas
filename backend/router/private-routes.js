@@ -2,9 +2,8 @@ import express from 'express';
 import { registerAdmin } from '../controller/private/admin/admin-register.js';
 import { authorizeRoles } from '../middleware/authorizeRoles.js';
 
-import { artists } from '../controller/private/admin/admin-get-users.js';
+import { artists, collectors, admins } from '../controller/private/admin/admin-get-users.js';
 import { artworks } from '../controller/private/admin/admin-get-artworks.js';
-import { collectors } from '../controller/private/admin/admin-get-users.js';
 
 import {
 	approveArtist,
@@ -33,8 +32,9 @@ router.post('/admin/admin-registration', authorizeRoles('admin'), registerAdmin)
 
 // RETRIEVE
 router.get('/admin/artists', authorizeRoles('admin'), artists);
-router.get('/admin/artworks', authorizeRoles('admin'), artworks);
 router.get('/admin/collectors', authorizeRoles('admin'), collectors);
+router.get('/admin/admins', authorizeRoles('admin'), admins);
+router.get('/admin/artworks', authorizeRoles('admin'), artworks);
 
 // UPDATE ARTIST STATUS
 router.patch('/admin/approve-artist/:id', authorizeRoles('admin'), approveArtist);
