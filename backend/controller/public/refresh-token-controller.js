@@ -38,7 +38,7 @@ export const refreshToken = async (req, res) => {
 			},
 			process.env.JWT_SECRET,
 			{
-				expiresIn: '15m', // Access token expires in 1 hour
+				expiresIn: '20m', // Access token expires in 1 hour
 			}
 		);
 
