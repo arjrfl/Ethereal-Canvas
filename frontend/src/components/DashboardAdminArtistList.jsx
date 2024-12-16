@@ -9,7 +9,7 @@ import usePostData from '../hooks/usePostData';
 import useCalculateAge from '../hooks/useCalAge';
 import useRandomColor from '../hooks/useRandomColor';
 
-import Navbar from './NavbarAdminDashboard';
+import NavbarAdmin from './NavbarAdmin';
 
 const DashboardAdminArtistList = () => {
 	const [selectedArtist, setSelectedArtist] = useState(null);
@@ -167,35 +167,34 @@ const DashboardAdminArtistList = () => {
 
 	return (
 		<div className='container mx-auto font-custom'>
-			<Navbar />
-
-			{loading && <p>Loading artists...</p>}
-			{error && <p className='text-red-500'>{error}</p>}
+			<div className='hidden lg:block'>
+				<NavbarAdmin />
+			</div>
 
 			{/* SUM OF EACH STATUS */}
-			<div className='grid grid-cols-4 text-sm xl:text-base gap-3 mb-6'>
-				<div className='bg-blue-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
+			<div className='text-sm px-2 mb-3 grid grid-cols-2 grid-rows-2 gap-3 md:grid-cols-4 md:grid-rows-1 md:px-3 xl:px-0'>
+				<div className='bg-blue-200 rounded-xl flex flex-col px-4 py-5 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-blue-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.approve || 0}
 					</p>
 					<p className='text-blue-500 font-bold'>Artists Approved</p>
 				</div>
 
-				<div className='bg-yellow-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
+				<div className='bg-yellow-200 rounded-xl flex flex-col px-4 py-5 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-yellow-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.pending || 0}
 					</p>
 					<p className='text-yellow-500 font-bold'>Artists Awaiting Approval</p>
 				</div>
 
-				<div className='bg-red-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
+				<div className='bg-red-200 rounded-xl flex flex-col px-4 py-5 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-red-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.reject || 0}
 					</p>
 					<p className='text-red-500 font-bold'>Artists Declined</p>
 				</div>
 
-				<div className='bg-gray-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
+				<div className='bg-gray-200 rounded-xl flex flex-col px-4 py-5 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-gray-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.disable || 0}
 					</p>
@@ -204,7 +203,7 @@ const DashboardAdminArtistList = () => {
 			</div>
 
 			{/* HEADERS */}
-			<div className='grid grid-cols-3 text-sm font-medium pb-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 lg:px-2 xl:grid-cols-12'>
+			<div className='text-sm font-medium py-3 px-2 grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 lg:px-2 xl:grid-cols-12'>
 				<p className='col-span-2'>Name</p>
 				<p className='hidden sm:block col-span-2'>Email</p>
 				<p className='hidden md:block col-span-2 pl-6 lg:pl-8 xl:pl-0'>Gender</p>
@@ -228,8 +227,11 @@ const DashboardAdminArtistList = () => {
 				</div>
 			</div>
 
+			{loading && <p>Loading artists...</p>}
+			{error && <p className='text-red-500'>{error}</p>}
+
 			{/* ARTIST LIST */}
-			<div className='text-xs overflow-y-auto lg:max-h-[587px] xl:max-h-[471px] rounded-lg scrollbar-none'>
+			<div className='text-xs overflow-y-auto lg:max-h-[320px] xl:max-h-[460px] rounded-lg scrollbar-none'>
 				{artists?.map((artist, index) => (
 					<div
 						key={artist._id}

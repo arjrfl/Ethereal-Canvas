@@ -7,7 +7,7 @@ import { showToast } from '../utils/toastUtils';
 import useFetchData from '../hooks/useFetchDataPrivateRoute';
 import usePostData from '../hooks/usePostData';
 
-import Navbar from './NavbarAdminDashboard';
+import NavbarAdmin from './NavbarAdmin';
 
 const DashboardAdminArtworkList = () => {
 	const artworkModalRef = useRef(null);
@@ -157,35 +157,34 @@ const DashboardAdminArtworkList = () => {
 
 	return (
 		<div className='container mx-auto font-custom'>
-			<Navbar />
-
-			{loading && <p>Loading artists...</p>}
-			{error && <p className='text-red-500'>{error}</p>}
+			<div className='hidden lg:block'>
+				<NavbarAdmin />
+			</div>
 
 			{/* SUM OF EACH STATUS */}
-			<div className='grid grid-cols-4 text-sm xl:text-base gap-4 mb-6'>
-				<div className='bg-blue-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
+			<div className='text-sm px-2 mb-3 grid grid-cols-2 grid-rows-2 gap-3 md:grid-cols-4 md:grid-rows-1 md:px-3 xl:px-0 '>
+				<div className='bg-blue-200 rounded-xl flex flex-col px-4 py-5 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-blue-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.approve || 0}
 					</p>
 					<p className='text-blue-500 font-bold'>Artwork Approved</p>
 				</div>
 
-				<div className='bg-yellow-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
+				<div className='bg-yellow-200 rounded-xl flex flex-col px-4 py-5 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-yellow-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.pending || 0}
 					</p>
 					<p className='text-yellow-500 font-bold'>Artwork Awaiting Approval</p>
 				</div>
 
-				<div className='bg-red-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
+				<div className='bg-red-200 rounded-xl flex flex-col px-4 py-5 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-red-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.reject || 0}
 					</p>
 					<p className='text-red-500 font-bold'>Artwork Declined</p>
 				</div>
 
-				<div className='bg-gray-200 rounded-xl flex flex-col px-4 gap-2 lg:py-5 xl:py-4'>
+				<div className='bg-gray-200 rounded-xl flex flex-col px-4 py-5 gap-2 lg:py-5 xl:py-4'>
 					<p className='w-8 h-8 xl:w-10 xl:h-10 bg-gray-500 text-white rounded-lg flex justify-center items-center text-lg xl:text-2xl font-semibold'>
 						{statusSummary?.disable || 0}
 					</p>
@@ -194,14 +193,14 @@ const DashboardAdminArtworkList = () => {
 			</div>
 
 			{/* HEADERS */}
-			<div className='grid grid-cols-3 text-sm font-medium pb-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 lg:px-2 xl:grid-cols-12'>
-				<p className='col-span-2'>Title</p>
-				<p className='hidden sm:block col-span-2'>Artist</p>
-				<p className='hidden lg:block col-span-2'>Medium</p>
-				<p className='hidden xl:block col-span-2'>Dimension</p>
-				<p className='hidden xl:block col-span-1'>Year</p>
-				<p className='hidden lg:block col-span-1'>Price</p>
+			<div className='text-sm font-medium py-3 px-2 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 lg:px-2 xl:grid-cols-10'>
+				<p className='col-span-2 md:col-span-2'>Title</p>
+				<p className='hidden sm:block col-span-1 md:col-span-2'>Artist</p>
+				<p className='hidden md:block col-span-1'>Year</p>
+				<p className='hidden xl:block col-span-1'>Medium</p>
+				<p className='hidden xl:block col-span-1'>Dimension</p>
 				<p className='hidden lg:block col-span-1'>Display</p>
+				<p className='hidden lg:block col-span-1'>Price</p>
 				<div className='relative flex items-center col-span-1'>
 					<select
 						name='status'
@@ -219,26 +218,31 @@ const DashboardAdminArtworkList = () => {
 				</div>
 			</div>
 
+			{loading && <p>Loading artists...</p>}
+			{error && <p className='text-red-500'>{error}</p>}
+
 			{/* ARTWORK LIST */}
-			<div className='text-xs overflow-y-auto lg:max-h-[587px] xl:max-h-[586px] rounded-lg scrollbar-none'>
+			<div className='text-xs overflow-y-auto lg:max-h-[320px] xl:max-h-[460px] rounded-lg scrollbar-none'>
 				{artworks?.length > 0 ? (
 					artworks.map(artwork => (
 						<div
 							key={artwork._id}
-							className='border-b grid grid-cols-3 bg-white sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-12 items-center py-3 px-2'
+							className='border-b grid grid-cols-3 bg-white sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 items-center py-3 px-2'
 						>
 							<p
-								className='col-span-2 cursor-pointer text-blue-500 truncate'
+								className='col-span-2 md:col-span-2 cursor-pointer text-blue-500 truncate'
 								onClick={() => handleArtworkClick(artwork)}
 							>
 								{artwork.title}
 							</p>
-							<p className='col-span-2 cursor-pointer truncate'>{artwork.artistName}</p>
-							<p className='col-span-2 truncate'>{artwork.medium}</p>
-							<p className='col-span-2 hidden xl:block'>{artwork.dimension}</p>
-							<p className='col-span-1 hidden xl:block'>{artwork.yearCreated}</p>
-							<p className='col-span-1'>{artwork.price}</p>
-							<p className='col-span-1'>{artwork.display}</p>
+							<p className='col-span-1 hidden sm:block truncate md:col-span-2'>
+								{artwork.artistName}
+							</p>
+							<p className='col-span-1 hidden md:block'>{artwork.yearCreated}</p>
+							<p className='col-span-1 hidden xl:block truncate'>{artwork.medium}</p>
+							<p className='col-span-1 hidden xl:block'>{artwork.dimension}</p>
+							<p className='col-span-1 hidden lg:block'>{artwork.display}</p>
+							<p className='col-span-1 hidden lg:block'>{artwork.price}</p>
 							<div className='flex justify-center'>
 								<span
 									className={`text-xs font-medium px-2 py-1 rounded-md ${

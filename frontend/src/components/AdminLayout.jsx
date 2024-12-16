@@ -4,7 +4,9 @@ import NavbarAdmin from './NavbarAdmin';
 const AdminLayout = () => {
 	return (
 		<div>
-			<NavbarAdmin />
+			<div className='lg:hidden'>
+				<NavbarAdmin />
+			</div>
 			<Outlet />
 		</div>
 	);

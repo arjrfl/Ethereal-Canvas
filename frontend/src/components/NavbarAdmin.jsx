@@ -1,19 +1,28 @@
 import { useState, useEffect, useRef } from 'react';
-import logo from '../assets/images/logo-ec.svg';
+import { useLocation } from 'react-router-dom';
 
 const NavbarAdmin = () => {
 	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
 	const [isOpen, setIsOpen] = useState(false);
-	const [nameModalOpen, setNameModalOpen] = useState(false); // State for the name modal
 	const dropdownRef = useRef(null);
-	const nameRef = useRef(null); // Ref for name to handle its click event separately
+
+	// Get the current path
+	const location = useLocation();
+
+	// Map routes to section titles
+	const sectionTitles = {
+		'/admin/dashboard/list-artist': 'ARTISTS',
+		'/admin/dashboard/list-artwork': 'ARTWORKS',
+		'/admin/dashboard/list-collector': 'COLLECTORS',
+		'/admin/dashboard/list-transaction': 'TRANSACTIONS',
+	};
+
+	// Get the section title based on the current path
+	const currentSection = sectionTitles[location.pathname] || 'Unknown Section';
 
 	useEffect(() => {
 		const storedName = localStorage.getItem('fullName');
-		const storedEmail = localStorage.getItem('email');
 		setName(storedName || '');
-		setEmail(storedEmail || '');
 	}, []);
 
 	const avatarLetter = name ? name.charAt(0).toUpperCase() : '?';
@@ -22,11 +31,6 @@ const NavbarAdmin = () => {
 		// Close the avatar dropdown if clicked outside
 		if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
 			setIsOpen(false);
-		}
-
-		// Close the name modal if clicked outside
-		if (nameRef.current && !nameRef.current.contains(event.target)) {
-			setNameModalOpen(false);
 		}
 	};
 
@@ -43,16 +47,11 @@ const NavbarAdmin = () => {
 		window.location.href = '/login';
 	};
 
-	const handleNameClick = () => {
-		setNameModalOpen(!nameModalOpen); // Toggle the name modal when clicked
-	};
-
 	return (
-		<nav className='border-b border-gray-300 drop-shadow lg:hidden'>
-			{/* SMALL SCREEN NAV */}
-			<div className='font-custom flex items-center justify-between p-2'>
-				{/* <p className='text-xl font-extrabold'>Admin Dashboard</p> */}
-				<img src={logo} alt='logo' className='h-auto w-[6rem]' />
+		<nav className='border-b border-gray-300 drop-shadow px-2 py-2 mb-3'>
+			<div className='font-custom flex items-center justify-between'>
+				{/* Section */}
+				<h1 className='text-3xl font-extrabold'>{currentSection}</h1>
 
 				{/* Avatar */}
 				<div className='relative' ref={dropdownRef}>
@@ -74,27 +73,6 @@ const NavbarAdmin = () => {
 									>
 										Logout
 									</button>
-								</li>
-							</ul>
-						</div>
-					)}
-				</div>
-
-				{/* Artist Name */}
-				<div ref={nameRef} className='cursor-pointer'>
-					<p onClick={handleNameClick} className='text-blue-500'>
-						{name}
-					</p>
-
-					{/* Name Modal */}
-					{nameModalOpen && (
-						<div className='absolute top-12 right-0 w-48 bg-white border rounded-lg shadow-lg z-50 drop-shadow-lg'>
-							<ul className='py-1'>
-								<li>
-									<p className='w-full text-left px-4 py-2 text-sm text-gray-700'>Name: {name}</p>
-								</li>
-								<li>
-									<p className='w-full text-left px-4 py-2 text-sm text-gray-700'>Email: {email}</p>
 								</li>
 							</ul>
 						</div>

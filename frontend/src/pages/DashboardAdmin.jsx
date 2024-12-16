@@ -227,6 +227,9 @@ import useFetchData from '../hooks/useFetchDataPrivateRoute';
 
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
+import logo from '../assets/images/logo-ec.svg';
+import newLogo from '../assets/images/ec-newlogo.svg';
+
 const AdminDashboard = () => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -255,9 +258,9 @@ const AdminDashboard = () => {
 	}
 
 	return (
-		<div className='lg:grid lg:grid-cols-4 h-screen'>
+		<div className='h-screen font-custom lg:grid lg:grid-cols-4 lg:gap-3 xl:grid xl:grid-cols-6 xl:gap-4'>
 			{/* SIDEBAR SMALL SCREEN */}
-			<div className='min-[640px]:hidden'>
+			<div className='min-[640px]:hidden px-2 mb-3'>
 				<ul className='grid grid-cols-4 py-1 items-center justify-items-center rounded-xl bg-cyan-600'>
 					{/* Sidebar Links */}
 					{[
@@ -283,7 +286,7 @@ const AdminDashboard = () => {
 			</div>
 
 			{/* SIDEBAR MEDIUM SCREEN */}
-			<div className='hidden min-[640px]:block lg:hidden'>
+			<div className='hidden min-[640px]:block lg:hidden px-3 mb-3'>
 				<ul className='flex justify-around items-center rounded-xl bg-cyan-600 py-1'>
 					{/* Sidebar Links */}
 					{[
@@ -314,12 +317,13 @@ const AdminDashboard = () => {
 			</div>
 
 			{/* SIDEBAR LARGE SCREEN */}
-			<div className='hidden lg:flex space-y-3 lg:flex-col lg:col-span-1 lg:h-screen p-3'>
-				<ul className='p-2 py-5 space-y-2 bg-cyan-500 rounded-xl'>
-					<li className='mb-10'>
-						<p className='font-semibold font-custom text-lg text-center text-cyan-900'>
+			<div className='hidden lg:flex space-y-3 lg:flex-col lg:col-span-1 lg:h-screen lg:pl-2 lg:py-3 xl:col-span-1 xl:py-3 xl:pl-3'>
+				<ul className='p-2 py-5 space-y-2	 bg-cyan-500 rounded-xl'>
+					<li className='mb-5 flex'>
+						{/* <p className='font-semibold font-custom text-lg text-center text-cyan-900'>
 							ADMIN DASHBOARD
-						</p>
+						</p> */}
+						<img src={newLogo} alt='logo' className='aspect-auto' />
 					</li>
 					{[
 						{ path: '/admin/dashboard/list-artist', label: 'Artist', icon: IconArtist },
@@ -348,19 +352,20 @@ const AdminDashboard = () => {
 				</ul>
 
 				{/* Admins List */}
-				<div className='bg-cyan-500 flex-1 rounded-xl px-3 font-custom py-3 text-gray-50 flex flex-col'>
-					<h1 className='text-sm pb-3'>Your teams</h1>
-					<ul className='space-y-3'>
+				<div className='bg-cyan-500 text-xs flex-1 rounded-xl px-4 font-custom py-3 text-gray-50 flex flex-col'>
+					<h1 className='pb-3'>Your teams</h1>
+					<ul className='space-y-2 text-[11px]'>
 						{admins.map(admin => (
 							<li key={admin._id} className='flex gap-3 items-center'>
-								<div className='w-8 h-8 rounded-[10px] flex items-center justify-center text-xs font-semibold bg-cyan-400'>
+								<div className='w-6 h-6 rounded-lg flex items-center justify-center font-semibold bg-cyan-400'>
 									{getInitials(admin.fullName)}
 								</div>
-								<p className='font-semibold text-sm'>{admin.fullName}</p>
+								<p className='font-semibold'>{admin.fullName}</p>
 							</li>
 						))}
 					</ul>
-					<div className='mt-auto flex gap-2'>
+
+					<div className='mt-auto flex items-center text-sm gap-2'>
 						<div className='w-10 h-10 rounded-lg bg-blue-500 text-white font-bold text-md flex items-center justify-center'>
 							{avatarLetter}
 						</div>
@@ -373,7 +378,7 @@ const AdminDashboard = () => {
 			</div>
 
 			{/* CONTENT */}
-			<div className='lg:col-span-3 lg:py-3 lg:pr-3 lg:overflow-y-auto h-screen scrollbar-none'>
+			<div className='lg:col-span-3 lg:py-3 lg:pr-3 lg:overflow-y-auto xl:col-span-5 h-screen scrollbar-none'>
 				<Outlet />
 			</div>
 		</div>
