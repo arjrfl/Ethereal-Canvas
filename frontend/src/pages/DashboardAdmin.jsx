@@ -290,9 +290,21 @@ const AdminDashboard = () => {
 				<ul className='flex justify-around items-center rounded-xl bg-cyan-600 py-1'>
 					{/* Sidebar Links */}
 					{[
-						{ path: '/admin/dashboard/list-artist', label: 'Artist', icon: IconArtist },
-						{ path: '/admin/dashboard/list-artwork', label: 'Artwork', icon: IconArtwork },
-						{ path: '/admin/dashboard/list-collector', label: 'Collector', icon: IconCollector },
+						{
+							path: '/admin/dashboard/list-artist',
+							label: 'Artist',
+							icon: IconArtist,
+						},
+						{
+							path: '/admin/dashboard/list-artwork',
+							label: 'Artwork',
+							icon: IconArtwork,
+						},
+						{
+							path: '/admin/dashboard/list-collector',
+							label: 'Collector',
+							icon: IconCollector,
+						},
 						{
 							path: '/admin/dashboard/list-transaction',
 							label: 'Transaction',
@@ -319,16 +331,25 @@ const AdminDashboard = () => {
 			{/* SIDEBAR LARGE SCREEN */}
 			<div className='hidden lg:flex space-y-3 lg:flex-col lg:col-span-1 lg:h-screen lg:pl-2 lg:py-3 xl:col-span-1 xl:py-3 xl:pl-3'>
 				<ul className='p-2 py-5 space-y-2	 bg-cyan-500 rounded-xl'>
-					<li className='mb-5 flex'>
-						{/* <p className='font-semibold font-custom text-lg text-center text-cyan-900'>
-							ADMIN DASHBOARD
-						</p> */}
+					<li className='mb-5 flex px-3'>
 						<img src={newLogo} alt='logo' className='aspect-auto' />
 					</li>
 					{[
-						{ path: '/admin/dashboard/list-artist', label: 'Artist', icon: IconArtist },
-						{ path: '/admin/dashboard/list-artwork', label: 'Artwork', icon: IconArtwork },
-						{ path: '/admin/dashboard/list-collector', label: 'Collector', icon: IconCollector },
+						{
+							path: '/admin/dashboard/list-artist',
+							label: 'Artist',
+							icon: IconArtist,
+						},
+						{
+							path: '/admin/dashboard/list-artwork',
+							label: 'Artwork',
+							icon: IconArtwork,
+						},
+						{
+							path: '/admin/dashboard/list-collector',
+							label: 'Collector',
+							icon: IconCollector,
+						},
 						{
 							path: '/admin/dashboard/list-transaction',
 							label: 'Transaction',

@@ -129,7 +129,7 @@ const DashboardAdminCollectorList = () => {
 				{collectors?.map((collector, index) => (
 					<div
 						key={collector._id}
-						className='border-b grid grid-cols-3 bg-white sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-8 items-center py-3 px-2'
+						className='border-b grid grid-cols-3 bg-white sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-8 items-center py-3 px-2 hover:bg-gray-100'
 					>
 						<div className='col-span-2 sm:grid-cols-1 md:col-span-2 flex items-center'>
 							{collector.avatar ? (

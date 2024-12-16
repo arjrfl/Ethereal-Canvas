@@ -227,7 +227,7 @@ const DashboardAdminArtworkList = () => {
 					artworks.map(artwork => (
 						<div
 							key={artwork._id}
-							className='border-b grid grid-cols-3 bg-white sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 items-center py-3 px-2'
+							className='border-b grid grid-cols-3 bg-white sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 items-center py-3 px-2 hover:bg-gray-100'
 						>
 							<p
 								className='col-span-2 md:col-span-2 cursor-pointer text-blue-500 truncate'

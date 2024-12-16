@@ -65,11 +65,14 @@ const NavbarAdmin = () => {
 
 					{isOpen && (
 						<div className='absolute right-0 mt-1 w-48 bg-white border rounded-lg shadow-lg z-50 drop-shadow-lg'>
-							<ul className='py-1'>
+							<ul>
+								<li className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
+									Settings
+								</li>
 								<li>
 									<button
 										onClick={handleLogout}
-										className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+										className='w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-100'
 									>
 										Logout
 									</button>

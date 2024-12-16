@@ -235,7 +235,7 @@ const DashboardAdminArtistList = () => {
 				{artists?.map((artist, index) => (
 					<div
 						key={artist._id}
-						className='border-b grid grid-cols-3 bg-white sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-12 items-center py-3 px-2'
+						className='border-b grid grid-cols-3 bg-white sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-12 items-center py-3 px-2 hover:bg-gray-100'
 					>
 						<div className='col-span-2 flex items-center'>
 							{artist.avatar ? (
