@@ -6,6 +6,7 @@ export default {
 		extend: {
 			fontFamily: {
 				custom: ['Poppins', 'sans-serif'],
+				ranchers: ['Ranchers', 'sans-serif'],
 			},
 			gridTemplateColumns: {
 				// Adding custom grid template for 13 columns

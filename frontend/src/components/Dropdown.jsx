@@ -34,12 +34,12 @@ const Dropdown = ({ label, options, logout, avatar, role }) => {
 
 	return (
 		<div className='relative' ref={dropdownRef}>
-			<button onClick={toggleDropdown} className='flex items-center px-2 py-2'>
+			<button onClick={toggleDropdown} className='flex items-center'>
 				{avatar ? avatar : label}
 			</button>
 
 			{isOpen && (
-				<div className='absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg'>
+				<div className='absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg text-sm'>
 					{options.map(option => (
 						<div
 							key={option.value}
@@ -52,7 +52,7 @@ const Dropdown = ({ label, options, logout, avatar, role }) => {
 					{logout && (
 						<div
 							onClick={() => handleOptionClick({ value: 'logout', label: 'Logout' })}
-							className='px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500'
+							className='px-4 py-2 hover:bg-red-500 hover:rounded-b-lg hover:text-white cursor-pointer text-red-500'
 						>
 							Logout
 						</div>

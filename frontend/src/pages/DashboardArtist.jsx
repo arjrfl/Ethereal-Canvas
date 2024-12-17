@@ -132,7 +132,7 @@ const ArtistDashboard = () => {
 				<div className='flex gap-x-4 items-center mb-5 p-3 bg-cyan-600 rounded-xl'>
 					<div className='h-12 w-12 rounded-full'>
 						{avatar ? (
-							<img src={avatar} alt='Avatar' className='w-full h-full object-cover rounded-full' />
+							<img src={avatar} alt='Avatar' className='w-full h-full object-cover rounded-lg' />
 						) : (
 							// If avatar is not available, show initials
 							<div className='w-full h-full flex items-center justify-center bg-gray-400 rounded-full text-white'>

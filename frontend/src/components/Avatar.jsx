@@ -8,11 +8,11 @@ const Avatar = ({ src, alt, name }) => {
 	const initials = getInitials(name);
 
 	return (
-		<div className='w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center bg-gray-300 text-white font-bold'>
+		<div className='w-7 h-7 flex-shrink-0 rounded-lg flex items-center justify-center bg-gray-300 text-white font-bold'>
 			{src ? (
-				<img src={src} alt={alt} className='w-full h-full rounded-full' />
+				<img src={src} alt={alt} className='w-full h-full object-cover rounded-lg' />
 			) : (
-				<span>{initials}</span>
+				<span className='text-xs'>{initials}</span>
 			)}
 		</div>
 	);

@@ -1,5 +1,7 @@
 import LogoMobileSize from '../assets/images/EC-logo-mobile-size.svg';
 import LogoMediumUpSize from '../assets/images/EC-logo-md-up-screen.svg';
+import newLogo from '../assets/images/ec-newlogo.svg';
+import smallIcon from '../assets/images/small-icon.png';
 
 import { TbMoonFilled, TbSunFilled, TbMenu2 } from 'react-icons/tb';
 
@@ -106,36 +108,56 @@ const Navbar = () => {
 
 	return (
 		<nav
-			className='bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white lg:px-5 px-2 border-b border-gray-300 dark:border-gray-700 drop-shadow'
+			className='bg-gray-100 font-custom dark:bg-gray-800 text-gray-800 dark:text-white lg:px-5 px-2 border-b border-gray-300 dark:border-gray-700 drop-shadow'
 			ref={menuRef}
 		>
-			{/* UPPER NAV */}
-			<div className='container max-w-7xl mx-auto py-3 flex justify-between lg:border-b lg:border-gray-300 lg:dark:border-gray-700'>
-				<Link to='/home' onClick={handleLinkClick} className='sm:hidden'>
-					<img src={LogoMobileSize} className='h-auto w-9' alt='Ethereal Canvas Logo' />
-				</Link>
+			<div className='flex gap-x-3 sm:gap-x-5 sm:px-3 xl:gap-x-20 py-2 px-2 relative'>
+				<div className='shrink-0 flex'>
+					<Link
+						to='/home'
+						onClick={handleLinkClick}
+						className='flex items-center font-extrabold font-ranchers text-xl '
+					>
+						<div className='flex gap-1'>
+							<div className=''>
+								<img src={smallIcon} alt='logo' className='h-auto w-6 sm:w-7' />
+							</div>
+							<div className='hidden leading-[1.1rem] sm:flex flex-col justify-center'>
+								<p className='text-cyan-600'>ETHEREAL</p>
+								<p>CANVAS</p>
+							</div>
+						</div>
+					</Link>
+				</div>
 
-				<Link to='/home' onClick={handleLinkClick} className='hidden sm:flex items-center '>
-					<img className='h-auto w-36' src={LogoMediumUpSize} alt='Ethereal Canvas Logo' />
-				</Link>
+				<div className='relative flex items-center w-full'>
+					<span className='absolute inset-y-0 right-51 flex items-center pl-3'>
+						<CiSearch className='h-5 w-5 text-gray-500' />
+					</span>
+					<input
+						type='text'
+						className='w-full pl-10 pr-4 py-1 border text-sm border-gray-300 rounded-md'
+						placeholder='Search...'
+					/>
+				</div>
 
-				<div className='grow px-3 lg:px-10 flex items-center justify-center'>
-					<div className='relative w-full lg:w-3/4'>
-						<span className='absolute inset-y-0 right-51 flex items-center pl-3'>
-							<CiSearch className='h-5 w-5 text-gray-500' />
-						</span>
-						<input
-							type='text'
-							className='w-full pl-10 pr-4 py-1 border text-sm md:text-base border-gray-300 rounded-md'
-							placeholder='Search...'
-						/>
-					</div>
+				<div className='lg:flex items-center lg:gap-4 xl:gap-10 hidden'>
+					{['Home', 'Artists', 'Artworks', 'Marketplace', 'About'].map(link => (
+						<Link
+							key={link}
+							to={`/${link.toLowerCase()}`}
+							className='text-sm font-custom font-extrabold text-slate-700 hover:text-blue-500 dark:hover:text-blue-400'
+							onClick={handleLinkClick}
+						>
+							{link}
+						</Link>
+					))}
 				</div>
 
 				{/* Avatar and Dark Mode */}
 				<div className='shrink-0 flex items-center'>
 					{isLoggedIn && (role === 'artist' || role === 'collector') ? (
-						<div className='hidden lg:flex'>
+						<div className='hidden lg:flex items-center gap-5'>
 							<Dropdown
 								label={fullName}
 								options={options}
@@ -143,52 +165,54 @@ const Navbar = () => {
 								avatar={<Avatar src={avatar} name={name || fullName} alt='User Avatar' />}
 								role={role}
 							/>
+							<button
+								onClick={toggleDarkMode}
+								className='hidden lg:flex text-xl'
+								aria-label='Toggle Dark Mode'
+							>
+								{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
+							</button>
 						</div>
 					) : (
-						<Link
-							to='/login'
-							className='hidden lg:flex px-3 font-custom hover:underline hover:decoration-blue-600'
-						>
-							Login / Register
-						</Link>
+						<div className='flex gap-4'>
+							<Link
+								to='/login'
+								onClick={handleLinkClick}
+								className='hidden lg:block px-3 py-1 rounded-lg text-xs bg-blue-500 text-white 
+							transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 
+							hover:bg-indigo-500 duration-300'
+							>
+								Login / Register
+							</Link>
+
+							<button
+								onClick={toggleDarkMode}
+								className='hidden lg:flex text-xl'
+								aria-label='Toggle Dark Mode'
+							>
+								{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
+							</button>
+						</div>
 					)}
-					<button
-						onClick={toggleDarkMode}
-						className='hidden lg:flex text-2xl pl-3 py-3'
-						aria-label='Toggle Dark Mode'
-					>
-						{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
-					</button>
-					<button className='lg:hidden text-2xl' onClick={() => setIsMenuOpen(!isMenuOpen)}>
+
+					<button className='lg:hidden text-xl' onClick={() => setIsMenuOpen(!isMenuOpen)}>
 						{isMenuOpen ? <CgCloseR /> : <TbMenu2 />}
 					</button>
 				</div>
 			</div>
 
-			{/* LOWER NAV DESKTOP */}
-			<div className='hidden lg:flex lg:justify-evenly container max-w-7xl mx-auto'>
-				{['Home', 'Artists', 'Artworks', 'Marketplace', 'About'].map(link => (
-					<Link
-						key={link}
-						to={`/${link.toLowerCase()}`}
-						className='text-base font-custom font-medium py-3 hover:text-blue-500 dark:hover:text-blue-400'
-						onClick={handleLinkClick}
-					>
-						{link}
-					</Link>
-				))}
-			</div>
-
-			{/* LOWER NAV MOBILE */}
-			<div className={`${isMenuOpen ? 'block' : 'hidden'} lg:hidden `}>
+			{/* DROPDOWN */}
+			<div
+				className={`${isMenuOpen ? 'block' : 'hidden'} lg:hidden absolute bg-gray-100 w-full left-0 right-0`}
+			>
 				{['Home', 'Artists', 'Artworks', 'Marketplace', 'About'].map(link => (
 					<div
 						key={link}
-						className='hover:bg-zinc-200 hover:border-l-4 hover:border-l-orange-400 hover:rounded my-1 text-sm md:text-base'
+						className='hover:bg-zinc-200 hover:border-l-4 hover:border-l-orange-400 hover:rounded hover:ml-1 text-sm'
 					>
 						<Link
 							to={`/${link.toLowerCase()}`}
-							className='block my-1 py-2 pl-3 font-custom font-medium'
+							className='block py-2 pl-3 font-custom font-medium'
 							onClick={handleLinkClick}
 						>
 							{link}
@@ -197,44 +221,298 @@ const Navbar = () => {
 				))}
 
 				{isLoggedIn ? (
-					<div className='border-t-2 grid grid-cols-2 grid-rows-3 my-3 pt-3 font-custom text-sm md:text-base'>
-						<div className='flex items-center'>
+					<div className='border-t grid grid-cols-3 font-custom px-3 py-5'>
+						<div className='flex items-center col-span-2'>
 							<Avatar src={avatar} name={fullName} alt='User Avatar' />
-							<div className='pl-3'>
-								<p className='text-base text-slate-800'>{fullName}</p>
-								<p className='text-xs text-slate-500'>{email}</p>
+							<div className='pl-1'>
+								<p className='text-xs text-slate-800'>{fullName}</p>
+								<p className='text-[10px] text-slate-500'>{email}</p>
 							</div>
 						</div>
 
-						<div className='flex items-center justify-end'>
+						<div className='flex items-center justify-end col-span-1'>
 							<button
-								className='text-blue-600 font-medium pr-2 hover:text-blue-800'
-								onClick={handleLogout}
+								onClick={() => {
+									handleLogout();
+									handleLinkClick();
+								}}
+								className='text-xs px-3 py-1 rounded-md text-white bg-red-600'
 							>
 								Logout
 							</button>
 						</div>
 					</div>
 				) : (
-					<Link
-						to='/login'
-						className='flex font-custom text-base text-center px-3 pt-3 hover:underline hover:decoration-blue-600 hover:rounded'
-						onClick={handleLinkClick}
-					>
-						Login / Register
-					</Link>
+					<div className='border-t flex items-center justify-between px-3 py-5'>
+						<Link
+							to='/login'
+							onClick={handleLinkClick}
+							className='px-3 py-1 rounded-lg text-xs bg-blue-500 text-white 
+							transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 
+							hover:bg-indigo-500 duration-300'
+						>
+							Login / Register
+						</Link>
+						<button
+							onClick={toggleDarkMode}
+							className='flex text-2xl'
+							aria-label='Toggle Dark Mode'
+						>
+							{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
+						</button>
+					</div>
 				)}
-
-				<button
-					onClick={toggleDarkMode}
-					className='flex text-3xl py-3 px-5'
-					aria-label='Toggle Dark Mode'
-				>
-					{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
-				</button>
 			</div>
 		</nav>
 	);
 };
 
 export default Navbar;
+
+// import LogoMobileSize from '../assets/images/EC-logo-mobile-size.svg';
+// import LogoMediumUpSize from '../assets/images/EC-logo-md-up-screen.svg';
+// import newLogo from '../assets/images/ec-newlogo.svg';
+// import smallIcon from '../assets/images/small-icon.png';
+
+// import { TbMoonFilled, TbSunFilled, TbMenu2 } from 'react-icons/tb';
+
+// import { useState, useEffect, useRef } from 'react';
+// import { Link, useNavigate } from 'react-router-dom';
+
+// import { CgCloseR } from 'react-icons/cg';
+// import { CiSearch } from 'react-icons/ci';
+
+// import Dropdown from './Dropdown';
+// import Avatar from './Avatar';
+
+// import useStoredAvatar from '../hooks/useStoredAvatar';
+
+// const Navbar = () => {
+// 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+// 	const [isDarkMode, setIsDarkMode] = useState(false);
+// 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+// 	const [fullName, setFullName] = useState('');
+// 	const [role, setRole] = useState('');
+// 	const [email, setEmail] = useState('');
+// 	const { avatar, name, email: storedEmail } = useStoredAvatar();
+// 	const navigate = useNavigate();
+// 	const menuRef = useRef(null);
+
+// 	const updateLoginState = () => {
+// 		const userToken = localStorage.getItem('accessToken');
+// 		const userFullName = localStorage.getItem('fullName');
+// 		const userRole = localStorage.getItem('role');
+// 		const userEmail = localStorage.getItem('email');
+
+// 		if (userToken && (userRole === 'artist' || userRole === 'collector')) {
+// 			setIsLoggedIn(true);
+// 			setFullName(userFullName || '');
+// 			setRole(userRole || '');
+// 			setEmail(userEmail || '');
+// 		} else {
+// 			setIsLoggedIn(false);
+// 		}
+// 	};
+
+// 	useEffect(() => {
+// 		updateLoginState();
+// 	}, []);
+
+// 	// Do not render the Navbar for admins
+// 	if (role === 'admin') return null;
+
+// 	useEffect(() => {
+// 		const handleStorageChange = () => updateLoginState();
+// 		window.addEventListener('storage', handleStorageChange);
+// 		return () => window.removeEventListener('storage', handleStorageChange);
+// 	}, []);
+
+// 	useEffect(() => {
+// 		console.log('isLoggedIn changed:', isLoggedIn);
+// 	}, [isLoggedIn]);
+
+// 	useEffect(() => {
+// 		updateLoginState();
+
+// 		const handleStorageChange = event => {
+// 			if (
+// 				event.key === 'accessToken' ||
+// 				event.key === 'avatar' ||
+// 				event.key === 'fullName' ||
+// 				event.key === 'email'
+// 			) {
+// 				updateLoginState();
+// 			}
+// 		};
+
+// 		window.addEventListener('storage', handleStorageChange);
+// 		return () => {
+// 			window.removeEventListener('storage', handleStorageChange);
+// 		};
+// 	}, []);
+
+// 	useEffect(() => {
+// 		const handleClickOutside = event => {
+// 			if (menuRef.current && !menuRef.current.contains(event.target)) {
+// 				setIsMenuOpen(false);
+// 			}
+// 		};
+// 		document.addEventListener('mousedown', handleClickOutside);
+// 		return () => {
+// 			document.removeEventListener('mousedown', handleClickOutside);
+// 		};
+// 	}, []);
+
+// 	const toggleDarkMode = () => {
+// 		setIsDarkMode(!isDarkMode);
+// 		document.documentElement.classList.toggle('dark', !isDarkMode);
+// 	};
+
+// 	const handleLogout = () => {
+// 		localStorage.clear();
+// 		setIsLoggedIn(false);
+// 		navigate('/home');
+// 	};
+// 	const handleLinkClick = () => setIsMenuOpen(false);
+
+// 	const options = [{ label: fullName, value: 'dashboard' }];
+
+// 	return (
+// 		<nav
+// 			className='bg-gray-100 font-custom dark:bg-gray-800 text-gray-800 dark:text-white border-b border-gray-300 dark:border-gray-700 drop-shadow'
+// 			ref={menuRef}
+// 		>
+// 			<div className='flex gap-x-3 sm:gap-x-5 sm:px-3 py-2 px-2'>
+// 				<div className='shrink-0'>
+// 					<Link
+// 						to='/home'
+// 						onClick={handleLinkClick}
+// 						className='flex items-center font-extrabold font-ranchers text-xl '
+// 					>
+// 						<div className='flex gap-1'>
+// 							<div className=''>
+// 								<img src={smallIcon} alt='logo' className='h-auto w-6 sm:w-7' />
+// 							</div>
+// 							<div className='hidden leading-[1.1rem] sm:flex flex-col justify-center'>
+// 								<p className='text-cyan-600'>ETHEREAL</p>
+// 								<p>CANVAS</p>
+// 							</div>
+// 						</div>
+// 					</Link>
+// 				</div>
+
+// 				<div className='flex items-center w-full'>
+// 					<span className='absolute inset-y-0 right-51 flex items-center pl-3'>
+// 						<CiSearch className='h-5 w-5 text-gray-500' />
+// 					</span>
+// 					<input
+// 						type='text'
+// 						className='w-full pl-10 pr-4 py-1 border text-sm md:text-base border-gray-300 rounded-md'
+// 						placeholder='Search...'
+// 					/>
+// 				</div>
+
+// 				<div className='lg:flex gap-10 hidden'>
+// 					{['Home', 'Artists', 'Artworks', 'Marketplace', 'About'].map(link => (
+// 						<Link
+// 							key={link}
+// 							to={`/${link.toLowerCase()}`}
+// 							className='text-base font-custom font-extrabold text-slate-700 py-3 hover:text-blue-500 dark:hover:text-blue-400'
+// 							onClick={handleLinkClick}
+// 						>
+// 							{link}
+// 						</Link>
+// 					))}
+// 				</div>
+
+// 				<div className='flex items-center shrink-0'>
+// 					{isLoggedIn && (role === 'artist' || role === 'collector') ? (
+// 						<div className='hidden lg:flex'>
+// 							<Dropdown
+// 								label={fullName}
+// 								options={options}
+// 								logout={handleLogout}
+// 								avatar={<Avatar src={avatar} name={name || fullName} alt='User Avatar' />}
+// 								role={role}
+// 							/>
+// 						</div>
+// 					) : (
+// 						<Link
+// 							to='/login'
+// 							className='hidden lg:flex px-3 py-1 rounded-lg text-xs bg-blue-500 text-white'
+// 						>
+// 							Login / Register
+// 						</Link>
+// 					)}
+// 					<button
+// 						onClick={toggleDarkMode}
+// 						className='hidden lg:flex text-2xl pl-3 py-3'
+// 						aria-label='Toggle Dark Mode'
+// 					>
+// 						{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
+// 					</button>
+// 					<button className='lg:hidden text-2xl' onClick={() => setIsMenuOpen(!isMenuOpen)}>
+// 						{isMenuOpen ? <CgCloseR /> : <TbMenu2 />}
+// 					</button>
+// 				</div>
+
+// 				{/* LOWER NAVBAR */}
+// 				<div className={`${isMenuOpen ? 'block' : 'hidden'} lg:hidden `}>
+// 					{['Home', 'Artists', 'Artworks', 'Marketplace', 'About'].map(link => (
+// 						<div
+// 							key={link}
+// 							className='hover:bg-zinc-200 hover:border-l-4 hover:border-l-orange-400 hover:rounded my-1 text-sm md:text-base'
+// 						>
+// 							<Link
+// 								to={`/${link.toLowerCase()}`}
+// 								className='block my-1 py-2 pl-3 font-custom font-medium'
+// 								onClick={handleLinkClick}
+// 							>
+// 								{link}
+// 							</Link>
+// 						</div>
+// 					))}
+
+// 					{isLoggedIn ? (
+// 						<div className='border-t-2 grid grid-cols-2 grid-rows-3 my-3 pt-3 font-custom text-sm md:text-base'>
+// 							<div className='flex items-center'>
+// 								<Avatar src={avatar} name={fullName} alt='User Avatar' />
+// 								<div className='pl-3'>
+// 									<p className='text-base text-slate-800'>{fullName}</p>
+// 									<p className='text-xs text-slate-500'>{email}</p>
+// 								</div>
+// 							</div>
+
+// 							<div className='flex items-center justify-end'>
+// 								<button
+// 									className='text-blue-600 font-medium pr-2 hover:text-blue-800'
+// 									onClick={handleLogout}
+// 								>
+// 									Logout
+// 								</button>
+// 							</div>
+// 						</div>
+// 					) : (
+// 						<Link
+// 							to='/login'
+// 							className='flex font-custom text-base text-center px-3 pt-3 hover:underline hover:decoration-blue-600 hover:rounded'
+// 							onClick={handleLinkClick}
+// 						>
+// 							Login / Register
+// 						</Link>
+// 					)}
+
+// 					<button
+// 						onClick={toggleDarkMode}
+// 						className='flex text-3xl py-3 px-5'
+// 						aria-label='Toggle Dark Mode'
+// 					>
+// 						{isDarkMode ? <TbSunFilled /> : <TbMoonFilled />}
+// 					</button>
+// 				</div>
+// 			</div>
+// 		</nav>
+// 	);
+// };
+
+// export default Navbar;
