@@ -19,6 +19,7 @@ export const getApprovedArtistsWithRecentArtwork = async (req, res) => {
 					artistId: artist._id,
 					fullName: artist.fullName,
 					email: artist.email,
+					location: artist.location,
 					avatar: artist.avatar,
 					recentArtwork: artist.artworks[0], // Most recent approved artwork
 				};
