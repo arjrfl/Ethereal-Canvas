@@ -8,6 +8,7 @@ import { registerCollector } from '../controller/public/register-collector-contr
 import { refreshToken } from '../controller/public/refresh-token-controller.js';
 
 import { validateArtistEmail } from '../controller/public/register-artist-email-search.js';
+import { getApprovedArtistsWithRecentArtwork } from '../controller/public/get-artists.js';
 
 const router = express.Router();
 
@@ -24,5 +25,8 @@ router.post('/register/collector', registerCollector);
 
 // REFRESH TOKEN
 router.post('/refresh-token', refreshToken);
+
+// RETRIEVE
+router.get('/artists', getApprovedArtistsWithRecentArtwork);
 
 export default router;

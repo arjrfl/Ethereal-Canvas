@@ -30,7 +30,7 @@ export const loginCollector = async (req, res) => {
 				role: collector.role,
 			},
 			process.env.JWT_SECRET,
-			{ expiresIn: '1h' }
+			{ expiresIn: '20m' }
 		);
 
 		const refreshToken = jwt.sign(

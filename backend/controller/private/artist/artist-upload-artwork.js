@@ -1,4 +1,5 @@
 import Artwork from '../../../models/model-artwork.js';
+import Artist from '../../../models/model-artist.js'; // Import Artist model
 
 export const ArtworkUpload = async (req, res) => {
 	try {
@@ -32,15 +33,16 @@ export const ArtworkUpload = async (req, res) => {
 			!description ||
 			!display
 		) {
-			console.log('Missing required fields:', formData);
+			console.log('Missing required fields:', req.body);
 			return res.status(400).json({ success: false, message: 'All form fields are required.' });
 		}
 
-		const userId = req.user.id;
+		const userId = req.user.id; // Assuming you have a middleware to attach the logged-in user
 		if (!userId) {
 			return res.status(401).json({ success: false, message: 'Unauthorized user.' });
 		}
 
+		// Create the new artwork
 		const newArtwork = new Artwork({
 			title,
 			artistName,
@@ -61,7 +63,15 @@ export const ArtworkUpload = async (req, res) => {
 			user: userId,
 		});
 
-		await newArtwork.save();
+		// Save the artwork
+		const savedArtwork = await newArtwork.save();
+
+		// Update the artist's record by adding the artwork ID to their artworks array
+		await Artist.findByIdAndUpdate(
+			userId,
+			{ $push: { artworks: savedArtwork._id } },
+			{ new: true }
+		);
 
 		res.status(201).json({
 			success: true,
