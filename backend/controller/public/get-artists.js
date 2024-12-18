@@ -4,7 +4,7 @@ export const getApprovedArtistsWithRecentArtwork = async (req, res) => {
 	try {
 		// Fetch artists with "approve" status
 		const approvedArtists = await Artist.find({ status: 'approve' })
-			.select('fullName email avatar artworks') // Fetch specific fields
+			.select('fullName email avatar artworks location createdAt') // Fetch specific fields
 			.populate({
 				path: 'artworks',
 				match: { status: 'approve' }, // Only include approved artworks
@@ -19,8 +19,9 @@ export const getApprovedArtistsWithRecentArtwork = async (req, res) => {
 					artistId: artist._id,
 					fullName: artist.fullName,
 					email: artist.email,
-					location: artist.location,
 					avatar: artist.avatar,
+					location: artist.location,
+					join: artist.createdAt,
 					recentArtwork: artist.artworks[0], // Most recent approved artwork
 				};
 			});
