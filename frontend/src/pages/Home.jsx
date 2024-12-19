@@ -5,14 +5,13 @@ import brush from '../assets/images/grid-banner-icons/paint-brush.svg';
 import palette from '../assets/images/grid-banner-icons/pallete.svg';
 import placeholder from '../assets/images/grid-banner-icons/placeholder.svg';
 import sun from '../assets/images/grid-banner-icons/sun.svg';
-import bannerBG from '../assets/images/banner-two.jpg';
+import bannerBG from '../assets/images/banner-three.jpg';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-flip';
 
-import useRandomColor from '../hooks/useRandomColor';
 import useFallBackAvatar from '../hooks/useFallbackAvatar';
 import ImageCarousel from '../components/ImageCarousel';
 
@@ -21,14 +20,6 @@ const Home = () => {
 	const [loading, setLoading] = useState(true);
 	const [randomArtists, setRandomArtists] = useState([]);
 	const fallbackAvatar = useFallBackAvatar();
-
-	const { generateColorArray } = useRandomColor();
-	const randomColorsRef = useRef([]);
-	useEffect(() => {
-		if (randomArtists && randomArtists.length > 0 && randomColorsRef.current.length === 0) {
-			randomColorsRef.current = generateColorArray(randomArtists.length);
-		}
-	}, [randomArtists, generateColorArray]);
 
 	const fetchArtists = async () => {
 		try {
@@ -100,9 +91,9 @@ const Home = () => {
 						{/* Loop through fetched artists to display in Swiper slides */}
 						{artists.map(artist => (
 							<SwiperSlide key={artist.artistId}>
-								<div className=' flex-shrink-0 px-4 md:px-0 grid grid-cols-1 min-[480px]:grid-cols-2 gap-x-0 gap-y-4 min-[480px]:gap-4 sm:grid-cols-4 sm:grid-rows-3'>
+								<div className='flex-shrink-0 px-4 md:px-0 grid grid-cols-1 min-[480px]:grid-cols-2 gap-x-0 gap-y-4 min-[480px]:gap-4 sm:grid-cols-4 sm:grid-rows-3'>
 									{/* AVATAR */}
-									<div className='w-full h-fit aspect-square rounded-2xl drop-shadow-lg col-span-1 sm:col-span-1'>
+									<div className='w-full h-fit aspect-square rounded-2xl drop-shadow-lg col-span-1'>
 										<img
 											src={artist.avatar}
 											alt={artist.fullName}
@@ -112,14 +103,14 @@ const Home = () => {
 
 									{/* RECENT ARTWORK */}
 									<div
-										className='hidden min-[480px]:flex col-span-1 relative rounded-2xl min-[480px]:col-span-2 sm:order-last sm:col-span-2 sm:row-span-2'
+										className='hidden min-[480px]:flex  relative rounded-2xl min-[480px]:col-span-2 sm:order-last sm:col-span-2 sm:row-span-2'
 										style={{
 											backgroundImage: `url(${artist.recentArtwork?.images?.frontView})`,
 											backgroundSize: 'cover',
 											backgroundPosition: 'center',
 										}}
 									>
-										<p className='tracking-wide lg:text-[10px] text-[6px] font-bold bg-[#ffdabc] text-slate-700 px-3 py-[3px] rounded-lg rounded-e-none rounded-tl-none rounded-tr-2xl inline-block absolute right-0'>
+										<p className='tracking-wide lg:text-[10px] text-[6px] font-bold bg-[#ffdabc] text-slate-700 rounded-bl-2xl rounded px-3 py-[3px] absolute right-0'>
 											<span>{getFirstName(artist.fullName)}'S </span> RECENT
 										</p>
 
@@ -137,10 +128,10 @@ const Home = () => {
 									{/* ARTIST DETAILS */}
 									<div className='text-left p-4 bg-[#67afda] flex items-center justify-between rounded-2xl col-span-3'>
 										<div className='text-white'>
-											<p className='text-sm font-semibold sm:text-lg lg:text-xl'>
+											<p className='text-sm min-[480px]:text-base min-[480px]:tracking-wide font-semibold sm:text-[27px] sm:pb-2 sm:tracking-normal md:text-[20px] md:pb-1 lg:text-2xl'>
 												{artist.fullName}
 											</p>
-											<p className='text-[10px] sm:tracking-widest sm:font-semibold sm:text-xs text-gray-200'>
+											<p className='text-[10px] tracking-wide min-[480px]:tracking-wider min-[480px]:font-semibold sm:tracking-widest sm:font-semibold sm:text-xs text-gray-100'>
 												{artist.location}, <span>{new Date(artist.join).getFullYear()}</span>
 											</p>
 										</div>
@@ -187,8 +178,8 @@ const Home = () => {
 				</div>
 
 				{/* IMAGE CAROUSEL */}
-				<div className='hidden md:block h-full col-span-1 rounded-2xl shadow-lg'>
-					<div className='hidden md:block h-full col-span-1 rounded-2xl shadow-lg'>
+				<div className='hidden md:block h-full col-span-1 rounded-2xl'>
+					<div className='hidden md:block h-full col-span-1 rounded-2xl'>
 						<ImageCarousel autoplayDelay={20000} />
 					</div>
 				</div>
@@ -196,19 +187,18 @@ const Home = () => {
 				{/* RANDOM ARTIST */}
 				<div className='hidden xl:flex col-span-1 flex-col justify-between rounded-2xl'>
 					{randomArtists.map((artist, index) => (
-						<div
-							key={artist._id}
-							className='flex gap-2 bg-slate-300 rounded-xl'
-							style={{ backgroundColor: randomColorsRef.current[index] }}
-						>
+						<div key={artist._id} className='flex gap-2 bg-[#67afda] rounded-xl relative'>
+							<span className='absolute -right-1 py-[2px] rounded -top-1 text-[10px] font-bold px-3 bg-[#e75600] text-white rounded-bl-2xl'>
+								Click Artist
+							</span>
 							<img
 								src={artist.avatar || fallbackAvatar}
 								alt={artist.fullName || 'Fallback Avatar'}
-								className='w-[70px] h-[70px] aspect-square object-cover rounded-xl rounded-tr-none rounded-br-none'
+								className='w-[77px] h-[77px] aspect-square object-cover rounded-xl rounded-tr-none rounded-br-none'
 							/>
-							<div className='flex flex-col justify-center text-slate-800 backdrop-blur-md'>
+							<div className='flex flex-col justify-center text-white'>
 								<h3 className='font-semibold'>{artist.fullName}</h3>
-								<p className='text-[10px] sm:tracking-widest sm:font-semibold text-slate-600'>
+								<p className='text-[10px] sm:tracking-widest sm:font-semibold text-slate-200'>
 									{artist.location}, <span>{new Date(artist.createdAt).getFullYear()}</span>
 								</p>
 							</div>
@@ -217,72 +207,66 @@ const Home = () => {
 				</div>
 			</div>
 
-			{/* BANNER */}
+			{/* GRID BANNER */}
 			<div className='px-4 mb-4'>
-				<div className='grid grid-cols-2 grid-rows-2 gap-3'>
-					<div className='py-3 px-3 bg-amber-400 rounded-xl'>
+				<div className='grid grid-cols-2 grid-rows-2 gap-4 text-white sm:grid-cols-4 sm:grid-rows-1'>
+					<div className='md:py-6 md:px-4 sm:py-5 py-3 px-3 bg-red-400 rounded-2xl'>
 						<div className=''>
-							<img src={sun} alt='sun' className='w-7 h-7 mb-2' />
-							<h3 className='tracking-wide font-bold pb-2 text-sm'>
-								Art from Rising Filipino Stars
-							</h3>
+							<img src={sun} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
+							<h3 className='tracking-wide font-bold pb-2 text-sm'>Rising Stars</h3>
 						</div>
-						<p className='tracking-wide text-slate-800 font-semibold text-xs'>
+						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
 							Made by emerging local artists with passion and purpose.
 						</p>
 					</div>
 
-					<div className='py-3 px-3 bg-red-400 rounded-xl'>
+					<div className='md:py-6 md:px-4 sm:py-5 py-3 px-3 bg-stone-400 rounded-2xl'>
 						<div>
-							<img src={brush} alt='sun' className='w-7 h-7 mb-2' />
+							<img src={brush} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
 							<h3 className='tracking-wide font-bold pb-2 text-sm'>Inspired Locally</h3>
 						</div>
-						<p className='tracking-wide text-slate-800 font-semibold text-xs'>
+						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
 							Local stories through every brushstroke.
 						</p>
 					</div>
 
-					<div className='py-3 px-3 bg-blue-400 rounded-xl'>
+					<div className='md:py-6 md:px-4 sm:py-5 py-3 px-3 bg-purple-400 rounded-2xl'>
 						<div>
-							<img src={palette} alt='sun' className='w-7 h-7 mb-2' />
+							<img src={palette} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
 							<h3 className='tracking-wide font-bold pb-2 text-sm'>Art by Local Talent</h3>
 						</div>
-						<p className='tracking-wide text-slate-800 font-semibold text-xs'>
+						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
 							Discover unique works crafted by emerging artists
 						</p>
 					</div>
 
-					<div className='py-3 px-3 bg-purple-400 rounded-xl'>
+					<div className='md:py-6 md:px-4 sm:py-5 py-3 px-3 bg-amber-400 rounded-2xl'>
 						<div>
-							<img src={placeholder} alt='sun' className='w-7 h-7 mb-2' />
+							<img src={placeholder} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
 							<h3 className='tracking-wide font-bold pb-2 text-sm'>Proudly Filipino</h3>
 						</div>
-						<p className='tracking-wide text-slate-800 font-semibold text-xs'>
+						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
 							Support emerging Filipino artists with every piece.
 						</p>
 					</div>
 				</div>
 			</div>
 
-			{/* BANNER 2 */}
+			{/* LONG BANNER 2 */}
 			<div className='px-4 mb-4'>
 				<div
-					className='rounded-2xl min-h-60 flex justify-center items-center px-3'
+					className='rounded-2xl min-h-48 h-full flex items-center shadow-md px-3 min-[480px]:px-4 sm:px-7 md:px-9 lg:min-h-64'
 					style={{
 						backgroundImage: `url(${bannerBG})`,
-						backgroundSize: 'cover', // Ensures the image covers the area
-						backgroundPosition: 'center', // Centers the image in the container
+						backgroundSize: 'cover',
+						backgroundPosition: 'center',
 					}}
 				>
-					<div className='py-6 rounded-2xl backdrop-blur-2xl flex flex-col items-center text-center gap-2 px-2'>
-						<h3 className='font-bold text-slate-800 text-2xl tracking-widest'>
-							Discover emerging artists!
+					<div className='flex flex-col items-start justify-center gap-1 sm:gap-2 lg:gap-3'>
+						<h3 className='font-extrabold text-slate-800 text-lg tracking-wide min-[480px]:text-2xl sm:text-3xl lg:text-5xl'>
+							Discover emerging <br /> artists!
 						</h3>
-						<button
-							className='px-4 py-1 rounded-lg text-xs bg-blue-500 text-white 
-							transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 
-							hover:bg-indigo-500 duration-300'
-						>
+						<button className='min-[480px]:px-6 px-4 py-1 rounded-lg text-xs font-semibold bg-blue-500 tracking-widest text-white transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300'>
 							Artists
 						</button>
 					</div>
