@@ -84,7 +84,7 @@ const Home = () => {
 						spaceBetween={30}
 						centeredSlides={true}
 						loop={true}
-						autoplay={{ delay: 20000, disableOnInteraction: false }}
+						autoplay={{ delay: 4000, disableOnInteraction: false }}
 						modules={[Autoplay]}
 						className='mySwiper rounded-2xl'
 					>
@@ -180,7 +180,7 @@ const Home = () => {
 				{/* IMAGE CAROUSEL */}
 				<div className='hidden md:block h-full col-span-1 rounded-2xl'>
 					<div className='hidden md:block h-full col-span-1 rounded-2xl'>
-						<ImageCarousel autoplayDelay={20000} />
+						<ImageCarousel autoplayDelay={5000} />
 					</div>
 				</div>
 
@@ -207,53 +207,8 @@ const Home = () => {
 				</div>
 			</div>
 
-			{/* GRID BANNER */}
-			<div className='px-4 mb-4'>
-				<div className='grid grid-cols-2 grid-rows-2 gap-4 text-white sm:grid-cols-4 sm:grid-rows-1'>
-					<div className='md:py-6 md:px-4 sm:py-5 py-3 px-3 bg-red-400 rounded-2xl'>
-						<div className=''>
-							<img src={sun} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
-							<h3 className='tracking-wide font-bold pb-2 text-sm'>Rising Stars</h3>
-						</div>
-						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
-							Made by emerging local artists with passion and purpose.
-						</p>
-					</div>
-
-					<div className='md:py-6 md:px-4 sm:py-5 py-3 px-3 bg-stone-400 rounded-2xl'>
-						<div>
-							<img src={brush} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
-							<h3 className='tracking-wide font-bold pb-2 text-sm'>Inspired Locally</h3>
-						</div>
-						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
-							Local stories through every brushstroke.
-						</p>
-					</div>
-
-					<div className='md:py-6 md:px-4 sm:py-5 py-3 px-3 bg-purple-400 rounded-2xl'>
-						<div>
-							<img src={palette} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
-							<h3 className='tracking-wide font-bold pb-2 text-sm'>Art by Local Talent</h3>
-						</div>
-						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
-							Discover unique works crafted by emerging artists
-						</p>
-					</div>
-
-					<div className='md:py-6 md:px-4 sm:py-5 py-3 px-3 bg-amber-400 rounded-2xl'>
-						<div>
-							<img src={placeholder} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
-							<h3 className='tracking-wide font-bold pb-2 text-sm'>Proudly Filipino</h3>
-						</div>
-						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
-							Support emerging Filipino artists with every piece.
-						</p>
-					</div>
-				</div>
-			</div>
-
 			{/* LONG BANNER 2 */}
-			<div className='px-4 mb-4'>
+			<div className='px-4 mb-5'>
 				<div
 					className='rounded-2xl min-h-48 h-full flex items-center shadow-md px-3 min-[480px]:px-4 sm:px-7 md:px-9 lg:min-h-64'
 					style={{
@@ -269,6 +224,51 @@ const Home = () => {
 						<button className='min-[480px]:px-6 px-4 py-1 rounded-lg text-xs font-semibold bg-blue-500 tracking-widest text-white transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300'>
 							Artists
 						</button>
+					</div>
+				</div>
+			</div>
+
+			{/* GRID BANNER */}
+			<div className='px-4'>
+				<div className='grid grid-cols-2 grid-rows-2 gap-4 text-white sm:grid-cols-4 sm:grid-rows-1'>
+					<div className='md:py-6 lg:px-6 md:px-4 sm:py-5 py-3 px-3 bg-red-400 rounded-2xl'>
+						<div className=''>
+							<img src={sun} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
+							<h3 className='tracking-wide font-bold pb-2 text-sm'>Rising Stars</h3>
+						</div>
+						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
+							Made by emerging local artists with passion and purpose.
+						</p>
+					</div>
+
+					<div className='md:py-6 lg:px-6 md:px-4 sm:py-5 py-3 px-3 bg-emerald-400 rounded-2xl'>
+						<div>
+							<img src={brush} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
+							<h3 className='tracking-wide font-bold pb-2 text-sm'>Inspired Locally</h3>
+						</div>
+						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
+							Local stories through every brushstroke.
+						</p>
+					</div>
+
+					<div className='md:py-6 lg:px-6 md:px-4 sm:py-5 py-3 px-3 bg-purple-400 rounded-2xl'>
+						<div>
+							<img src={palette} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
+							<h3 className='tracking-wide font-bold pb-2 text-sm'>Art by Local Talent</h3>
+						</div>
+						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
+							Discover unique works crafted by emerging artists
+						</p>
+					</div>
+
+					<div className='md:py-6 lg:px-6 md:px-4 sm:py-5 py-3 px-3 bg-amber-400 rounded-2xl'>
+						<div>
+							<img src={placeholder} alt='sun' className='w-7 h-7 lg:w-9 lg:h-9 mb-2' />
+							<h3 className='tracking-wide font-bold pb-2 text-sm'>Proudly Filipino</h3>
+						</div>
+						<p className='tracking-wide md:tracking-wider text-slate-200 font-semibold text-xs'>
+							Support emerging Filipino artists with every piece.
+						</p>
 					</div>
 				</div>
 			</div>

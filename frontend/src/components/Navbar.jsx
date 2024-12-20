@@ -1,6 +1,3 @@
-import LogoMobileSize from '../assets/images/EC-logo-mobile-size.svg';
-import LogoMediumUpSize from '../assets/images/EC-logo-md-up-screen.svg';
-import newLogo from '../assets/images/ec-newlogo.svg';
 import smallIcon from '../assets/images/small-icon.png';
 
 import { TbMoonFilled, TbSunFilled, TbMenu2 } from 'react-icons/tb';
@@ -146,7 +143,7 @@ const Navbar = () => {
 						<Link
 							key={link}
 							to={`/${link.toLowerCase()}`}
-							className='text-sm font-custom font-extrabold text-slate-700 hover:text-blue-500 dark:hover:text-blue-400'
+							className='text-sm font-custom font-extrabold dark:text-white text-slate-700 hover:text-blue-500 dark:hover:text-blue-400'
 							onClick={handleLinkClick}
 						>
 							{link}
