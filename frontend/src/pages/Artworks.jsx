@@ -1,7 +1,10 @@
-import { useState } from 'react';
 import artworkBanner from '../assets/images/label-images/bg-artwork.jpg';
 
+import useFetchArtworks from '../hooks/useFetchArtworks';
+
 const Artists = () => {
+	const { artworks, loading, error } = useFetchArtworks('museum');
+
 	return (
 		<div className='font-custom container max-w-7xl mx-auto mt-5 px-4 relative -z-50'>
 			<div>
@@ -18,8 +21,32 @@ const Artists = () => {
 				{/* FILTER */}
 				<div></div>
 
-				{/* ARTISTS */}
-				<div></div>
+				{/* ARTWORKS ITEMS */}
+				<div>
+					<div className='grid grid-cols-2 gap-3'>
+						{artworks.map(artwork => (
+							<div key={artwork._id} className='bg-slate-200 grid grid-cols-2'>
+								<div className='w-full h-fit aspect-square rounded-2xl'>
+									<img
+										src={artwork.images.frontView}
+										alt={artwork.user.fullName}
+										className='w-full h-full object-cover rounded-2xl'
+									/>
+								</div>
+								<div className='grid grid-cols-1 grid-rows-3'>
+									<div className='row-span-2'>
+										<h2>{artwork.title}</h2>
+										<p>{artwork.artistName}</p>
+									</div>
+									<div>
+										<p>artist details</p>
+										<p>{artwork.user.fullName}</p>
+									</div>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
 			</div>
 		</div>
 	);

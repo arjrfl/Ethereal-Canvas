@@ -8,7 +8,11 @@ const ArtworkSchema = new mongoose.Schema(
 		medium: { type: String, required: true },
 		dimension: { type: String, required: true },
 		description: { type: String, required: true },
-		display: { type: String, required: true },
+		display: {
+			type: String,
+			enum: ['marketplace, museum'],
+			required: true,
+		},
 		price: {
 			type: Number,
 			required: function () {
@@ -23,7 +27,11 @@ const ArtworkSchema = new mongoose.Schema(
 			angleTwo: { type: String, required: true },
 			angleThree: { type: String, required: true },
 		},
-		user: { type: mongoose.Schema.Types.ObjectId, ref: 'Artist', required: true },
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Artist',
+			required: true,
+		},
 		status: {
 			type: String,
 			enum: ['pending', 'approve', 'reject', 'disable'],

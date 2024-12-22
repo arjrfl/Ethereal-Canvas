@@ -1,7 +1,12 @@
 import { useState } from 'react';
+
 import marketBanner from '../assets/images/label-images/cover2.jpg';
 
+import useFetchArtworks from '../hooks/useFetchArtworks';
+
 const Artists = () => {
+	const { artworks, loading, error } = useFetchArtworks('marketplace');
+
 	return (
 		<div className='font-custom container max-w-7xl mx-auto mt-5 px-4 relative -z-50'>
 			<div>
@@ -18,8 +23,31 @@ const Artists = () => {
 				{/* FILTER */}
 				<div></div>
 
-				{/* ARTISTS */}
-				<div></div>
+				{/* MARKETPLACE ITEMS */}
+				<div>
+					<div className='grid grid-cols-2 gap-3'>
+						{artworks.map(artwork => (
+							<div key={artwork._id} className='bg-slate-200'>
+								<div className='w-full h-fit aspect-square rounded-2xl'>
+									<img
+										src={artwork.images.frontView}
+										alt={artwork.user.fullName}
+										className='w-full h-full object-cover rounded-2xl'
+									/>
+								</div>
+								<div>
+									<h2>{artwork.title}</h2>
+									<p>{artwork.artistName}</p>
+									<p>{artwork.price}</p>
+								</div>
+								<div>
+									<p>artist details</p>
+									<p>{artwork.user.fullName}</p>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
 			</div>
 		</div>
 	);
