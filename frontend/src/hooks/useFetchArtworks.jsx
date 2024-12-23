@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { axiosInstancePublic } from '../utils/axiosConfig';
 
-const useFetchArtworks = (display = null) => {
+const useFetchArtworks = (display = null, medium = null) => {
 	const [artworks, setArtworks] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -12,11 +12,17 @@ const useFetchArtworks = (display = null) => {
 			setError(null);
 
 			try {
-				// Build the API URL with query parameters if display is provided
-				const url = display ? `/artworks?display=${display}` : '/artworks';
+				const params = {};
+				if (display) {
+					params.display = display;
+				}
+				if (medium) {
+					params.medium = medium; // Add the medium to the query
+				}
 
-				// Use the public Axios instance for fetching data
-				const response = await axiosInstancePublic.get(url);
+				const url = '/artworks';
+				const response = await axiosInstancePublic.get(url, { params });
+
 				setArtworks(response.data.data);
 			} catch (err) {
 				setError(err.response?.data?.message || 'Failed to fetch artworks');
@@ -26,7 +32,7 @@ const useFetchArtworks = (display = null) => {
 		};
 
 		fetchArtworks();
-	}, [display]);
+	}, [display, medium]); // Trigger re-fetch when display or medium changes
 
 	return { artworks, loading, error };
 };

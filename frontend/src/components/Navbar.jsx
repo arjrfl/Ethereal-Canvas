@@ -13,7 +13,7 @@ import Avatar from './Avatar';
 
 import useStoredAvatar from '../hooks/useStoredAvatar';
 
-const Navbar = () => {
+const Navbar = ({ isDropdownOpen, setIsDropdownOpen }) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isDarkMode, setIsDarkMode] = useState(false);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -81,6 +81,7 @@ const Navbar = () => {
 		const handleClickOutside = event => {
 			if (menuRef.current && !menuRef.current.contains(event.target)) {
 				setIsMenuOpen(false);
+				setIsDropdownOpen(false); // Close dropdown when clicking outside
 			}
 		};
 		document.addEventListener('mousedown', handleClickOutside);
@@ -99,7 +100,10 @@ const Navbar = () => {
 		setIsLoggedIn(false);
 		navigate('/home');
 	};
-	const handleLinkClick = () => setIsMenuOpen(false);
+	const handleLinkClick = () => {
+		setIsMenuOpen(false);
+		setIsDropdownOpen(false); // Ensure dropdown is closed on navigation
+	};
 
 	const options = [{ label: fullName, value: 'dashboard' }];
 
@@ -192,7 +196,13 @@ const Navbar = () => {
 						</div>
 					)}
 
-					<button className='lg:hidden text-xl' onClick={() => setIsMenuOpen(!isMenuOpen)}>
+					<button
+						className='lg:hidden text-xl'
+						onClick={() => {
+							setIsMenuOpen(!isMenuOpen);
+							setIsDropdownOpen(!isDropdownOpen); // Sync dropdown state
+						}}
+					>
 						{isMenuOpen ? <CgCloseR /> : <TbMenu2 />}
 					</button>
 				</div>

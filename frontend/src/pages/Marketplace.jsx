@@ -1,14 +1,18 @@
 import { useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 
 import marketBanner from '../assets/images/label-images/cover2.jpg';
 
 import useFetchArtworks from '../hooks/useFetchArtworks';
 
-const Artists = () => {
+const Marketplace = () => {
 	const { artworks, loading, error } = useFetchArtworks('marketplace');
+	const { isDropdownOpen } = useOutletContext();
 
 	return (
-		<div className='font-custom container max-w-7xl mx-auto mt-5 px-4 relative -z-50'>
+		<div
+			className={`font-custom container max-w-7xl mx-auto mt-5 px-4 relative -z-50 ${isDropdownOpen ? '-z-50' : ''}`}
+		>
 			<div>
 				{/* LABEL */}
 				<div
@@ -53,4 +57,4 @@ const Artists = () => {
 	);
 };
 
-export default Artists;
+export default Marketplace;

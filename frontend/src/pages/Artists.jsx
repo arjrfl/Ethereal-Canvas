@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
+
 import artistBanner from '../assets/images/label-images/bg-artist.jpg';
 
 const Artists = () => {
+	const { isDropdownOpen } = useOutletContext();
+
 	return (
-		<div className='font-custom container max-w-7xl mx-auto mt-5 px-4 relative -z-50'>
+		<div
+			className={`font-custom container max-w-7xl mx-auto mt-5 px-4 relative -z-50 ${isDropdownOpen ? '-z-50' : ''}`}
+		>
 			<div>
 				{/* LABEL */}
 				<div

@@ -191,14 +191,28 @@ const DashboardArtistUploadArtwork = () => {
 							<label htmlFor='medium' className='text-gray-500 text-xs'>
 								Medium used
 							</label>
-							<input
-								type='text'
-								id='medium'
+							<select
 								name='medium'
+								id='medium'
 								value={formData.medium}
 								onChange={handleInputChange}
 								className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
-							/>
+							>
+								<option value='' disabled>
+									Choose medium
+								</option>
+								<option value='Acrylic'>Acrylic</option>
+								<option value='Chalk'>Chalk</option>
+								<option value='Charcoal'>Charcoal</option>
+								<option value='Colored Pencils'>Colored Pencils</option>
+								<option value='Graphite Pencils'>Graphite Pencils</option>
+								<option value='Oil Paint'>Oil Paint</option>
+								<option value='Oil Pastels'>Oil Pastels</option>
+								<option value='Pen and Ink'>Pen and Ink</option>
+								<option value='Soft Pastels'>Soft Pastels</option>
+								<option value='Tempera'>Tempera</option>
+								<option value='Watercolor'>Watercolor</option>
+							</select>
 						</div>
 
 						<div className='grid grid-cols-1 gap-y-2 sm:content-start'>

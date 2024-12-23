@@ -10,7 +10,7 @@ const ArtworkSchema = new mongoose.Schema(
 		description: { type: String, required: true },
 		display: {
 			type: String,
-			enum: ['marketplace, museum'],
+			enum: ['marketplace', 'museum'],
 			required: true,
 		},
 		price: {

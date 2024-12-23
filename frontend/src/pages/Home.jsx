@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 
 import brush from '../assets/images/grid-banner-icons/paint-brush.svg';
@@ -16,6 +17,7 @@ import useFallBackAvatar from '../hooks/useFallbackAvatar';
 import ImageCarousel from '../components/ImageCarousel';
 
 const Home = () => {
+	const { isDropdownOpen } = useOutletContext();
 	const [artists, setArtists] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [randomArtists, setRandomArtists] = useState([]);
@@ -75,7 +77,9 @@ const Home = () => {
 	if (loading) return <p className='text-center text-xl font-semibold'>Loading...</p>;
 
 	return (
-		<div className='font-custom container max-w-7xl mx-auto mt-5 relative -z-50'>
+		<div
+			className={`font-custom container max-w-7xl mx-auto mt-5 relative ${isDropdownOpen ? '-z-50' : ''}`}
+		>
 			{/* HERO SECTION */}
 			<div className='md:grid md:grid-cols-3 gap-4 md:px-4 xl:grid-cols-4 mb-4'>
 				{/* ARTIST CAROUSEL */}
