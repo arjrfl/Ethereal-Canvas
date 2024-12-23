@@ -2,6 +2,7 @@ import { useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
 
 import artworkBanner from '../assets/images/label-images/bg-artwork.jpg';
+
 import useFetchArtworks from '../hooks/useFetchArtworks';
 
 const Artworks = () => {
@@ -32,7 +33,7 @@ const Artworks = () => {
 				{/* FILTER BTNS */}
 				<div className='mb-10 grid grid-cols-3 text-sm'>
 					<div className='col-span-1'>
-						<h3>Mediums:</h3>
+						<h3 className='font-semibold text-slate-700 tracking-widest'>Mediums:</h3>
 					</div>
 					<ul className='flex flex-wrap col-span-2 gap-x-3 gap-y-2 text-xs font-medium text-gray-800'>
 						{[
@@ -55,7 +56,7 @@ const Artworks = () => {
 										handleFilterChange(medium);
 										console.log('clicked');
 									}}
-									className={`px-4 py-1 border rounded-lg ${selectedMedium === medium ? 'bg-blue-300' : 'bg-white'}`}
+									className={`px-4 py-1 border rounded-lg text-white font-medium tracking-wider ${selectedMedium === medium ? 'bg-[#67afda]' : 'bg-[#e75600]'}`}
 								>
 									{medium}
 								</button>
@@ -66,7 +67,7 @@ const Artworks = () => {
 
 				{/* ARTWORKS ITEMS */}
 				<div>
-					<div className='grid grid-cols-2 gap-x-10 gap-y-12'>
+					<div className='grid grid-cols-2 gap-10'>
 						{loading ? (
 							<p>Loading...</p>
 						) : error ? (
@@ -75,18 +76,21 @@ const Artworks = () => {
 							<p>No artworks found with the selected medium.</p>
 						) : (
 							artworks.map(artwork => (
-								<div key={artwork._id} className='grid grid-cols-2 gap-4'>
+								<div
+									key={artwork._id}
+									className='grid grid-cols-2 gap-4 bg-white rounded-2xl drop-shadow-md'
+								>
 									<div className='w-full h-fit aspect-square rounded-2xl'>
 										<img
 											src={artwork.images.frontView}
 											alt={artwork.user.fullName}
-											className='w-full h-full object-cover rounded-2xl'
+											className='w-full h-full object-cover rounded-2xl rounded-tr-none rounded-br-none	'
 										/>
 									</div>
 
 									<div className='grid grid-cols-1 grid-rows-2'>
 										{/* ARTWORK DETAILS */}
-										<div>
+										<div className='pt-2 pr-2'>
 											<h2 className='text-xl font-bold tracking-wide text-gray-700'>
 												{artwork.title}
 											</h2>
@@ -94,16 +98,16 @@ const Artworks = () => {
 												<span className='font-semibold text-gray-400'>{artwork.medium}</span>,{' '}
 												<span className='font-semibold tracking-widest'>{artwork.yearCreated}</span>
 											</p>
-											<p className='text-gray-700 font-medium tracking-wide'>
+											<p className='text-gray-700 text-sm font-medium tracking-wide'>
 												{artwork.user.fullName}
 											</p>
 										</div>
 
 										{/* IMAGES */}
-										<div className='flex flex-col gap-1'>
-											<h3 className='mt-auto text-xs'>Images:</h3>
-											<div className='grid grid-cols-3 grid-rows-1 gap-2'>
-												<div className='w-full h-fit aspect-square'>
+										<div className='flex flex-col gap-1 pb-3 pr-3'>
+											<h3 className='mt-auto text-xs font-medium text-slate-600'>Images:</h3>
+											<div className='grid grid-cols-3 grid-rows-1 gap-3'>
+												<div className='w-full h-fit aspect-square drop-shadow-sm'>
 													<img
 														src={artwork.images.angleOne}
 														alt={artwork.user.fullName}
@@ -111,7 +115,7 @@ const Artworks = () => {
 													/>
 												</div>
 
-												<div className='w-full h-fit aspect-square'>
+												<div className='w-full h-fit aspect-square drop-shadow-sm'>
 													<img
 														src={artwork.images.angleTwo}
 														alt={artwork.user.fullName}
@@ -119,7 +123,7 @@ const Artworks = () => {
 													/>
 												</div>
 
-												<div className='w-full h-fit aspect-square'>
+												<div className='w-full h-fit aspect-square drop-shadow-sm'>
 													<img
 														src={artwork.images.angleThree}
 														alt={artwork.user.fullName}
