@@ -15,6 +15,7 @@ import {
 } from '../controller/public/get-artists.js';
 
 import { getArtworks } from '../controller/public/get-artworks.js';
+import { getArtworkById } from '../controller/public/get-artwork-by-id.js';
 
 const router = express.Router();
 
@@ -38,5 +39,6 @@ router.get('/approve-artists', getApproveArtist);
 
 // ARTWORK SECTION
 router.get('/artworks', getArtworks);
+router.get('/artwork/:id', getArtworkById);
 
 export default router;

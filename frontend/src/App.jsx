@@ -33,6 +33,8 @@ import DashboardAdminTransactionList from './components/DashboardAdminTransactio
 import NonAdminLayout from './components/NonAdminLayout';
 import AdminLayout from './components/AdminLayout';
 
+import ArtworkDetails from './components/ArtworkDetails';
+
 const App = () => {
 	return (
 		<Router>
@@ -44,13 +46,12 @@ const App = () => {
 					<Route path='/artists' element={<Artists />} />
 					<Route path='/artworks' element={<Artworks />} />
 					<Route path='/marketplace' element={<Marketplace />} />
+					<Route path='/artwork/:id' element={<ArtworkDetails />} />
 					<Route path='/about' element={<About />} />
 					<Route path='/login' element={<Login />} />
 					<Route path='/register/artist' element={<RegisterArtist />} />
 					<Route path='/register/collector' element={<RegisterCollector />} />
-
 					<Route path='/unauthorized' element={<Unauthorized />} />
-
 					{/* PRIVATE ROUTES */}
 					<Route
 						path='/collector/dashboard'
@@ -60,7 +61,6 @@ const App = () => {
 							</ProtectedRoute>
 						}
 					/>
-
 					<Route
 						path='/artist/dashboard'
 						element={
