@@ -50,7 +50,7 @@ const ArtworkDetails = () => {
 				Back
 			</button>
 
-			<div className='grid grid-cols-3 gap-4'>
+			<div className='grid grid-cols-3 gap-4 gap-y-7'>
 				{/* IMAGES GRID 1 */}
 				<div className='col-span-2'>
 					{artwork.images && Object.keys(artwork.images).length > 0 ? (
@@ -71,7 +71,7 @@ const ArtworkDetails = () => {
 							>
 								{Object.keys(artwork.images).map((key, index) => (
 									<SwiperSlide key={index}>
-										<div className='flex items-center justify-center h-[500px] bg-white'>
+										<div className='flex items-center justify-center h-[500px] bg-white p-3'>
 											<img
 												src={artwork.images[key]}
 												alt={`${artwork.title} - ${key}`}
@@ -146,48 +146,132 @@ const ArtworkDetails = () => {
 								Purchase
 							</button>
 
-							<button className='text-lg font-semibold py-2 rounded-xl border'>
-								Add favorites
+							<button className='bg-gray-100 text-lg font-semibold py-2 rounded-xl'>
+								Add favorites 🩵
 							</button>
 						</div>
 					</div>
 				</div>
 
 				{/* FULL DETAILS */}
-				<div className='bg-white col-span-full rounded-2xl'>
-					<h3>Full details</h3>
-					<div className='grid grid-cols-3'>
+				<div className='col-span-full'>
+					<h1 className='text-lg font-semibold pb-1 tracking-widest text-slate-800'>
+						Full details 📃
+					</h1>
+					<div className='grid grid-cols-3 bg-white rounded-2xl'>
 						{/* ARTWORK DETAILS */}
-						<div className='bg-green-100 col-span-2'>
-							<ul>
-								<li>Title: </li>
-								<li>Artist: </li>
-								<li>Year created: </li>
-								<li>Medium: </li>
-								<li>Dimension: </li>
-								<li>Description: </li>
-								<li>Price: </li>
+						<div className='col-span-2 p-3 py-7'>
+							<ul className='space-y-3 text-slate-800'>
+								<li className='grid grid-cols-4'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Title:
+									</span>
+									<span className='col-span-3 font-medium'>{artwork.title || 'Untitled'}</span>
+								</li>
+
+								<li className='grid grid-cols-4'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Artist:
+									</span>
+									<span className='col-span-3 font-medium'>
+										{artwork.user?.fullName || 'Unknown'}
+									</span>
+								</li>
+
+								<li className='grid grid-cols-4'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Year created:
+									</span>
+									<span className='col-span-3 font-medium'>{artwork.yearCreated || 'Unknown'}</span>
+								</li>
+
+								<li className='grid grid-cols-4'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Medium:
+									</span>
+									<span className='col-span-3 font-medium'>{artwork.medium || 'Unknown'}</span>
+								</li>
+
+								<li className='grid grid-cols-4'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Dimension:
+									</span>
+									<span className='col-span-3 font-medium'>{artwork.dimension || 'Unknown'}</span>
+								</li>
+
+								<li className='grid grid-cols-4'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Description:
+									</span>
+									<span className='col-span-3 font-medium text-pretty leading-relaxed'>
+										{artwork.description || 'Unknown'}
+									</span>
+								</li>
+
+								<li className='grid grid-cols-4'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Price:
+									</span>
+									<span className='col-span-3 font-medium'>{formatPrice(artwork.price)}</span>
+								</li>
 							</ul>
 						</div>
 
 						{/* ARTIST DETAILS */}
-						<div className='bg-blue-100 col-span-1'>
-							<h2>Behind the canvas</h2>
-							<div className='flex flex-col items-center border'>
-								<div>
+						<div className='col-span-1 p-5 py-7 border-l-2 border-gray-100'>
+							<h2 className='tracking-wider text-xs font-bold text-slate-700'>
+								Behind the canvas ⭐
+							</h2>
+
+							<div className='flex flex-col items-center mb-3 mt-4'>
+								<div className=''>
 									<img
 										src={artwork.user?.avatar}
 										alt={artwork.user?.fullName}
-										className='h-10 w-10 aspect-square object-cover rounded-md'
+										className='h-20 w-20 aspect-square object-cover rounded-md'
 									/>
 								</div>
 
-								<div>
-									<p className=''>{artwork.user?.fullName || 'Unknown'}</p>
-								</div>
+								<p className='text-lg font-semibold text-slate-900'>
+									{artwork.user?.fullName || 'Unknown'}
+								</p>
 							</div>
 
-							<div></div>
+							{/* ARTIST DETAILS */}
+							<ul className='space-y-2 text-slate-800'>
+								<li className='grid grid-cols-3'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Name:
+									</span>
+									<span className='col-span-2 font-medium truncate'>{artwork.user?.fullName}</span>
+								</li>
+
+								<li className='grid grid-cols-3'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Email:
+									</span>
+									<span className='col-span-2 font-medium truncate'>{artwork.user?.email}</span>
+								</li>
+
+								<li className='grid grid-cols-3'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Joining date:
+									</span>
+									<span className='col-span-2 font-medium'>
+										{new Date(artwork.createdAt).getFullYear()}
+									</span>
+								</li>
+
+								<li className='grid grid-cols-3'>
+									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+										Location:
+									</span>
+									<span className='col-span-2 font-medium truncate'>{artwork.user?.location}</span>
+								</li>
+								<li className='tracking-widest'>
+									... <span className='underline tracking-wide'>View artist profile</span>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
