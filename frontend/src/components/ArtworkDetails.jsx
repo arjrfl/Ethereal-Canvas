@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { axiosInstancePublic } from '../utils/axiosConfig';
+import { axiosInstancePublic, axiosInstancePrivate } from '../utils/axiosConfig';
 import { formatPrice } from '../utils/formatPrice';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -36,9 +36,56 @@ const ArtworkDetails = () => {
 		fetchArtworkDetails();
 	}, [id]);
 
+	const handleCheckout = async () => {
+		const role = localStorage.getItem('role');
+		if (role !== 'collector') {
+			alert('You need to log in as a collector to purchase this artwork.');
+			return;
+		}
+
+		try {
+			const token = localStorage.getItem('accessToken');
+
+			if (!token) {
+				alert('You must be logged in to perform this action.');
+				return;
+			}
+
+			const response = await axiosInstancePrivate.post(
+				'/artwork-checkout',
+				{
+					amount: artwork.price,
+					description: `Purchase of ${artwork.title}`,
+					remarks: `Artwork ID: ${artwork._id}`,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+
+			if (response.data.checkoutUrl) {
+				window.location.href = response.data.checkoutUrl;
+			}
+		} catch (error) {
+			console.error('Error during checkout:', error.response?.data || error.message);
+			alert('Failed to initiate checkout. Please try again.');
+		}
+	};
+
+	const handleAddToFavorites = () => {
+		const role = localStorage.getItem('role');
+		if (role !== 'collector') {
+			alert('You need to log in as a collector to add this artwork to your favorites.');
+			return;
+		}
+		// Add logic for adding to favorites here
+		console.log('Added to favorites.');
+	};
+
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p className='text-red-500'>{error}</p>;
-
 	if (!artwork) return <p>Artwork not found</p>;
 
 	return (
@@ -141,12 +188,18 @@ const ArtworkDetails = () => {
 							<p className='text-2xl font-semibold'>{formatPrice(artwork.price)}</p>
 						</div>
 
-						<div className='flex flex-col gap-2'>
-							<button className='bg-blue-600 text-lg font-semibold text-white py-2 rounded-xl'>
-								Purchase
+						<div className='flex flex-col gap-3'>
+							<button
+								onClick={handleCheckout}
+								className='bg-blue-600 text-lg font-semibold text-white py-2 rounded-xl'
+							>
+								Checkout
 							</button>
 
-							<button className='bg-gray-100 text-lg font-semibold py-2 rounded-xl'>
+							<button
+								onClick={handleAddToFavorites}
+								className='bg-gray-100 text-lg font-semibold py-2 rounded-xl'
+							>
 								Add favorites 🩵
 							</button>
 						</div>

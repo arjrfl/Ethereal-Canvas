@@ -25,6 +25,7 @@ import { ArtistUpdateAvatar } from '../controller/private/artist/artist-dashboar
 import { ArtistRemoveAvatar } from '../controller/private/artist/artist-dashboard-remove-avatar.js';
 import { ArtworkUpload } from '../controller/private/artist/artist-upload-artwork.js';
 import { RetrieveArtworks } from '../controller/private/artist/artist-dashboard-retrieve-artworks.js';
+import { createCheckoutLink } from '../controller/private/collector/collector-checkout-link.js';
 
 const router = express.Router();
 
@@ -56,4 +57,8 @@ router.put('/artist/dashboard-update-avatar', authorizeRoles('artist'), ArtistUp
 router.put('/artist/dashboard-remove-avatar', authorizeRoles('artist'), ArtistRemoveAvatar);
 router.post('/artist/dashboard-upload-artwork', authorizeRoles('artist'), ArtworkUpload);
 router.get('/artist/dashboard-retrieve-artworks', authorizeRoles('artist'), RetrieveArtworks);
+
+// COLLECTOR
+router.post('/artwork-checkout', authorizeRoles('collector'), createCheckoutLink);
+
 export default router;
