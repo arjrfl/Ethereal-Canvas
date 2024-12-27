@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import marketBanner from '../assets/images/label-images/cover2.jpg';
 import useFetchArtworks from '../hooks/useFetchArtworks';
 
+import { formatPrice } from '../utils/formatPrice';
+
 const Marketplace = () => {
 	const { isDropdownOpen } = useOutletContext();
 	const [selectedMedium, setSelectedMedium] = useState(null);
@@ -93,7 +95,7 @@ const Marketplace = () => {
 										<span className='font-semibold tracking-widest'>{artwork.yearCreated}</span>
 									</p>
 									<p className='text-gray-700 text-sm font-medium'>{artwork.user.fullName}</p>
-									<p>&#x20B1; {artwork.price}</p>
+									<p>{formatPrice(artwork.price)}</p>
 								</div>
 							</div>
 							<span className='absolute px-3 py-[3px] text-[10px] font-semibold bg-red-600 text-white -top-2 -right-2 rounded'>

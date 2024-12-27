@@ -5,7 +5,10 @@ export const getArtworkById = async (req, res) => {
 		const { id } = req.params;
 
 		// Fetch the artwork by ID and populate the 'user' field
-		const artwork = await Artwork.findById(id).populate('user', 'fullName email');
+		const artwork = await Artwork.findById(id).populate(
+			'user',
+			'fullName email avatar location createdAt'
+		);
 
 		// Handle artwork not found
 		if (!artwork) {
