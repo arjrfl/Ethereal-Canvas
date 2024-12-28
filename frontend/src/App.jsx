@@ -33,7 +33,8 @@ import DashboardAdminTransactionList from './components/DashboardAdminTransactio
 import NonAdminLayout from './components/NonAdminLayout';
 import AdminLayout from './components/AdminLayout';
 
-import ArtworkDetails from './components/ArtworkDetails';
+import ArtworkDetailsMarket from './components/ArtworkDetailsMarket';
+import ArtworkDetailsMuseum from './components/ArtworkDetailsMuseum';
 
 const App = () => {
 	return (
@@ -46,7 +47,8 @@ const App = () => {
 					<Route path='/artists' element={<Artists />} />
 					<Route path='/artworks' element={<Artworks />} />
 					<Route path='/marketplace' element={<Marketplace />} />
-					<Route path='/artwork/:id' element={<ArtworkDetails />} />
+					<Route path='/artwork-market/:id' element={<ArtworkDetailsMarket />} />
+					<Route path='/artwork-museum/:id' element={<ArtworkDetailsMuseum />} />
 					<Route path='/about' element={<About />} />
 					<Route path='/login' element={<Login />} />
 					<Route path='/register/artist' element={<RegisterArtist />} />

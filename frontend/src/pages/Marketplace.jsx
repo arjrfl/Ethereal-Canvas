@@ -76,9 +76,9 @@ const Marketplace = () => {
 				) : (
 					artworks.map(artwork => (
 						<Link
-							to={`/artwork/${artwork._id}`}
+							to={`/artwork-market/${artwork._id}`}
 							key={artwork._id}
-							className='grid grid-cols-2 gap-4 bg-white rounded-2xl drop-shadow-md'
+							className='grid grid-cols-2 grid-rows-1 bg-white rounded-xl drop-shadow-md'
 						>
 							<div className='w-full h-fit aspect-square rounded-2xl'>
 								<img
@@ -87,18 +87,51 @@ const Marketplace = () => {
 									className='w-full h-full object-cover rounded-2xl rounded-tr-none rounded-br-none'
 								/>
 							</div>
-							<div className='grid grid-cols-1 grid-rows-2'>
-								<div className='pt-2 pr-2'>
-									<h2 className='text-xl font-bold tracking-wide text-gray-700'>{artwork.title}</h2>
-									<p className='text-gray-400 text-sm'>
-										<span className='font-semibold'>{artwork.medium}</span>,{' '}
-										<span className='font-semibold tracking-widest'>{artwork.yearCreated}</span>
+
+							<div className='flex flex-col justify-between p-5'>
+								<div className='space-y-1'>
+									<p className='text-xl text-slate-800 font-bold tracking-wider truncate xl:text-2xl'>
+										{artwork.title}
 									</p>
-									<p className='text-gray-700 text-sm font-medium'>{artwork.user.fullName}</p>
-									<p>{formatPrice(artwork.price)}</p>
+									<p className='text-base text-slate-600 font-medium'>
+										<span className=''>{artwork.medium}</span>,{' '}
+										<span className='tracking-widest italic'>{artwork.yearCreated}</span>
+									</p>
+									<p className=''>{artwork.user.fullName}</p>
+									<p className='text-lg font-medium text-slate-800 xl:text-xl'>
+										{formatPrice(artwork.price)}
+									</p>
+								</div>
+
+								<div className=''>
+									<div className='flex items-center gap-x-2'>
+										<img
+											src={artwork.user.avatar}
+											alt={artwork.user.fullName}
+											className='h-14 w-14 object-cover aspect-square rounded-md'
+										/>
+										<div className='truncate'>
+											<p className='truncate font-medium text-slate-800'>{artwork.user.fullName}</p>
+											<p className='truncate text-xs text-slate-600 font-semibold'>
+												{artwork.user.location}
+											</p>
+										</div>
+									</div>
+								</div>
+
+								<div className='flex'>
+									<button className='bg-blue-600 text-white flex-1 text-base py-2 rounded-lg font-semibold tracking-widest hover:bg-blue-500'>
+										View Artwork
+									</button>
 								</div>
 							</div>
-							<span className='absolute px-3 py-[3px] text-[10px] font-semibold bg-red-600 text-white -top-2 -right-2 rounded'>
+
+							<span
+								style={{
+									clipPath: 'polygon(100% 0, 100% 60%, 50% 100%, 0 60%, 0 0)',
+								}}
+								className='absolute px-2 pb-[8px] pt-[1px] text-[8px] xl:text-[10px] xl:pt-[2px] font-medium bg-red-600 text-white top-0 right-5'
+							>
 								FOR SALE
 							</span>
 						</Link>

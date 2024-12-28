@@ -11,7 +11,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
 import 'swiper/css/thumbs';
 
-const ArtworkDetails = () => {
+const ArtworkDetailsMarket = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [artwork, setArtwork] = useState(null);
@@ -133,7 +133,7 @@ const ArtworkDetails = () => {
 								onSwiper={setThumbsSwiper}
 								loop
 								spaceBetween={10}
-								slidesPerView={3}
+								slidesPerView={4}
 								freeMode
 								watchSlidesProgress
 								modules={[FreeMode, Navigation, Thumbs]}
@@ -335,14 +335,4 @@ const ArtworkDetails = () => {
 	);
 };
 
-export default ArtworkDetails;
-
-{
-	/* <p className=''>{artwork.user?.email || 'Unknown'}</p> */
-}
-{
-	/* <p className=''>
-	<span>{artwork?.user.location || 'Unknown'}</span>,{' '}
-	<span>{new Date(artwork.user?.createdAt).getFullYear() || 'Unknown'}</span>
-</p> */
-}
+export default ArtworkDetailsMarket;

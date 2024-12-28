@@ -1,8 +1,8 @@
 import { useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import artworkBanner from '../assets/images/label-images/bg-artwork.jpg';
-
 import useFetchArtworks from '../hooks/useFetchArtworks';
 
 const Artworks = () => {
@@ -76,42 +76,40 @@ const Artworks = () => {
 							<p>No artworks found with the selected medium.</p>
 						) : (
 							artworks.map(artwork => (
-								<div
+								<Link
+									to={`/artwork-museum/${artwork._id}`}
 									key={artwork._id}
-									className='grid grid-cols-2 gap-4 bg-white rounded-2xl drop-shadow-md'
+									className='grid grid-cols-2 grid-rows-1 bg-white rounded-xl drop-shadow-md'
 								>
 									<div className='w-full h-fit aspect-square rounded-2xl'>
 										<img
 											src={artwork.images.frontView}
 											alt={artwork.user.fullName}
-											className='w-full h-full object-cover rounded-2xl rounded-tr-none rounded-br-none	'
+											className='w-full h-full object-cover rounded-2xl rounded-tr-none rounded-br-none'
 										/>
 									</div>
 
-									<div className='grid grid-cols-1 grid-rows-2'>
-										{/* ARTWORK DETAILS */}
-										<div className='pt-2 pr-2'>
-											<h2 className='text-xl font-bold tracking-wide text-gray-700'>
+									<div className='flex flex-col justify-between p-5'>
+										<div className='space-y-1'>
+											<p className='text-xl text-slate-800 font-bold tracking-wider truncate xl:text-2xl'>
 												{artwork.title}
-											</h2>
-											<p className='text-gray-400 text-sm'>
-												<span className='font-semibold text-gray-400'>{artwork.medium}</span>,{' '}
-												<span className='font-semibold tracking-widest'>{artwork.yearCreated}</span>
 											</p>
-											<p className='text-gray-700 text-sm font-medium tracking-wide'>
-												{artwork.user.fullName}
+											<p className='text-base text-slate-600 font-medium'>
+												<span className=''>{artwork.medium}</span>,{' '}
+												<span className='tracking-widest italic'>{artwork.yearCreated}</span>
 											</p>
+											<p className=''>{artwork.user.fullName}</p>
 										</div>
 
 										{/* IMAGES */}
-										<div className='flex flex-col gap-1 pb-3 pr-3'>
+										<div className='flex flex-col gap-1'>
 											<h3 className='mt-auto text-xs font-medium text-slate-600'>Images:</h3>
 											<div className='grid grid-cols-3 grid-rows-1 gap-3'>
 												<div className='w-full h-fit aspect-square drop-shadow-sm'>
 													<img
 														src={artwork.images.angleOne}
 														alt={artwork.user.fullName}
-														className='w-full h-full object-cover rounded-2xl'
+														className='w-full h-full object-cover rounded-xl'
 													/>
 												</div>
 
@@ -119,7 +117,7 @@ const Artworks = () => {
 													<img
 														src={artwork.images.angleTwo}
 														alt={artwork.user.fullName}
-														className='w-full h-full object-cover rounded-2xl'
+														className='w-full h-full object-cover rounded-xl'
 													/>
 												</div>
 
@@ -127,13 +125,19 @@ const Artworks = () => {
 													<img
 														src={artwork.images.angleThree}
 														alt={artwork.user.fullName}
-														className='w-full h-full object-cover rounded-2xl'
+														className='w-full h-full object-cover rounded-xl'
 													/>
 												</div>
 											</div>
 										</div>
+
+										<div className='flex'>
+											<button className='bg-blue-600 text-white flex-1 text-base py-2 rounded-lg font-semibold tracking-widest hover:bg-blue-500'>
+												View Artwork
+											</button>
+										</div>
 									</div>
-								</div>
+								</Link>
 							))
 						)}
 					</div>

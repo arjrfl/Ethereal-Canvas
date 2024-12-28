@@ -12,7 +12,7 @@ export const getArtworks = async (req, res) => {
 			query.medium = medium;
 		}
 
-		const artworks = await Artwork.find(query).populate('user', 'fullName avatar email'); // Populate user fields (fullName, avatar, email)
+		const artworks = await Artwork.find(query).populate('user', 'fullName avatar email location'); // Populate user fields (fullName, avatar, email)
 
 		res.status(200).json({
 			success: true,
