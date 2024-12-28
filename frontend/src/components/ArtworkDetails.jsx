@@ -160,7 +160,7 @@ const ArtworkDetails = () => {
 					<div className='bg-white rounded-2xl p-5'>
 						{/* TITLE, MEDIUM, DIMENSION */}
 						<div className='space-y-2 mb-3 text-base font-medium text-slate-800'>
-							<p className='text-lg font-semibold'>
+							<p className='text-xl font-semibold truncate xl:text-2xl'>
 								<span className='tracking-wider font-bold'>{artwork.title || 'Untitled'}</span>,{' '}
 								<span className='tracking-widest italic'>{artwork.yearCreated || 'Unknown'}</span>
 							</p>
@@ -169,23 +169,23 @@ const ArtworkDetails = () => {
 						</div>
 
 						{/* ARTIST */}
-						<div className='flex gap-2 mb-3'>
+						<div className='flex gap-2 mb-5 items-center'>
 							<div>
 								<img
 									src={artwork.user?.avatar}
 									alt={artwork.user?.fullName}
-									className='h-10 w-10 aspect-square object-cover rounded-md'
+									className='h-12 w-12 aspect-square object-cover rounded-md'
 								/>
 							</div>
 							<div>
-								<p className=''>{artwork.user?.fullName || 'Unknown'}</p>
-								<p className='underline'>View artist</p>
+								<p className='font-medium'>{artwork.user?.fullName || 'Unknown'}</p>
+								<p className='underline italic text-slate-500'>View artist</p>
 							</div>
 						</div>
 
 						{/* PRICE */}
 						<div className='mb-3'>
-							<p className='text-2xl font-semibold'>{formatPrice(artwork.price)}</p>
+							<p className='text-2xl font-semibold xl:text-3xl'>{formatPrice(artwork.price)}</p>
 						</div>
 
 						<div className='flex flex-col gap-3'>
@@ -213,7 +213,7 @@ const ArtworkDetails = () => {
 					</h1>
 					<div className='grid grid-cols-3 bg-white rounded-2xl'>
 						{/* ARTWORK DETAILS */}
-						<div className='col-span-2 p-3 py-7'>
+						<div className='col-span-2 px-5 py-7'>
 							<ul className='space-y-3 text-slate-800'>
 								<li className='grid grid-cols-4'>
 									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
@@ -235,7 +235,9 @@ const ArtworkDetails = () => {
 									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
 										Year created:
 									</span>
-									<span className='col-span-3 font-medium'>{artwork.yearCreated || 'Unknown'}</span>
+									<span className='col-span-3 font-medium tracking-widest'>
+										{artwork.yearCreated || 'Unknown'}
+									</span>
 								</li>
 
 								<li className='grid grid-cols-4'>
@@ -254,9 +256,9 @@ const ArtworkDetails = () => {
 
 								<li className='grid grid-cols-4'>
 									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
-										Description:
+										About:
 									</span>
-									<span className='col-span-3 font-medium text-pretty leading-relaxed'>
+									<span className='col-span-3 font-medium text-pretty leading-relaxed xl:tracking-wide'>
 										{artwork.description || 'Unknown'}
 									</span>
 								</li>
@@ -281,7 +283,7 @@ const ArtworkDetails = () => {
 									<img
 										src={artwork.user?.avatar}
 										alt={artwork.user?.fullName}
-										className='h-20 w-20 aspect-square object-cover rounded-md'
+										className='h-24 w-24 aspect-square object-cover rounded-md'
 									/>
 								</div>
 
@@ -310,14 +312,14 @@ const ArtworkDetails = () => {
 									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
 										Joining date:
 									</span>
-									<span className='col-span-2 font-medium'>
+									<span className='col-span-2 font-medium tracking-widest'>
 										{new Date(artwork.createdAt).getFullYear()}
 									</span>
 								</li>
 
 								<li className='grid grid-cols-3'>
 									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
-										Location:
+										From:
 									</span>
 									<span className='col-span-2 font-medium truncate'>{artwork.user?.location}</span>
 								</li>

@@ -191,7 +191,10 @@ const Home = () => {
 				{/* RANDOM ARTIST */}
 				<div className='hidden xl:flex col-span-1 flex-col justify-between rounded-2xl'>
 					{randomArtists.map((artist, index) => (
-						<div key={artist._id} className='flex gap-2 bg-[#67afda] rounded-xl relative'>
+						<div
+							key={artist._id}
+							className='flex gap-2 bg-white dark:bg-slate-600 rounded-xl relative'
+						>
 							<span className='absolute -right-1 py-[2px] rounded -top-1 text-[10px] font-bold px-3 bg-[#e75600] text-white rounded-bl-2xl'>
 								Click Artist
 							</span>
@@ -200,9 +203,9 @@ const Home = () => {
 								alt={artist.fullName || 'Fallback Avatar'}
 								className='w-[77px] h-[77px] aspect-square object-cover rounded-xl rounded-tr-none rounded-br-none'
 							/>
-							<div className='flex flex-col justify-center text-white'>
-								<h3 className='font-semibold'>{artist.fullName}</h3>
-								<p className='text-[10px] sm:tracking-widest sm:font-semibold text-slate-200'>
+							<div className='flex flex-col justify-center'>
+								<h3 className='font-semibold text-slate-800 dark:text-white'>{artist.fullName}</h3>
+								<p className='text-[10px] sm:tracking-widest sm:font-semibold text-slate-600 dark:text-slate-300'>
 									{artist.location}, <span>{new Date(artist.createdAt).getFullYear()}</span>
 								</p>
 							</div>

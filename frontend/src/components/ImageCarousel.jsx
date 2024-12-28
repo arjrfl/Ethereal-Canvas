@@ -4,36 +4,20 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 
-// Import the images directly into this component
-import homeImgOne from '../assets/images/carousel-images/img-1-home.jpg';
-import homeImgTwo from '../assets/images/carousel-images/img-2-home.jpg';
-import homeImgThree from '../assets/images/carousel-images/img-3-home.jpg';
-import homeImgFour from '../assets/images/carousel-images/img-4-home.jpg';
-import homeImgFive from '../assets/images/carousel-images/img-5-home.jpg';
-import homeImgSix from '../assets/images/carousel-images/img-6-home.jpg';
-import homeImgSeven from '../assets/images/carousel-images/img-7-home.jpg';
-import homeImgEight from '../assets/images/carousel-images/img-8-home.jpg';
-import homeImgNine from '../assets/images/carousel-images/img-9-home.jpg';
-import homeImgTen from '../assets/images/carousel-images/img-10-home.jpg';
-import homeImgEleven from '../assets/images/carousel-images/img-11-home.jpg';
-import homeImgTwelve from '../assets/images/carousel-images/img-12-home.jpg';
-import homeImgThirteen from '../assets/images/carousel-images/img-13-home.jpg';
-
-// Define the images array inside the component
 const images = [
-	homeImgOne,
-	homeImgTwo,
-	homeImgThree,
-	homeImgFour,
-	homeImgFive,
-	homeImgSix,
-	homeImgSeven,
-	homeImgEight,
-	homeImgNine,
-	homeImgTen,
-	homeImgEleven,
-	homeImgTwelve,
-	homeImgThirteen,
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372972/pjb7djkofpqw18u7kwh2.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372972/ot7tuvzruo6pzugabun9.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372971/jf7yrbfhqydlkkyin4tf.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372970/dyiucadqhbdis8qyc0zn.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372967/shx5uc7j1g8yvx6r6p2h.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372967/tpwvirosek8gakvssjum.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372966/jq2enb6kz4tsdkhie1lx.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372966/glwxsfll7ozpyektj94j.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372964/g1n3vo9egzlxrahyie5c.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372964/nvi7eq9bnqdcdvacqdqz.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372964/bjk39jtvvf60oqgda4yi.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372964/h1tsjzn1spouo9gsprnd.jpg',
+	'https://res.cloudinary.com/ddeqjbdzb/image/upload/v1735372964/vw4ppiswdjnk5rephayk.jpg',
 ];
 
 const ImageCarousel = ({ autoplayDelay = 20000 }) => {

@@ -54,7 +54,7 @@ const Marketplace = () => {
 						<li key={medium}>
 							<button
 								onClick={() => handleFilterChange(medium)}
-								className={`px-4 py-1 border rounded-lg text-white font-medium tracking-wider ${
+								className={`px-4 py-1 border border-white rounded-lg text-white font-medium tracking-wider ${
 									selectedMedium === medium ? 'bg-[#67afda]' : 'bg-cyan-600'
 								}`}
 							>
