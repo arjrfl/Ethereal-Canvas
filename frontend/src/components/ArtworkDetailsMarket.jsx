@@ -11,6 +11,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
 import 'swiper/css/thumbs';
 
+import '../styles/CustomFrame.css';
+
 const ArtworkDetailsMarket = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -97,9 +99,9 @@ const ArtworkDetailsMarket = () => {
 				Back
 			</button>
 
-			<div className='grid grid-cols-3 gap-4 gap-y-7'>
+			<div className='grid grid-cols-3 gap-x-6 gap-y-7'>
 				{/* IMAGES GRID 1 */}
-				<div className='col-span-2'>
+				<div className='col-span-2 frame drop-shadow-md'>
 					{artwork.images && Object.keys(artwork.images).length > 0 ? (
 						<>
 							<Swiper
@@ -111,18 +113,18 @@ const ArtworkDetailsMarket = () => {
 								modules={[Navigation, Pagination, FreeMode, Thumbs]}
 								navigation
 								pagination={{ clickable: true }}
-								spaceBetween={20}
+								spaceBetween={0}
 								slidesPerView={1}
 								loop
-								className='rounded-2xl drop-shadow-sm'
+								className='rounded-lg drop-shadow-sm'
 							>
 								{Object.keys(artwork.images).map((key, index) => (
 									<SwiperSlide key={index}>
-										<div className='flex items-center justify-center h-[500px] bg-white p-3'>
+										<div className='flex items-center justify-center h-[450px] bg-white p-3'>
 											<img
 												src={artwork.images[key]}
 												alt={`${artwork.title} - ${key}`}
-												className='max-w-full max-h-full object-contain rounded-2xl shadow-md'
+												className='max-w-full max-h-full object-contain rounded-2xl'
 											/>
 										</div>
 									</SwiperSlide>
@@ -144,7 +146,7 @@ const ArtworkDetailsMarket = () => {
 										<img
 											src={artwork.images[key]}
 											alt={`${artwork.title} - ${key}`}
-											className='w-full h-24 object-cover rounded-2xl border border-gray-200 shadow-sm'
+											className='w-full h-24 object-cover rounded-lg border border-gray-200 shadow-sm'
 										/>
 									</SwiperSlide>
 								))}
@@ -211,9 +213,10 @@ const ArtworkDetailsMarket = () => {
 					<h1 className='text-lg font-semibold pb-1 tracking-widest text-slate-800'>
 						Full details 📃
 					</h1>
-					<div className='grid grid-cols-3 bg-white rounded-2xl'>
+
+					<div className='grid grid-cols-3 gap-x-5'>
 						{/* ARTWORK DETAILS */}
-						<div className='col-span-2 px-5 py-7'>
+						<div className='col-span-2 px-5 py-7 bg-white rounded-2xl'>
 							<ul className='space-y-3 text-slate-800'>
 								<li className='grid grid-cols-4'>
 									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
@@ -273,60 +276,66 @@ const ArtworkDetailsMarket = () => {
 						</div>
 
 						{/* ARTIST DETAILS */}
-						<div className='col-span-1 p-5 py-7 border-l-2 border-gray-100'>
-							<h2 className='tracking-wider text-xs font-bold text-slate-700'>
-								Behind the canvas ⭐
-							</h2>
+						<div className='col-span-1'>
+							<div className='p-5 py-7 rounded-xl bg-white'>
+								<h2 className='tracking-wider text-xs font-bold text-slate-700'>
+									Behind the canvas ⭐
+								</h2>
 
-							<div className='flex flex-col items-center mb-3 mt-4'>
-								<div className=''>
-									<img
-										src={artwork.user?.avatar}
-										alt={artwork.user?.fullName}
-										className='h-24 w-24 aspect-square object-cover rounded-md'
-									/>
+								<div className='flex flex-col items-center mb-3 mt-4'>
+									<div className=''>
+										<img
+											src={artwork.user?.avatar}
+											alt={artwork.user?.fullName}
+											className='h-24 w-24 aspect-square object-cover rounded-md'
+										/>
+									</div>
+
+									<p className='text-lg font-semibold text-slate-900'>
+										{artwork.user?.fullName || 'Unknown'}
+									</p>
 								</div>
 
-								<p className='text-lg font-semibold text-slate-900'>
-									{artwork.user?.fullName || 'Unknown'}
-								</p>
+								{/* ARTIST DETAILS */}
+								<ul className='space-y-2 text-slate-800'>
+									<li className='grid grid-cols-3'>
+										<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+											Name:
+										</span>
+										<span className='col-span-2 font-medium truncate'>
+											{artwork.user?.fullName}
+										</span>
+									</li>
+
+									<li className='grid grid-cols-3'>
+										<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+											Email:
+										</span>
+										<span className='col-span-2 font-medium truncate'>{artwork.user?.email}</span>
+									</li>
+
+									<li className='grid grid-cols-3'>
+										<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+											Joining date:
+										</span>
+										<span className='col-span-2 font-medium tracking-widest'>
+											{new Date(artwork.createdAt).getFullYear()}
+										</span>
+									</li>
+
+									<li className='grid grid-cols-3'>
+										<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
+											From:
+										</span>
+										<span className='col-span-2 font-medium truncate'>
+											{artwork.user?.location}
+										</span>
+									</li>
+									<li className='tracking-widest'>
+										... <span className='underline tracking-wide'>View artist profile</span>
+									</li>
+								</ul>
 							</div>
-
-							{/* ARTIST DETAILS */}
-							<ul className='space-y-2 text-slate-800'>
-								<li className='grid grid-cols-3'>
-									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
-										Name:
-									</span>
-									<span className='col-span-2 font-medium truncate'>{artwork.user?.fullName}</span>
-								</li>
-
-								<li className='grid grid-cols-3'>
-									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
-										Email:
-									</span>
-									<span className='col-span-2 font-medium truncate'>{artwork.user?.email}</span>
-								</li>
-
-								<li className='grid grid-cols-3'>
-									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
-										Joining date:
-									</span>
-									<span className='col-span-2 font-medium tracking-widest'>
-										{new Date(artwork.createdAt).getFullYear()}
-									</span>
-								</li>
-
-								<li className='grid grid-cols-3'>
-									<span className='col-span-1 text-xs text-slate-600 tracking-wide font-semibold'>
-										From:
-									</span>
-									<span className='col-span-2 font-medium truncate'>{artwork.user?.location}</span>
-								</li>
-								<li className='tracking-widest'>
-									... <span className='underline tracking-wide'>View artist profile</span>
-								</li>
-							</ul>
 						</div>
 					</div>
 				</div>
