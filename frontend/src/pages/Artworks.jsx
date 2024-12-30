@@ -69,7 +69,7 @@ const Artworks = () => {
 
 				{/* ARTWORKS ITEMS */}
 				<div>
-					<div className='grid grid-cols-2 gap-x-16 gap-y-14'>
+					<div className='grid grid-cols-2 gap-x-20 gap-y-28'>
 						{loading ? (
 							<p>Loading...</p>
 						) : error ? (

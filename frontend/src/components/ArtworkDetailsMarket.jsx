@@ -94,9 +94,9 @@ const ArtworkDetailsMarket = () => {
 		<div className='font-custom container max-w-7xl mx-auto mt-5 px-4 text-sm'>
 			<button
 				onClick={() => navigate(-1)}
-				className='mb-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
+				className='mb-4 px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-500 font-semibold tracking-widest'
 			>
-				Back
+				🠜 Back
 			</button>
 
 			<div className='grid grid-cols-3 gap-x-6 gap-y-7'>

@@ -8,17 +8,17 @@ const Artists = () => {
 
 	return (
 		<div
-			className={`font-custom container max-w-7xl mx-auto mt-5 px-4 relative -z-50 ${isDropdownOpen ? '-z-50' : ''}`}
+			className={`font-custom container max-w-[90rem] mx-auto mt-5 px-4 relative -z-50 ${isDropdownOpen ? '-z-50' : ''}`}
 		>
 			<div>
-				{/* LABEL */}
+				{/* Banner */}
 				<div
-					className='bg-cover bg-center py-5 px-10 relative rounded-2xl'
+					className='bg-cover bg-center py-10 px-10 relative rounded-2xl mb-7'
 					style={{
-						backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0) 50%), url(${artistBanner})`,
+						backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0) 70%), url(${artistBanner})`,
 					}}
 				>
-					<h2 className='text-white text-3xl font-bold'>Artists</h2>
+					<h2 className='text-white text-4xl font-bold tracking-widest'>Artists</h2>
 				</div>
 
 				{/* FILTER */}

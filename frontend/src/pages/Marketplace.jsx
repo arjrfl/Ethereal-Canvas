@@ -7,6 +7,8 @@ import useFetchArtworks from '../hooks/useFetchArtworks';
 
 import { formatPrice } from '../utils/formatPrice';
 
+import '../styles/CustomFrameSmall.css';
+
 const Marketplace = () => {
 	const { isDropdownOpen } = useOutletContext();
 	const [selectedMedium, setSelectedMedium] = useState(null);
@@ -19,7 +21,7 @@ const Marketplace = () => {
 
 	return (
 		<div
-			className={`font-custom container max-w-7xl mx-auto mt-5 px-4 relative ${isDropdownOpen ? '-z-50' : ''}`}
+			className={`font-custom container max-w-[90rem] mx-auto mt-5 px-4 relative ${isDropdownOpen ? '-z-50' : ''}`}
 		>
 			{/* Banner */}
 			<div
@@ -66,7 +68,7 @@ const Marketplace = () => {
 			</div>
 
 			{/* Artworks */}
-			<div className='grid grid-cols-2 gap-10'>
+			<div className='grid grid-cols-2 gap-x-20 gap-y-28'>
 				{loading ? (
 					<p>Loading...</p>
 				) : error ? (
@@ -78,62 +80,42 @@ const Marketplace = () => {
 						<Link
 							to={`/artwork-market/${artwork._id}`}
 							key={artwork._id}
-							className='grid grid-cols-2 grid-rows-1 bg-white rounded-xl drop-shadow-md'
+							className='grid grid-cols-2 grid-rows-1 rounded-xl'
 						>
-							<div className='w-full h-fit aspect-square rounded-2xl'>
+							<div className='h-40 w-40 aspect-square frameSm'>
 								<img
 									src={artwork.images.frontView}
 									alt={artwork.user.fullName}
-									className='w-full h-full object-cover rounded-2xl rounded-tr-none rounded-br-none'
+									className='w-full h-full object-cover rounded-lg'
 								/>
 							</div>
 
-							<div className='flex flex-col justify-between p-5'>
-								<div className='space-y-1'>
-									<p className='text-xl text-slate-800 font-bold tracking-wider truncate xl:text-2xl'>
-										{artwork.title}
-									</p>
-									<p className='text-base text-slate-600 font-medium'>
-										<span className=''>{artwork.medium}</span>,{' '}
-										<span className='tracking-widest italic'>{artwork.yearCreated}</span>
-									</p>
-									<p className=''>{artwork.user.fullName}</p>
-									<p className='text-lg font-medium text-slate-800 xl:text-xl'>
-										{formatPrice(artwork.price)}
-									</p>
-								</div>
-
-								<div className=''>
-									<div className='flex items-center gap-x-2'>
+							<div className='flex items-center pl-6'>
+								<div className='bg-white py-6 px-8 rounded-xl drop-shadow-lg flex-1'>
+									<div className='flex items-center gap-x-2 mb-2'>
 										<img
-											src={artwork.user.avatar}
-											alt={artwork.user.fullName}
-											className='h-14 w-14 object-cover aspect-square rounded-md'
+											src={artwork.user?.avatar}
+											alt={artwork.user?.fullName}
+											className='h-8 w-8 aspect-square object-cover rounded-md'
 										/>
-										<div className='truncate'>
-											<p className='truncate font-medium text-slate-800'>{artwork.user.fullName}</p>
-											<p className='truncate text-xs text-slate-600 font-semibold'>
-												{artwork.user.location}
+										<div className=''>
+											<p className='truncate text-lg leading-tight font-medium tracking-wide'>
+												{artwork.user?.fullName || 'Unknown'}
 											</p>
+											<p className='text-xs italic'>{artwork.user?.location || 'Unknown'}</p>
 										</div>
 									</div>
-								</div>
 
-								<div className='flex'>
-									<button className='bg-blue-600 text-white flex-1 text-base py-2 rounded-lg font-semibold tracking-widest hover:bg-blue-500'>
-										View Artwork
-									</button>
+									<p className='text-base truncate'>
+										<span className='font-semibold'>{artwork.title || 'Untitled'}</span>,{' '}
+										<span className='tracking-widest'>{artwork.yearCreated || 'Unknown'}</span>
+									</p>
+									<p className='mb-2'>{artwork.medium || 'Unknown'}</p>
+									<p className='mb-2 font-semibold'>{formatPrice(artwork.price)}</p>
+
+									<p className='underline italic'>View artwork</p>
 								</div>
 							</div>
-
-							<span
-								style={{
-									clipPath: 'polygon(100% 0, 100% 60%, 50% 100%, 0 60%, 0 0)',
-								}}
-								className='absolute px-2 pb-[8px] pt-[1px] text-[8px] xl:text-[10px] xl:pt-[2px] font-medium bg-red-600 text-white top-0 right-5'
-							>
-								FOR SALE
-							</span>
 						</Link>
 					))
 				)}
