@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import artworkBanner from '../assets/images/label-images/bg-artwork.jpg';
 import useFetchArtworks from '../hooks/useFetchArtworks';
 
+import '../styles/CustomFrameSmall.css';
+
 const Artworks = () => {
 	const { isDropdownOpen } = useOutletContext();
 	const [selectedMedium, setSelectedMedium] = useState(null);
@@ -17,7 +19,7 @@ const Artworks = () => {
 
 	return (
 		<div
-			className={`font-custom container max-w-7xl mx-auto mt-5 px-4 relative ${isDropdownOpen ? '-z-50' : ''}`}
+			className={`font-custom container max-w-[90rem] mx-auto mt-5 px-4 relative ${isDropdownOpen ? '-z-50' : ''}`}
 		>
 			<div>
 				{/* LABEL */}
@@ -67,7 +69,7 @@ const Artworks = () => {
 
 				{/* ARTWORKS ITEMS */}
 				<div>
-					<div className='grid grid-cols-2 gap-10'>
+					<div className='grid grid-cols-2 gap-x-16 gap-y-14'>
 						{loading ? (
 							<p>Loading...</p>
 						) : error ? (
@@ -79,62 +81,38 @@ const Artworks = () => {
 								<Link
 									to={`/artwork-museum/${artwork._id}`}
 									key={artwork._id}
-									className='grid grid-cols-2 grid-rows-1 bg-white rounded-xl drop-shadow-md'
+									className='grid grid-cols-2 grid-rows-1 rounded-xl'
 								>
-									<div className='w-full h-fit aspect-square rounded-2xl'>
+									<div className='h-40 w-40 aspect-square frameSm'>
 										<img
 											src={artwork.images.frontView}
 											alt={artwork.user.fullName}
-											className='w-full h-full object-cover rounded-2xl rounded-tr-none rounded-br-none'
+											className='w-full h-full object-cover rounded-lg'
 										/>
 									</div>
 
-									<div className='flex flex-col justify-between p-5'>
-										<div className='space-y-1'>
-											<p className='text-xl text-slate-800 font-bold tracking-wider truncate xl:text-2xl'>
-												{artwork.title}
-											</p>
-											<p className='text-base text-slate-600 font-medium'>
-												<span className=''>{artwork.medium}</span>,{' '}
-												<span className='tracking-widest italic'>{artwork.yearCreated}</span>
-											</p>
-											<p className=''>{artwork.user.fullName}</p>
-										</div>
-
-										{/* IMAGES */}
-										<div className='flex flex-col gap-1'>
-											<h3 className='mt-auto text-xs font-medium text-slate-600'>Images:</h3>
-											<div className='grid grid-cols-3 grid-rows-1 gap-3'>
-												<div className='w-full h-fit aspect-square drop-shadow-sm'>
-													<img
-														src={artwork.images.angleOne}
-														alt={artwork.user.fullName}
-														className='w-full h-full object-cover rounded-xl'
-													/>
-												</div>
-
-												<div className='w-full h-fit aspect-square drop-shadow-sm'>
-													<img
-														src={artwork.images.angleTwo}
-														alt={artwork.user.fullName}
-														className='w-full h-full object-cover rounded-xl'
-													/>
-												</div>
-
-												<div className='w-full h-fit aspect-square drop-shadow-sm'>
-													<img
-														src={artwork.images.angleThree}
-														alt={artwork.user.fullName}
-														className='w-full h-full object-cover rounded-xl'
-													/>
+									<div className='flex items-center pl-6'>
+										<div className='bg-white py-6 px-8 rounded-xl drop-shadow-lg flex-1'>
+											<div className='flex items-center gap-x-2 mb-2'>
+												<img
+													src={artwork.user?.avatar}
+													alt={artwork.user?.fullName}
+													className='h-8 w-8 aspect-square object-cover rounded-md'
+												/>
+												<div className=''>
+													<p className='truncate text-lg leading-tight font-medium tracking-wide'>
+														{artwork.user?.fullName || 'Unknown'}
+													</p>
+													<p className='text-xs italic'>{artwork.user?.location || 'Unknown'}</p>
 												</div>
 											</div>
-										</div>
 
-										<div className='flex'>
-											<button className='bg-blue-600 text-white flex-1 text-base py-2 rounded-lg font-semibold tracking-widest hover:bg-blue-500'>
-												View Artwork
-											</button>
+											<p className='text-base truncate'>
+												<span className='font-semibold'>{artwork.title || 'Untitled'}</span>,{' '}
+												<span className='tracking-widest'>{artwork.yearCreated || 'Unknown'}</span>
+											</p>
+											<p className='mb-2'>{artwork.medium || 'Unknown'}</p>
+											<p className='underline italic'>View artwork</p>
 										</div>
 									</div>
 								</Link>
