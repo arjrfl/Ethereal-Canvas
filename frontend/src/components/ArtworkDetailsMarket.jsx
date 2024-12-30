@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { axiosInstancePublic, axiosInstancePrivate } from '../utils/axiosConfig';
 import { formatPrice } from '../utils/formatPrice';
@@ -331,8 +331,10 @@ const ArtworkDetailsMarket = () => {
 											{artwork.user?.location}
 										</span>
 									</li>
-									<li className='tracking-widest'>
-										... <span className='underline tracking-wide'>View artist profile</span>
+									<li>
+										<Link to={`/artist/${artwork.user?._id}`}>
+											... <span className='underline tracking-wide'>View artist profile</span>
+										</Link>
 									</li>
 								</ul>
 							</div>

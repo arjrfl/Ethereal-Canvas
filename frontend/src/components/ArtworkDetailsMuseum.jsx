@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { axiosInstancePublic } from '../utils/axiosConfig';
+import { Link } from 'react-router-dom';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, FreeMode, Thumbs } from 'swiper/modules';
@@ -250,8 +251,10 @@ const ArtworkDetailsMuseum = () => {
 											{artwork.user?.location}
 										</span>
 									</li>
-									<li className='tracking-widest'>
-										... <span className='underline tracking-wide'>View artist profile</span>
+									<li>
+										<Link to={`/artist/${artwork.user?._id}`}>
+											... <span className='underline tracking-wide'>View artist profile</span>
+										</Link>
 									</li>
 								</ul>
 							</div>

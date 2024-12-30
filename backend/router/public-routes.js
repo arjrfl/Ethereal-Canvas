@@ -16,6 +16,7 @@ import {
 
 import { getArtworks } from '../controller/public/get-artworks.js';
 import { getArtworkById } from '../controller/public/get-artwork-by-id.js';
+import { getArtistById } from '../controller/public/get-artist-by-id.js';
 
 const router = express.Router();
 
@@ -33,9 +34,10 @@ router.post('/register/collector', registerCollector);
 // REFRESH TOKEN
 router.post('/refresh-token', refreshToken);
 
-// RETRIEVE
-router.get('/artists', getApprovedArtistsWithRecentArtwork);
+// RETRIEVE ARTIST
+router.get('/artists', getApprovedArtistsWithRecentArtwork); // FOR HOME SECTION ONLY
 router.get('/approve-artists', getApproveArtist);
+router.get('/artist/:id', getArtistById);
 
 // ARTWORK SECTION
 router.get('/artworks', getArtworks);

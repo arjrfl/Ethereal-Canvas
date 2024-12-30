@@ -36,7 +36,7 @@ const Marketplace = () => {
 			{/* Filter */}
 			<div className='mb-10 grid grid-cols-3 text-sm'>
 				<div className='col-span-1'>
-					<h3 className='font-semibold text-slate-700 tracking-widest'>Mediums:</h3>
+					<h3 className='font-semibold text-slate-700 tracking-widest'>Mediums</h3>
 				</div>
 				<ul className='flex flex-wrap col-span-2 gap-x-3 gap-y-2 text-xs font-medium text-gray-800'>
 					{[
@@ -98,7 +98,7 @@ const Marketplace = () => {
 											alt={artwork.user?.fullName}
 											className='h-8 w-8 aspect-square object-cover rounded-md'
 										/>
-										<div className=''>
+										<div className='truncate'>
 											<p className='truncate text-lg leading-tight font-medium tracking-wide'>
 												{artwork.user?.fullName || 'Unknown'}
 											</p>

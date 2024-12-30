@@ -42,12 +42,17 @@ export const getApprovedArtistsWithRecentArtwork = async (req, res) => {
 
 export const getApproveArtist = async (req, res) => {
 	try {
-		const approvedArtists = await Artist.find({ status: 'approve' });
+		const { letter } = req.query;
 
-		if (!approvedArtists || approvedArtists.length === 0) {
-			return res.status(404).json({ error: 'No admins found' });
+		// Build the query object
+		const query = { status: 'approve' };
+		if (letter) {
+			query.fullName = { $regex: `^${letter}`, $options: 'i' }; // Match names starting with the letter
 		}
 
+		const approvedArtists = await Artist.find(query);
+
+		// Return success even if no artists are found (empty array)
 		res.status(200).json({
 			success: true,
 			data: approvedArtists,

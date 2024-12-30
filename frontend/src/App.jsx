@@ -35,6 +35,7 @@ import AdminLayout from './components/AdminLayout';
 
 import ArtworkDetailsMarket from './components/ArtworkDetailsMarket';
 import ArtworkDetailsMuseum from './components/ArtworkDetailsMuseum';
+import ArtistDetails from './components/ArtistDetails';
 
 const App = () => {
 	return (
@@ -47,12 +48,16 @@ const App = () => {
 					<Route path='/artists' element={<Artists />} />
 					<Route path='/artworks' element={<Artworks />} />
 					<Route path='/marketplace' element={<Marketplace />} />
+					<Route path='/about' element={<About />} />
+
 					<Route path='/artwork-market/:id' element={<ArtworkDetailsMarket />} />
 					<Route path='/artwork-museum/:id' element={<ArtworkDetailsMuseum />} />
-					<Route path='/about' element={<About />} />
+					<Route path='/artist/:id' element={<ArtistDetails />} />
+
 					<Route path='/login' element={<Login />} />
 					<Route path='/register/artist' element={<RegisterArtist />} />
 					<Route path='/register/collector' element={<RegisterCollector />} />
+
 					<Route path='/unauthorized' element={<Unauthorized />} />
 					{/* PRIVATE ROUTES */}
 					<Route
