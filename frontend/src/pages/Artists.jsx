@@ -65,7 +65,7 @@ const Artists = () => {
 
 				{/* ARTISTS ITEMS */}
 				<div>
-					<div className='grid grid-cols-4 gap-6'>
+					<div className='grid grid-cols-5 gap-x-10 gap-y-16'>
 						{loading ? (
 							<p>Loading...</p>
 						) : error ? (
@@ -77,21 +77,23 @@ const Artists = () => {
 								<Link
 									to={`/artist/${artist._id}`}
 									key={artist._id}
-									className='flex flex-col bg-orange-100'
+									className='flex flex-col bg-white rounded-lg drop-shadow-md'
 								>
-									<div className=''>
-										<img
-											src={artist.avatar}
-											alt={artist.fullName}
-											className='w-10 h-10 object-cover'
-										/>
-									</div>
+									<div className='flex flex-col p-5 gap-y-2'>
+										{/* IMAGE */}
+										<div className='aspect-square w-full h-fit'>
+											<img
+												src={artist.avatar}
+												alt={artist.fullName}
+												className='w-full h-full object-cover rounded-md'
+											/>
+										</div>
 
-									<div className=''>
-										<div>
-											<p>{artist.fullName}</p>
-											<p>{artist.location}</p>
-											<p>{artist.email}</p>
+										{/* DETAILS */}
+										<div className='text-center truncate py-1'>
+											<p className='font-bold text-lg'>{artist.fullName}</p>
+											<p className='text-xs text-gray-600'>{artist.location} 📍</p>
+											{/* <p className='text-xs text-gray-600 underline italic'>view artist</p> */}
 										</div>
 									</div>
 								</Link>

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { axiosInstancePublic } from '../utils/axiosConfig';
 import { Link } from 'react-router-dom';
 
+import '../styles/ArtistFrame.css';
+
 const ArtistDetails = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -42,14 +44,18 @@ const ArtistDetails = () => {
 
 			<div>
 				{/* ARTIST DETAILS */}
-				<div>
-					<img src={artist.avatar} alt={artist.fullName} className='w-10 h-10 object-cover' />
-					<p>{artist.fullName}</p>
-					<p>{artist.email}</p>
-					<p>{artist.dateOfBirth}</p>
-					<p>{artist.location}</p>
-					<p>{artist.gender}</p>
-					<p>{artist.aboutYourself}</p>
+				<div className='grid grid-cols-3 grid-rows-1 gap-x-10'>
+					<div className='frame col-span-1'>
+						<div className='image-wrapper shadow-inner'>
+							<img src={artist.avatar} alt={artist.fullName} className='image rounded-lg' />
+						</div>
+					</div>
+
+					<div className='col-span-2'>
+						<p>{artist.fullName}</p>
+						<p>{artist.email}</p>
+						<p>{artist.aboutYourself}</p>
+					</div>
 				</div>
 
 				{/* UPLOADED ARTWORKS */}

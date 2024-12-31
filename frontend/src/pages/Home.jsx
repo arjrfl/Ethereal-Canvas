@@ -193,7 +193,7 @@ const Home = () => {
 					{randomArtists.map((artist, index) => (
 						<div
 							key={artist._id}
-							className='flex gap-2 bg-white dark:bg-slate-600 rounded-xl relative'
+							className='flex gap-2 bg-white dark:bg-slate-600 rounded-xl relative drop-shadow-md'
 						>
 							<span className='absolute -right-1 py-[2px] rounded -top-1 text-[10px] font-bold px-3 bg-[#e75600] text-white rounded-bl-2xl'>
 								Click Artist

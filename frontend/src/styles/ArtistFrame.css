@@ -1,0 +1,52 @@
+:root {
+	/* Frame styling variables */
+	--frame-border-width: 20px;
+	--outer-shadow: 4px 6px 12px 0 black;
+	--outer-bevel-light: rgb(109, 84, 58);
+	--outer-bevel-dark: rgb(24, 19, 13);
+	--flat-surface-color: #fee3c2;
+	--flat-surface-width: 15px;
+	--inner-bevel-width: 10px;
+	--inner-bevel-light: rgb(109, 84, 58);
+	--inner-bevel-dark: rgb(24, 19, 13);
+}
+
+.frame {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%; /* Full width of its grid column */
+	aspect-ratio: 1 / 1; /* Ensure the frame stays square */
+	box-shadow: var(--outer-shadow);
+	border: var(--frame-border-width) solid;
+	border-color: var(--outer-bevel-light) var(--outer-bevel-dark) var(--outer-bevel-dark)
+		var(--outer-bevel-light);
+	background-color: var(--flat-surface-color);
+	padding: var(--flat-surface-width);
+	overflow: hidden;
+	padding: 50px;
+}
+
+.frame::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border: var(--inner-bevel-width) solid;
+	border-color: var(--inner-bevel-dark) var(--inner-bevel-light) var(--inner-bevel-light)
+		var(--inner-bevel-dark);
+	pointer-events: none;
+}
+
+.image-wrapper {
+	width: 100%;
+	height: 100%;
+	overflow: hidden; /* Prevent overflow of the image */
+}
+
+.image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* Ensures the image fits perfectly within the square */
+	display: block;
+}
