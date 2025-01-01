@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 import { axiosInstancePublic } from '../utils/axiosConfig';
 import { Link } from 'react-router-dom';
 
-import '../styles/ArtistFrame.css';
-
 const ArtistDetails = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -44,24 +42,46 @@ const ArtistDetails = () => {
 
 			<div>
 				{/* ARTIST DETAILS */}
-				<div className='grid grid-cols-3 grid-rows-1 gap-x-10'>
-					<div className='frame col-span-1'>
+				<div className='grid grid-cols-4 grid-rows-1 gap-x-10'>
+					{/* <div className='frameArtist col-span-1'>
 						<div className='image-wrapper shadow-inner'>
-							<img src={artist.avatar} alt={artist.fullName} className='image rounded-lg' />
+						<img src={artist.avatar} alt={artist.fullName} className='image rounded-lg' />
+						</div>
+						</div> */}
+
+					<div className='col-span-1 px-5 pt-5 pb-20 drop-shadow-lg bg-white'>
+						<div className=' aspect-square w-full h-fit shadow-sm'>
+							<a href={artist.avatar} target='_blank'>
+								<img
+									src={artist.avatar}
+									alt={artist.fullName}
+									className='w-full h-full object-cover rounded-lg'
+								/>
+							</a>
 						</div>
 					</div>
 
 					<div className='col-span-2'>
-						<p>{artist.fullName}</p>
-						<p>{artist.email}</p>
-						<p>{artist.aboutYourself}</p>
+						<div className='space-y-1 mb-10'>
+							<p className='text-4xl font-semibold tracking-wider'>{artist.fullName}</p>
+							<p className='text-2xl'>Artist from {artist.location}</p>
+							<p className='text-2xl pb-3'>
+								Became Member In {new Date(artist.createdAt).getFullYear()}
+							</p>
+							<p className='tracking-wide leading-relaxed text-pretty'>{artist.aboutYourself}</p>
+						</div>
+					</div>
+
+					{/* SOCIALS */}
+					<div className='bg-slate-300'>
+						<h3>Socials</h3>
 					</div>
 				</div>
 
 				{/* UPLOADED ARTWORKS */}
 				<div className='mt-8'>
 					<h3 className='text-lg font-semibold mb-4'>Uploaded Artworks</h3>
-					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+					<div className='grid grid-cols-4 gap-x-5'>
 						{artist.artworks && artist.artworks.length > 0 ? (
 							artist.artworks.map(artwork => (
 								<Link

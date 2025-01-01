@@ -131,12 +131,14 @@ const ArtworkDetailsMuseum = () => {
 							<span className='tracking-widest'>{artwork.yearCreated || 'Unknown'}</span>
 						</p>
 						<p className='mb-2'>{artwork.medium || 'Unknown'}</p>
-						<p className='underline italic'>full details below 🢱</p>
+						<a href='#full-details'>
+							<p className='underline italic'>full details below 🢱</p>
+						</a>
 					</div>
 				</div>
 
 				{/* FULL DETAILS GRID 3*/}
-				<div className='col-span-full'>
+				<div className='col-span-full' id='full-details'>
 					<h1 className='text-lg font-semibold pb-1 tracking-widest text-slate-800'>
 						Full details 📃
 					</h1>

@@ -168,6 +168,9 @@ const ArtworkDetailsMarket = () => {
 							</p>
 							<p className=''>{artwork.medium || 'Unknown'}</p>
 							<p className=''>{artwork.dimension || 'Unknown'}</p>
+							<a href='#full-details'>
+								<p className='underline italic'>full details below 🢱</p>
+							</a>
 						</div>
 
 						{/* ARTIST */}
@@ -209,7 +212,7 @@ const ArtworkDetailsMarket = () => {
 				</div>
 
 				{/* FULL DETAILS */}
-				<div className='col-span-full'>
+				<div className='col-span-full' id='full-details'>
 					<h1 className='text-lg font-semibold pb-1 tracking-widest text-slate-800'>
 						Full details 📃
 					</h1>

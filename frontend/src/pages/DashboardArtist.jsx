@@ -17,7 +17,7 @@ const ArtistDashboard = () => {
 	const initials = getInitials(name);
 
 	return (
-		<div className='container max-w-full xl:max-w-6xl mx-auto px-4 py-4 md:px-5 lg:py-9 lg:grid lg:grid-cols-10 lg:gap-x-10 font-custom '>
+		<div className='container max-w-full xl:max-w-[90rem] mx-auto px-4 py-4 md:px-5 lg:py-9 lg:grid lg:grid-cols-10 lg:gap-x-10 font-custom '>
 			{/* SMALL SCREEN */}
 			<div className='min-[640px]:hidden mb-10'>
 				<ul className='grid grid-cols-4 py-1 items-center justify-items-center rounded-xl bg-cyan-600'>
@@ -128,7 +128,7 @@ const ArtistDashboard = () => {
 			</div>
 
 			{/* LARGE SCREEN */}
-			<div className='hidden lg:block lg:col-span-3 text-base'>
+			<div className='hidden lg:block lg:col-span-2 text-base'>
 				<div className='flex gap-x-4 items-center mb-5 p-3 bg-cyan-600 rounded-xl'>
 					<div className='h-12 w-12 rounded-full'>
 						{avatar ? (
@@ -206,7 +206,7 @@ const ArtistDashboard = () => {
 			</div>
 
 			{/* Content */}
-			<div className='lg:col-span-7 '>
+			<div className='lg:col-span-8 '>
 				<Outlet /> {/* Render nested routes here */}
 			</div>
 		</div>

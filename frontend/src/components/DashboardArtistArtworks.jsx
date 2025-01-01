@@ -110,7 +110,7 @@ const DashboardArtistArtworks = () => {
 					artworks?.map(artwork => (
 						<div
 							key={artwork._id}
-							className='border p-4 rounded-xl shadow-sm cursor-pointer'
+							className='border p-4 rounded-xl shadow-sm cursor-pointer bg-white'
 							onClick={() => handleArtworkClick(artwork)}
 						>
 							<img
