@@ -2,13 +2,31 @@ import Artist from '../../../models/model-artist.js';
 
 export const ArtistUpdateDetails = async (req, res) => {
 	const userId = req.user.id;
-	const { fullName, gender, dateOfBirth, location, email, phoneNumber, aboutYourself } = req.body;
+	const {
+		fullName,
+		gender,
+		dateOfBirth,
+		location,
+		email,
+		phoneNumber,
+		aboutYourself,
+		socialLinks, // Include socialLinks
+	} = req.body;
 
 	try {
 		// Update artist profile in the database
 		const updatedArtist = await Artist.findByIdAndUpdate(
 			userId,
-			{ fullName, gender, dateOfBirth, location, email, phoneNumber, aboutYourself },
+			{
+				fullName,
+				gender,
+				dateOfBirth,
+				location,
+				email,
+				phoneNumber,
+				aboutYourself,
+				socialLinks, // Add socialLinks to the update object
+			},
 			{ new: true } // Return the updated document
 		);
 

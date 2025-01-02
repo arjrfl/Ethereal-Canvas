@@ -30,6 +30,7 @@ export const getArtistDashboardProfile = async (req, res) => {
 				location: artist.location,
 				gender: artist.gender,
 				aboutYourself: artist.aboutYourself,
+				socialLinks: artist.socialLinks,
 			},
 		});
 	} catch (error) {

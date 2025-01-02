@@ -31,7 +31,8 @@ const artistSchema = new mongoose.Schema(
 		role: { type: String, default: 'artist', enum: ['artist'] },
 		status: { type: String, enum: ['pending', 'approve', 'reject', 'disable'], default: 'pending' },
 		refreshToken: { type: String, select: false },
-		artworks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artwork' }], // New field to store artwork IDs
+		artworks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artwork' }],
+		socialLinks: [{ type: String }],
 	},
 	{ timestamps: true }
 );

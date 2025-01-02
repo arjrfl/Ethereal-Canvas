@@ -238,7 +238,7 @@ const DashboardArtistUploadArtwork = () => {
 								id='description'
 								value={formData.description}
 								onChange={handleInputChange}
-								rows='3'
+								rows='10'
 								className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md'
 							></textarea>
 						</div>

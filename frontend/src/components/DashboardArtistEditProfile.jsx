@@ -17,6 +17,7 @@ const ArtistDashboardEditProfile = () => {
 		email: '',
 		phoneNumber: '',
 		aboutYourself: '',
+		socialLinks: ['', '', '', '', ''],
 	});
 
 	const {
@@ -88,6 +89,7 @@ const ArtistDashboardEditProfile = () => {
 					phoneNumber: profileData.phoneNumber,
 					location: profileData.location,
 					aboutYourself: profileData.aboutYourself,
+					socialLinks: profileData.socialLinks || ['', '', '', '', ''],
 				});
 
 				if (profileData.avatar) {
@@ -102,7 +104,16 @@ const ArtistDashboardEditProfile = () => {
 	}, []);
 
 	const handleChange = e => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
+		const { name, value } = e.target;
+
+		if (name.startsWith('socialLink')) {
+			const index = parseInt(name.replace('socialLink', ''));
+			const newSocialLinks = [...formData.socialLinks];
+			newSocialLinks[index] = value;
+			setFormData({ ...formData, socialLinks: newSocialLinks });
+		} else {
+			setFormData({ ...formData, [name]: value });
+		}
 	};
 
 	return (
@@ -271,6 +282,27 @@ const ArtistDashboardEditProfile = () => {
 								onChange={handleChange}
 								className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md h-48'
 							></textarea>
+						</div>
+
+						{/* Social Links Section */}
+						<div className='grid grid-cols-1 gap-y-2 sm:content-start'>
+							<label htmlFor='socialLinks' className='text-gray-500 text-xs'>
+								Social Links
+							</label>
+							<div className='space-y-2'>
+								{formData.socialLinks.map((link, index) => (
+									<input
+										key={index}
+										type='url'
+										id={`socialLink${index}`}
+										name={`socialLink${index}`}
+										value={link}
+										onChange={handleChange}
+										className='border-[1px] border-gray-300 bg-transparent px-3 py-2 rounded-md w-full'
+										placeholder={link ? '' : `Enter Social Link ${index + 1}`} // Placeholder logic
+									/>
+								))}
+							</div>
 						</div>
 					</form>
 					<div className='flex sm:justify-end mt-10'>
