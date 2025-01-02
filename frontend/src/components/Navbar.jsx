@@ -159,13 +159,16 @@ const Navbar = ({ isDropdownOpen, setIsDropdownOpen }) => {
 				<div className='shrink-0 flex items-center'>
 					{isLoggedIn && (role === 'artist' || role === 'collector') ? (
 						<div className='hidden lg:flex items-center gap-5'>
+							{/* AVATAR DROPDOWN */}
 							<Dropdown
 								label={fullName}
 								options={options}
 								logout={handleLogout}
 								avatar={<Avatar src={avatar} name={name || fullName} alt='User Avatar' />}
 								role={role}
+								setIsDropdownOpen={setIsDropdownOpen} // Pass the function
 							/>
+
 							<button
 								onClick={toggleDarkMode}
 								className='hidden lg:flex text-xl'

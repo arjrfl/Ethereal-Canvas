@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Dropdown = ({ label, options, logout, avatar, role }) => {
+const Dropdown = ({ label, options, logout, avatar, role, setIsDropdownOpen }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const dropdownRef = useRef(null);
 	const navigate = useNavigate();
 
-	const toggleDropdown = () => setIsOpen(!isOpen);
+	const toggleDropdown = () => {
+		const newState = !isOpen;
+		setIsOpen(newState);
+		setIsDropdownOpen(newState); // Update parent state
+	};
 
 	const handleOptionClick = option => {
 		if (option.value === 'logout') {
@@ -17,11 +21,13 @@ const Dropdown = ({ label, options, logout, avatar, role }) => {
 			}
 		}
 		setIsOpen(false);
+		setIsDropdownOpen(false); // Close dropdown
 	};
 
 	const handleClickOutside = event => {
 		if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
 			setIsOpen(false);
+			setIsDropdownOpen(false); // Close dropdown
 		}
 	};
 
