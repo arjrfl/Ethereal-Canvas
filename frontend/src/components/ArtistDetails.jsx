@@ -2,6 +2,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { axiosInstancePublic } from '../utils/axiosConfig';
 import { Link } from 'react-router-dom';
+import { FaLink, FaFacebook, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+import { TbArrowBigDown } from 'react-icons/tb';
 
 const ArtistDetails = () => {
 	const { id } = useParams();
@@ -29,7 +32,24 @@ const ArtistDetails = () => {
 
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p className='text-red-500'>{error}</p>;
-	if (!artist) return <p>artist not found</p>;
+	if (!artist) return <p>Artist not found</p>;
+
+	// Utility function to extract the social media handle/username from the URL
+	const extractUsername = link => {
+		const url = new URL(link);
+		const path = url.pathname; // Get the path of the URL
+		const username = path.split('/').filter(Boolean).pop(); // Extract the last part of the path
+		return username;
+	};
+
+	// Utility function to determine the icon based on the URL
+	const getSocialIcon = link => {
+		if (link.includes('facebook.com')) return <FaFacebook />;
+		if (link.includes('x.com')) return <FaXTwitter />;
+		if (link.includes('instagram.com')) return <FaInstagram />;
+		if (link.includes('youtube.com')) return <FaYoutube />;
+		return <FaLink />;
+	};
 
 	return (
 		<div className='font-custom container max-w-7xl mx-auto mt-5 px-4 text-sm'>
@@ -43,14 +63,8 @@ const ArtistDetails = () => {
 			<div>
 				{/* ARTIST DETAILS */}
 				<div className='grid grid-cols-4 grid-rows-1 gap-x-10'>
-					{/* <div className='frameArtist col-span-1'>
-						<div className='image-wrapper shadow-inner'>
-						<img src={artist.avatar} alt={artist.fullName} className='image rounded-lg' />
-						</div>
-						</div> */}
-
 					<div className='col-span-1 px-5 pt-5 pb-20 drop-shadow-lg bg-white'>
-						<div className=' aspect-square w-full h-fit shadow-sm'>
+						<div className='aspect-square w-full h-fit shadow-sm'>
 							<a href={artist.avatar} target='_blank'>
 								<img
 									src={artist.avatar}
@@ -72,10 +86,38 @@ const ArtistDetails = () => {
 						</div>
 					</div>
 
-					{/* SOCIALS */}
-					<div className='bg-slate-300'>
-						<h3>Socials</h3>
-					</div>
+					{/* SOCIALS (only show if artist has social links) */}
+					{artist.socialLinks && artist.socialLinks.length > 0 && (
+						<div className='col-span-1'>
+							<div className='bg-white p-6 pb-7 rounded-xl drop-shadow-lg'>
+								<div className='text-slate-700 flex items-center gap-x-2 mb-3'>
+									<h3 className='text-xl tracking-widest italic font-semibold'>Social Links</h3>
+									<TbArrowBigDown className='animate-bounce text-lg' />
+								</div>
+
+								<div className='space-y-2'>
+									{artist.socialLinks.map((link, index) =>
+										link ? (
+											<a
+												key={index}
+												href={link}
+												target='_blank'
+												rel='noopener noreferrer'
+												className='text-slate-500 hover:underline hover:text-blue-600 flex items-center space-x-2 w-full truncate overflow-hidden whitespace-nowrap'
+											>
+												{getSocialIcon(link)}
+												<span className='truncate'>
+													{extractUsername(link)
+														? extractUsername(link)
+														: `Social Link ${index + 1}`}
+												</span>
+											</a>
+										) : null
+									)}
+								</div>
+							</div>
+						</div>
+					)}
 				</div>
 
 				{/* UPLOADED ARTWORKS */}
