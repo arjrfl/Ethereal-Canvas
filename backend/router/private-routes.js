@@ -27,6 +27,8 @@ import { ArtworkUpload } from '../controller/private/artist/artist-upload-artwor
 import { RetrieveArtworks } from '../controller/private/artist/artist-dashboard-retrieve-artworks.js';
 import { createCheckoutLink } from '../controller/private/collector/collector-checkout-link.js';
 
+import { getCollectorDashboardProfile } from '../controller/private/collector/collector-dashboard-get-profile.js';
+
 const router = express.Router();
 
 router.post('/admin/admin-registration', authorizeRoles('admin'), registerAdmin);
@@ -51,7 +53,7 @@ router.patch('/admin/disable-artwork/:id', authorizeRoles('admin'), artworkDisab
 router.patch('/admin/disable-collector/:id', authorizeRoles('admin'), disableCollector);
 
 // ARTIST DASHBOARD EDIT PROFILE
-router.get('/artist/dashboard-profile', authorizeRoles('artist'), getArtistDashboardProfile);
+router.get('/artist/dashboard-profile/:id', authorizeRoles('artist'), getArtistDashboardProfile);
 router.put('/artist/dashboard-update-details', authorizeRoles('artist'), ArtistUpdateDetails);
 router.put('/artist/dashboard-update-avatar', authorizeRoles('artist'), ArtistUpdateAvatar);
 router.put('/artist/dashboard-remove-avatar', authorizeRoles('artist'), ArtistRemoveAvatar);
@@ -60,5 +62,10 @@ router.get('/artist/dashboard-retrieve-artworks', authorizeRoles('artist'), Retr
 
 // COLLECTOR
 router.post('/artwork-checkout', authorizeRoles('collector'), createCheckoutLink);
+router.get(
+	'/collector/dashboard-profile/:id',
+	authorizeRoles('collector'),
+	getCollectorDashboardProfile
+);
 
 export default router;

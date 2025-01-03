@@ -36,6 +36,10 @@ import AdminLayout from './components/AdminLayout';
 import ArtworkDetailsMarket from './components/ArtworkDetailsMarket';
 import ArtworkDetailsMuseum from './components/ArtworkDetailsMuseum';
 import ArtistDetails from './components/ArtistDetails';
+import CollectorEditProfile from './components/DashboardCollectorEditProfile';
+import CollectorFavorites from './components/DashboardCollectorFavorites';
+import CollectorAddress from './components/DashboardCollectorAddress';
+import CollectorTransaction from './components/DashboardCollectorTransaction';
 
 const App = () => {
 	return (
@@ -59,6 +63,7 @@ const App = () => {
 					<Route path='/register/collector' element={<RegisterCollector />} />
 
 					<Route path='/unauthorized' element={<Unauthorized />} />
+
 					{/* PRIVATE ROUTES */}
 					<Route
 						path='/collector/dashboard'
@@ -67,7 +72,14 @@ const App = () => {
 								<CollectorDashboard />
 							</ProtectedRoute>
 						}
-					/>
+					>
+						<Route index element={<CollectorEditProfile />} />
+						<Route path='edit-profile' element={<CollectorEditProfile />} />
+						<Route path='favorites' element={<CollectorFavorites />} />
+						<Route path='address' element={<CollectorAddress />} />
+						<Route path='transaction' element={<CollectorTransaction />} />
+					</Route>
+
 					<Route
 						path='/artist/dashboard'
 						element={

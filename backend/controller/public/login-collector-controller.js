@@ -55,6 +55,7 @@ export const loginCollector = async (req, res) => {
 			message: 'Login successful!',
 			accessToken,
 			refreshToken,
+			id: collector.id,
 			fullName: collector.fullName,
 			role: collector.role,
 			email: collector.email,
