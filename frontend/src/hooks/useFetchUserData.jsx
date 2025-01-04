@@ -73,8 +73,11 @@ const useFetchUserData = (endpoint, refetchTrigger = 0) => {
 			}
 		};
 
-		fetchUserData();
-	}, [endpoint, refetchTrigger]);
+		// Only fetch user data if refetchTrigger changes
+		if (refetchTrigger !== null) {
+			fetchUserData();
+		}
+	}, [endpoint, refetchTrigger]); // Refetch when `refetchTrigger` changes
 
 	return { userData, loading, error };
 };

@@ -25,6 +25,7 @@ export const getCollectorDashboardProfile = async (req, res) => {
 			success: true,
 			data: {
 				fullName: collector.fullName,
+				avatar: collector.avatar,
 				gender: collector.gender,
 				email: collector.email,
 				dateOfBirth: collector.dateOfBirth,

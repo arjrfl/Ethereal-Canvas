@@ -89,7 +89,11 @@ const ArtistDashboardEditProfile = () => {
 					phoneNumber: profileData.phoneNumber,
 					location: profileData.location,
 					aboutYourself: profileData.aboutYourself,
-					socialLinks: profileData.socialLinks || ['', '', '', '', ''],
+					// Ensure socialLinks is always an array with five elements
+					socialLinks:
+						profileData.socialLinks && profileData.socialLinks.length > 0
+							? [...profileData.socialLinks, '', '', '', ''].slice(0, 5)
+							: ['', '', '', '', ''],
 				});
 
 				if (profileData.avatar) {
