@@ -40,6 +40,7 @@ const ArtworkDetailsMarket = () => {
 
 	const handleCheckout = async () => {
 		const role = localStorage.getItem('role');
+
 		if (role !== 'collector') {
 			alert('You need to log in as a collector to purchase this artwork.');
 			return;
@@ -53,12 +54,26 @@ const ArtworkDetailsMarket = () => {
 				return;
 			}
 
+			const referenceNumber = `ART-${Date.now()}`; // Generate a unique reference number
+			const artworkImage = artwork?.images?.frontView || 'https://via.placeholder.com/150'; // Use frontView image or fallback
+
+			const lineItems = [
+				{
+					name: artwork.title || 'Untitled Artwork',
+					description: `Buying "${artwork.title || 'this artwork'}"`, // Simple description
+					amount: artwork.price, // Assuming price is in cents
+					quantity: 1,
+					images: [artworkImage], // Use only the frontView image
+				},
+			];
+
 			const response = await axiosInstancePrivate.post(
 				'/artwork-checkout',
 				{
-					amount: artwork.price,
-					description: `Purchase of ${artwork.title}`,
-					remarks: `Artwork ID: ${artwork._id}`,
+					amount: artwork.price, // Ensure the amount is in the expected format (e.g., cents if required)
+					description: `Buying "${artwork.title || 'this artwork'}"`, // Simple description
+					lineItems, // Add line items to the request
+					referenceNumber, // Add reference number
 				},
 				{
 					headers: {
