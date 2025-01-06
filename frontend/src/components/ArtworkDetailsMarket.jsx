@@ -48,9 +48,15 @@ const ArtworkDetailsMarket = () => {
 
 		try {
 			const token = localStorage.getItem('accessToken');
+			const collectorId = localStorage.getItem('id'); // Assuming you store collectorId in localStorage
 
 			if (!token) {
 				alert('You must be logged in to perform this action.');
+				return;
+			}
+
+			if (!collectorId) {
+				alert('Unable to find your collector ID. Please log in again.');
 				return;
 			}
 
@@ -70,6 +76,7 @@ const ArtworkDetailsMarket = () => {
 			const response = await axiosInstancePrivate.post(
 				'/artwork-checkout',
 				{
+					collectorId, // Pass the collector ID
 					amount: artwork.price, // Ensure the amount is in the expected format (e.g., cents if required)
 					description: `Buying "${artwork.title || 'this artwork'}"`, // Simple description
 					lineItems, // Add line items to the request

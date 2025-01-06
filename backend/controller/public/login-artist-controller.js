@@ -34,7 +34,7 @@ export const loginArtist = async (req, res) => {
 				role: artist.role,
 			},
 			process.env.JWT_SECRET,
-			{ expiresIn: '20m' }
+			{ expiresIn: '1h' }
 		);
 
 		const refreshToken = jwt.sign(

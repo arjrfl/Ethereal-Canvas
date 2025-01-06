@@ -11,6 +11,14 @@ const collectorSchema = new mongoose.Schema(
 		role: { type: String, default: 'collector', enum: ['collector'] },
 		status: { type: String, default: 'active', enum: ['active', 'disable'] },
 		refreshToken: { type: String, select: false },
+		payments: [
+			{
+				referenceNumber: { type: String, required: true },
+				amount: { type: Number, required: true },
+				description: { type: String },
+				date: { type: Date, default: Date.now },
+			},
+		],
 	},
 	{ timestamps: true }
 );
