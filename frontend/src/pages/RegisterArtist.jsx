@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { showToast } from '../utils/toastUtils';
+
 import PersonalInfo from '../components/RegisterArtistPersonalInfo';
 import ValidIds from '../components/RegisterArtistValidIds';
 import SharedDrive from '../components/RegisterArtistSharedDrive';
@@ -67,8 +69,6 @@ const RegisterArtist = () => {
 	};
 
 	const onSubmit = async data => {
-		console.log('Form Data:', data);
-
 		try {
 			// Step 1: VALIDATE IF EMAIL EXISTS
 			const emailCheckResponse = await fetch(`http://localhost:5000/check-email/${data.email}`, {
@@ -77,14 +77,13 @@ const RegisterArtist = () => {
 
 			const emailCheckResult = await emailCheckResponse.json();
 			if (!emailCheckResponse.ok) {
-				console.error('Email check failed:', emailCheckResult.message);
-				alert(emailCheckResult.message || 'Email is already in use');
-				return; // IMMEDIATE RETURN IF TRUE
+				showToast.error('Email is already in use');
+				return;
 			}
 
-			console.log('Email is available, proceeding with image uploads...');
+			showToast.success('Email has been verified. Proceeding to upload...');
 
-			// Step 2: IF EMAIL VALIDATION IS FALSE, THIS STEP RUNS
+			// Step 2: IMAGE UPLOAD
 			const imageFields = ['workspace', 'selfieWithWorkspace', 'validId', 'selfieWithId'];
 			const uploadResults = {};
 
@@ -92,17 +91,21 @@ const RegisterArtist = () => {
 				const file = data[field]?.[0];
 				if (file) {
 					const url = await uploadToCloudinary(field, file);
-					if (url) uploadResults[field] = url;
-					else throw new Error(`Failed to upload ${field}`);
+					if (url) {
+						uploadResults[field] = url;
+					} else {
+						showToast.error(`Failed to upload ${field}`);
+						return;
+					}
 				} else {
-					alert(`Please upload a file for ${field}`);
+					showToast.error(`Please upload a file for ${field}`);
 					return;
 				}
 			}
 
-			console.log('Upload results:', uploadResults);
+			showToast.success('All images uploaded successfully!');
 
-			// Step 3: FINAL PAYLOAD WITH URLs
+			// Step 3: SEND DATA TO BACKEND
 			const payload = {
 				...data,
 				workspace: uploadResults.workspace,
@@ -111,33 +114,23 @@ const RegisterArtist = () => {
 				selfieWithId: uploadResults.selfieWithId,
 			};
 
-			console.log('Sending final data to backend with images:', payload);
-
-			// Step 4: SEND THE FINAL DATA TO BACKEND
 			const finalResponse = await fetch('http://localhost:5000/register/artist', {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload),
 			});
 
 			const finalResult = await finalResponse.json();
-			console.log('Final Backend Response:', finalResult);
 
 			if (!finalResponse.ok) {
-				console.error('Final Backend Error:', finalResult);
-				alert(finalResult.message || 'Registration failed');
+				showToast.error(finalResult.message || 'Registration failed');
 				return;
 			}
 
-			alert(finalResult.message || 'Registration successful!');
-
-			// Step 5: IF SUCCESSFUL, NAVIGATE TO HOMEPAGE
+			showToast.success(finalResult.message || 'Registration successful!');
 			navigate('/');
 		} catch (error) {
-			console.error('Error during submission:', error);
-			alert(`An error occurred: ${error.message}`);
+			showToast.error(`An error occurred: ${error.message}`);
 		}
 	};
 
