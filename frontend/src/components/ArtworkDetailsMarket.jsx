@@ -73,10 +73,12 @@ const ArtworkDetailsMarket = () => {
 				},
 			];
 
+			// Send the artworkId along with other data to the backend
 			const response = await axiosInstancePrivate.post(
 				'/artwork-checkout',
 				{
 					collectorId, // Pass the collector ID
+					artworkId: id, // Pass the artwork ID to associate the payment
 					amount: artwork.price, // Ensure the amount is in the expected format (e.g., cents if required)
 					description: `Buying "${artwork.title || 'this artwork'}"`, // Simple description
 					lineItems, // Add line items to the request

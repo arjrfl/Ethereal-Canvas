@@ -1,15 +1,32 @@
 import Collector from '../../../models/model-collector.js';
+import Artwork from '../../../models/model-artwork.js';
 import axios from 'axios';
 
 export const createCheckoutLink = async (req, res) => {
 	try {
-		const { amount, description, lineItems, referenceNumber, collectorId } = req.body;
+		const { amount, description, lineItems, referenceNumber, collectorId, artworkId } = req.body;
 
-		if (!amount || !description || !lineItems || !referenceNumber || !collectorId) {
+		if (!amount || !description || !lineItems || !referenceNumber || !collectorId || !artworkId) {
 			return res.status(400).json({
-				message: 'Amount, description, lineItems, referenceNumber, and collectorId are required.',
+				message:
+					'Amount, description, lineItems, referenceNumber, collectorId, and artworkId are required.',
 			});
 		}
+
+		// Fetch the artwork details and populate the user field
+		const artwork = await Artwork.findById(artworkId).populate(
+			'user',
+			'fullName email' // Include the fields you need from the Artist model
+		);
+
+		if (!artwork || !artwork.user) {
+			return res.status(404).json({ message: 'Artwork or artist not found.' });
+		}
+
+		const artistDetails = {
+			fullName: artwork.user.fullName, // Artist's full name
+			email: artwork.user.email, // Artist's email
+		};
 
 		const options = {
 			method: 'POST',
@@ -41,20 +58,27 @@ export const createCheckoutLink = async (req, res) => {
 			},
 		};
 
-		// Make the API request
+		// Make the API request to PayMongo
 		const response = await axios.request(options);
 
 		// Update Collector's payment history
 		const collector = await Collector.findById(collectorId);
+
 		if (!collector) {
 			return res.status(404).json({ message: 'Collector not found.' });
 		}
+
+		collector.payments = collector.payments || []; // Ensure payments array exists
 
 		collector.payments.push({
 			referenceNumber,
 			amount,
 			description,
+			artistDetails, // Include the artist's details
+			artworkTitle: artwork.title, // Include the artwork title
+			artworkId, // Include the artwork ID for future reference
 		});
+
 		await collector.save();
 
 		// Return the Checkout Session details
@@ -72,5 +96,3 @@ export const createCheckoutLink = async (req, res) => {
 		});
 	}
 };
-
-// createCheckoutLink

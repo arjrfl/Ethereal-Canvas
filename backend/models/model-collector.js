@@ -13,10 +13,12 @@ const collectorSchema = new mongoose.Schema(
 		refreshToken: { type: String, select: false },
 		payments: [
 			{
-				referenceNumber: { type: String, required: true },
-				amount: { type: Number, required: true },
-				description: { type: String },
-				date: { type: Date, default: Date.now },
+				referenceNumber: String,
+				amount: Number,
+				description: String,
+				artistDetails: { fullName: String, email: String },
+				artworkTitle: String,
+				artworkId: mongoose.Schema.Types.ObjectId,
 			},
 		],
 	},
