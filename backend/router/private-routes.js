@@ -30,6 +30,7 @@ import { createCheckoutLink } from '../controller/private/collector/collector-ch
 import { getCollectorDashboardProfile } from '../controller/private/collector/collector-dashboard-get-profile.js';
 import { CollectorUpdateDetails } from '../controller/private/collector/collector-dashboard-update-details.js';
 import { addFavorite } from '../controller/private/collector/collector-add-favorite.js';
+import { checkFavorite } from '../controller/private/collector/collector-check-favorte.js';
 
 const router = express.Router();
 
@@ -65,6 +66,7 @@ router.get('/artist/dashboard-retrieve-artworks', authorizeRoles('artist'), Retr
 // COLLECTOR
 router.post('/artwork-checkout', authorizeRoles('collector'), createCheckoutLink);
 router.post('/collector/add-favorite', authorizeRoles('collector'), addFavorite);
+router.post('/collector/check-favorite', authorizeRoles('collector'), checkFavorite);
 router.get(
 	'/collector/dashboard-profile/:id',
 	authorizeRoles('collector'),

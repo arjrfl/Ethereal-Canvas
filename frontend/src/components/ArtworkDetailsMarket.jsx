@@ -18,6 +18,7 @@ const ArtworkDetailsMarket = () => {
 	const navigate = useNavigate();
 	const [artwork, setArtwork] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [isFavorite, setIsFavorite] = useState(false); // Track favorite state
 	const [error, setError] = useState(null);
 	const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
@@ -27,6 +28,22 @@ const ArtworkDetailsMarket = () => {
 				setLoading(true);
 				const response = await axiosInstancePublic.get(`/artwork/${id}`);
 				setArtwork(response.data);
+
+				// Check if the artwork is already in favorites
+				const token = localStorage.getItem('accessToken');
+				if (token) {
+					const collectorId = localStorage.getItem('id');
+					const favoriteResponse = await axiosInstancePrivate.post(
+						'/collector/check-favorite',
+						{ collectorId, artworkId: id },
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
+						}
+					);
+					setIsFavorite(favoriteResponse.data.isFavorite);
+				}
 			} catch (err) {
 				setError('Failed to load artwork details. Please try again later.');
 				console.error(err);
@@ -120,7 +137,7 @@ const ArtworkDetailsMarket = () => {
 				'/collector/add-favorite',
 				{
 					collectorId,
-					artworkId: id, // Pass the artwork ID
+					artworkId: id,
 				},
 				{
 					headers: {
@@ -129,6 +146,7 @@ const ArtworkDetailsMarket = () => {
 				}
 			);
 
+			setIsFavorite(true); // Update the state to reflect the favorite status
 			alert('Added to favorites successfully!');
 		} catch (error) {
 			console.error('Error adding to favorites:', error.response?.data || error.message);
@@ -253,9 +271,12 @@ const ArtworkDetailsMarket = () => {
 
 							<button
 								onClick={handleAddToFavorites}
-								className='bg-gray-100 text-lg font-semibold py-2 rounded-xl'
+								className={`bg-gray-100 text-lg font-semibold py-2 rounded-xl ${
+									isFavorite ? 'cursor-not-allowed opacity-50' : ''
+								}`}
+								disabled={isFavorite}
 							>
-								Add to favorites 🩵
+								{isFavorite ? 'In your favorites 💖' : 'Add to favorites 🩵'}
 							</button>
 						</div>
 					</div>
