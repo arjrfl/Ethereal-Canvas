@@ -100,14 +100,40 @@ const ArtworkDetailsMarket = () => {
 		}
 	};
 
-	const handleAddToFavorites = () => {
+	const handleAddToFavorites = async () => {
 		const role = localStorage.getItem('role');
 		if (role !== 'collector') {
 			alert('You need to log in as a collector to add this artwork to your favorites.');
 			return;
 		}
-		// Add logic for adding to favorites here
-		console.log('Added to favorites.');
+
+		try {
+			const token = localStorage.getItem('accessToken');
+			const collectorId = localStorage.getItem('id');
+
+			if (!token || !collectorId) {
+				alert('You must be logged in to perform this action.');
+				return;
+			}
+
+			await axiosInstancePrivate.post(
+				'/collector/add-favorite',
+				{
+					collectorId,
+					artworkId: id, // Pass the artwork ID
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+
+			alert('Added to favorites successfully!');
+		} catch (error) {
+			console.error('Error adding to favorites:', error.response?.data || error.message);
+			alert('Failed to add to favorites. Please try again.');
+		}
 	};
 
 	if (loading) return <p>Loading...</p>;
@@ -229,7 +255,7 @@ const ArtworkDetailsMarket = () => {
 								onClick={handleAddToFavorites}
 								className='bg-gray-100 text-lg font-semibold py-2 rounded-xl'
 							>
-								Add favorites 🩵
+								Add to favorites 🩵
 							</button>
 						</div>
 					</div>

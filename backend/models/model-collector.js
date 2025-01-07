@@ -21,6 +21,7 @@ const collectorSchema = new mongoose.Schema(
 				artworkId: mongoose.Schema.Types.ObjectId,
 			},
 		],
+		favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artwork' }],
 	},
 	{ timestamps: true }
 );
