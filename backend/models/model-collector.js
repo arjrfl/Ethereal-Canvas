@@ -22,11 +22,17 @@ const collectorSchema = new mongoose.Schema(
 			},
 		],
 		favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artwork' }],
+		deliveryAddress: {
+			fullName: { type: String },
+			phoneNumber: { type: String },
+			fullAddress: { type: String },
+			postalCode: { type: String },
+			street: { type: String },
+		},
 	},
 	{ timestamps: true }
 );
 
-// Pre-save middleware to set the avatar to the user's initials
 collectorSchema.pre('save', function (next) {
 	if (this.isModified('fullName')) {
 		const names = this.fullName.trim().split(' ');
