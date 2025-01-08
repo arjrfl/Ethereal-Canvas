@@ -33,6 +33,7 @@ import { addFavorite } from '../controller/private/collector/collector-add-favor
 import { checkFavorite } from '../controller/private/collector/collector-check-favorite.js';
 import { addAddress } from '../controller/private/collector/collector-add-address.js';
 import { getCollectorAddress } from '../controller/private/collector/collector-dashboard-get-address.js';
+import { getCollectorFavorites } from '../controller/private/collector/collector-dashboard-get-favorites.js';
 
 const router = express.Router();
 
@@ -76,6 +77,7 @@ router.get(
 	authorizeRoles('collector'),
 	getCollectorDashboardProfile
 );
+router.get('/collector/favorites', authorizeRoles('collector'), getCollectorFavorites);
 router.put('/collector/update-profile/:id', CollectorUpdateDetails);
 
 export default router;
