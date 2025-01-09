@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import useFetchUserData from '../hooks/useFetchUserData';
-import axios from 'axios';
 import { useOutletContext } from 'react-router-dom';
+
+import { axiosInstancePrivate } from '../utils/axiosConfig';
+import useFetchUserData from '../hooks/useFetchUserData';
+import PasswordUpdateForm from './UpdatePassword';
 
 const UserProfile = () => {
 	const user = localStorage.getItem('id');
@@ -36,7 +38,7 @@ const UserProfile = () => {
 	const handleSubmit = async e => {
 		e.preventDefault();
 		try {
-			await axios.put(`http://localhost:5000/api/collector/update-profile/${user}`, formData);
+			await axiosInstancePrivate.put(`/collector/update-profile/${user}`, formData);
 
 			refetchUserData();
 
@@ -53,7 +55,7 @@ const UserProfile = () => {
 	return (
 		<div>
 			<div className=''>
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={handleSubmit} className='mb-10'>
 					<div>
 						<label>Full Name:</label>
 						<input
@@ -90,6 +92,12 @@ const UserProfile = () => {
 
 					<button type='submit'>Save Changes</button>
 				</form>
+
+				{/* Password Update Form */}
+				<PasswordUpdateForm
+					endpoint={`/collector/update-password/${user}`}
+					onSuccess={() => alert('Password changed successfully!')}
+				/>
 			</div>
 		</div>
 	);

@@ -35,6 +35,7 @@ import { addAddress } from '../controller/private/collector/collector-add-addres
 import { getCollectorAddress } from '../controller/private/collector/collector-dashboard-get-address.js';
 import { getCollectorFavorites } from '../controller/private/collector/collector-dashboard-get-favorites.js';
 import { getCollectorTransactionHistory } from '../controller/private/collector/collector-dashboard-get-transaction.js';
+import { collectorChangePassword } from '../controller/private/collector/collector-dashboard-update-password.js';
 
 const router = express.Router();
 
@@ -81,5 +82,6 @@ router.get(
 router.get('/collector/favorites', authorizeRoles('collector'), getCollectorFavorites);
 router.get('/collector/transaction', authorizeRoles('collector'), getCollectorTransactionHistory);
 router.put('/collector/update-profile/:id', CollectorUpdateDetails);
+router.put('/collector/update-password/:id', authorizeRoles('collector'), collectorChangePassword);
 
 export default router;
