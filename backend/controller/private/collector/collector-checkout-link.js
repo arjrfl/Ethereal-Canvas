@@ -68,15 +68,17 @@ export const createCheckoutLink = async (req, res) => {
 			return res.status(404).json({ message: 'Collector not found.' });
 		}
 
-		collector.payments = collector.payments || []; // Ensure payments array exists
+		collector.payments = collector.payments || [];
 
 		collector.payments.push({
 			referenceNumber,
 			amount,
 			description,
-			artistDetails, // Include the artist's details
-			artworkTitle: artwork.title, // Include the artwork title
-			artworkId, // Include the artwork ID for future reference
+			artistDetails,
+			artworkTitle: artwork.title,
+			artworkImage: artwork.images.frontView,
+			artworkId,
+			transactionDate: new Date(), // Add the transaction date and time
 		});
 
 		await collector.save();

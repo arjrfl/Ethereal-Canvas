@@ -21,7 +21,7 @@ const CollectorDashboard = () => {
 
 	return (
 		<div className='font-custom container max-w-[90rem] mx-auto mt-5 px-4'>
-			<div className='bg-gray-100'>
+			<div>
 				<div className='mb-7'>
 					<h1 className='text-3xl font-bold'>Collector Dashboard</h1>
 					<p>Welcome to your dashboard! Manage your account here.</p>
@@ -84,7 +84,7 @@ const CollectorDashboard = () => {
 						)}
 					</div>
 
-					<div className='col-span-5 bg-white rounded-xl p-10'>
+					<div className='col-span-5 bg-white rounded-xl'>
 						<Outlet context={{ refetchUserData: handleProfileUpdate }} />
 					</div>
 				</div>

@@ -57,7 +57,7 @@ const UserProfile = () => {
 	if (error) return <p>{error}</p>;
 
 	return (
-		<div>
+		<div className='p-10'>
 			<div className='grid grid-cols-3'>
 				<div className='pr-10 col-span-2 text-right'>
 					<div className='mb-8'>

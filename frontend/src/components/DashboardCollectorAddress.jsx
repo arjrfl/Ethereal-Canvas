@@ -56,7 +56,7 @@ const CollectorAddress = () => {
 	if (error) return <p>{error}</p>;
 
 	return (
-		<div>
+		<div className='p-10'>
 			<div className='mb-8'>
 				<div className='flex items-center gap-x-2 mb-1'>
 					<h1 className='text-2xl text-slate-800 font-semibold'>Add Address</h1>
