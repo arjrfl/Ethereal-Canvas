@@ -2,8 +2,9 @@ import { useState } from 'react';
 import usePostData from '../hooks/usePostData';
 import { showToast } from '../utils/toastUtils';
 
-import { RiEye2Line, RiEyeCloseFill } from 'react-icons/ri';
 import { TbPasswordUser } from 'react-icons/tb';
+
+import { FaRegEyeSlash, FaRegEye } from 'react-icons/fa';
 
 const PasswordUpdateForm = ({ endpoint, onSuccess }) => {
 	const { postData, isPosting } = usePostData();
@@ -89,9 +90,9 @@ const PasswordUpdateForm = ({ endpoint, onSuccess }) => {
 					<button
 						type='button'
 						onClick={() => togglePasswordVisibility('currentPassword')}
-						className='absolute right-3 top-1/2 transform -translate-y-1/2'
+						className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500'
 					>
-						{showPassword.currentPassword ? <RiEye2Line /> : <RiEyeCloseFill />}
+						{showPassword.currentPassword ? <FaRegEye /> : <FaRegEyeSlash />}
 					</button>
 				</div>
 			</div>
@@ -110,9 +111,9 @@ const PasswordUpdateForm = ({ endpoint, onSuccess }) => {
 					<button
 						type='button'
 						onClick={() => togglePasswordVisibility('newPassword')}
-						className='absolute right-3 top-1/2 transform -translate-y-1/2'
+						className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500'
 					>
-						{showPassword.newPassword ? <RiEye2Line /> : <RiEyeCloseFill />}
+						{showPassword.newPassword ? <FaRegEye /> : <FaRegEyeSlash />}
 					</button>
 				</div>
 			</div>
@@ -131,9 +132,9 @@ const PasswordUpdateForm = ({ endpoint, onSuccess }) => {
 					<button
 						type='button'
 						onClick={() => togglePasswordVisibility('confirmNewPassword')}
-						className='absolute right-3 top-1/2 transform -translate-y-1/2'
+						className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500'
 					>
-						{showPassword.confirmNewPassword ? <RiEye2Line /> : <RiEyeCloseFill />}
+						{showPassword.confirmNewPassword ? <FaRegEye /> : <FaRegEyeSlash />}
 					</button>
 				</div>
 			</div>

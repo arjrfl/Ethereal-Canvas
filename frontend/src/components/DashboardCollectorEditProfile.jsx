@@ -60,11 +60,15 @@ const UserProfile = () => {
 		<div>
 			<div className='grid grid-cols-3'>
 				<div className='pr-10 col-span-2 text-right'>
-					<div className='mb-5 flex items-center gap-x-2'>
-						<h1 className='text-2xl text-slate-800 font-semibold'>Update Your Details</h1>
-						<p className='text-2xl text-blue-500'>
-							<TbInfoHexagonFilled />
-						</p>
+					<div className='mb-8'>
+						<div className='flex items-center gap-x-2 mb-1'>
+							<h1 className='text-2xl text-slate-800 font-semibold'>Account Details</h1>
+							<p className='text-2xl text-blue-500'>
+								<TbInfoHexagonFilled />
+							</p>
+						</div>
+
+						<p className='text-left text-xs'>Update your account details and password.</p>
 					</div>
 
 					<form onSubmit={handleSubmit}>

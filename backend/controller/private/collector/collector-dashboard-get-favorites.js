@@ -5,7 +5,7 @@ export const getCollectorFavorites = async (req, res) => {
 		const collectorId = req.user.id; // Collector ID from the logged-in user
 		const collector = await Collector.findById(collectorId).populate({
 			path: 'favorites', // Populate the 'favorites' array
-			select: 'title artistName yearCreated medium', // Select specific fields to populate
+			select: 'images title artistName yearCreated display medium', // Select specific fields to populate
 		});
 
 		if (!collector) {

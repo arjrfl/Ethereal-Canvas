@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { axiosInstancePrivate } from '../utils/axiosConfig';
 import useFetchUserData from '../hooks/useFetchUserData';
-import { TbInfoHexagonFilled } from 'react-icons/tb';
-import { FaMapLocationDot } from 'react-icons/fa6';
+
 import { FaLocationDot } from 'react-icons/fa6';
 
 const CollectorAddress = () => {
@@ -58,11 +57,15 @@ const CollectorAddress = () => {
 
 	return (
 		<div>
-			<div className='mb-5 flex items-center gap-x-2'>
-				<h1 className='text-2xl text-slate-800 font-semibold'>Add Address</h1>
-				<p className='text-2xl text-red-500'>
-					<FaLocationDot />
-				</p>
+			<div className='mb-8'>
+				<div className='flex items-center gap-x-2 mb-1'>
+					<h1 className='text-2xl text-slate-800 font-semibold'>Add Address</h1>
+					<p className='text-2xl text-red-500'>
+						<FaLocationDot />
+					</p>
+				</div>
+
+				<p className='text-xs'>Input your contact and delivery address.</p>
 			</div>
 
 			<form onSubmit={handleSubmit}>
