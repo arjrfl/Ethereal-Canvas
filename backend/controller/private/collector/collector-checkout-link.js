@@ -77,6 +77,7 @@ export const createCheckoutLink = async (req, res) => {
 			artistDetails,
 			artworkTitle: artwork.title,
 			artworkImage: artwork.images.frontView,
+			status: 'pending',
 			artworkId,
 			transactionDate: new Date(), // Add the transaction date and time
 		});

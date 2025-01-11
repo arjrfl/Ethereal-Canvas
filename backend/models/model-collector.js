@@ -16,6 +16,7 @@ const collectorSchema = new mongoose.Schema(
 				referenceNumber: String,
 				amount: Number,
 				description: String,
+				status: { type: String, enum: ['pending', 'processing'], default: 'pending' },
 				artistDetails: { fullName: String, email: String },
 				artworkImage: { type: String },
 				artworkTitle: String,
