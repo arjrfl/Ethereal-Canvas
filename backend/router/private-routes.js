@@ -37,6 +37,7 @@ import { getCollectorFavorites } from '../controller/private/collector/collector
 import { getCollectorTransactionHistory } from '../controller/private/collector/collector-dashboard-get-transaction.js';
 import { collectorChangePassword } from '../controller/private/collector/collector-dashboard-update-password.js';
 import { updateFavorites } from '../controller/private/collector/collector-delete-favorite.js';
+import { artistGetProfile } from '../controller/private/artist/artist-get-profile.js';
 
 const router = express.Router();
 
@@ -62,6 +63,8 @@ router.patch('/admin/disable-artwork/:id', authorizeRoles('admin'), artworkDisab
 router.patch('/admin/disable-collector/:id', authorizeRoles('admin'), disableCollector);
 
 // ARTIST DASHBOARD EDIT PROFILE
+router.get('/artist/profile/:id', authorizeRoles('artist'), artistGetProfile);
+
 router.get('/artist/dashboard-profile/', authorizeRoles('artist'), getArtistDashboardProfile);
 router.put('/artist/dashboard-update-details', authorizeRoles('artist'), ArtistUpdateDetails);
 router.put('/artist/dashboard-update-avatar', authorizeRoles('artist'), ArtistUpdateAvatar);
