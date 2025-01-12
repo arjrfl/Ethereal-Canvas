@@ -38,6 +38,7 @@ import { getCollectorTransactionHistory } from '../controller/private/collector/
 import { collectorChangePassword } from '../controller/private/collector/collector-dashboard-update-password.js';
 import { updateFavorites } from '../controller/private/collector/collector-delete-favorite.js';
 import { artistGetProfile } from '../controller/private/artist/artist-get-profile.js';
+import { artistChangePassword } from '../controller/private/artist/artist-dashboard-update-password.js';
 
 const router = express.Router();
 
@@ -71,6 +72,7 @@ router.put('/artist/dashboard-update-avatar', authorizeRoles('artist'), ArtistUp
 router.put('/artist/dashboard-remove-avatar', authorizeRoles('artist'), ArtistRemoveAvatar);
 router.post('/artist/dashboard-upload-artwork', authorizeRoles('artist'), ArtworkUpload);
 router.get('/artist/dashboard-retrieve-artworks', authorizeRoles('artist'), RetrieveArtworks);
+router.put('/artist/update-password/:id', authorizeRoles('artist'), artistChangePassword);
 
 // COLLECTOR
 router.post('/artwork-checkout', authorizeRoles('collector'), createCheckoutLink);

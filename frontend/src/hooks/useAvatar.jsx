@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 
 const useAvatar = (initialAvatar, fullName, setFormData) => {
 	const [avatar, setAvatar] = useState(initialAvatar);
 	const [avatarPreview, setAvatarPreview] = useState(null);
 	const [isUploading, setIsUploading] = useState(false);
+	const { refetchUserData } = useOutletContext();
 	const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/ddeqjbdzb/image/upload';
 	const UPLOAD_PRESET = 'artist_avatar';
 
@@ -67,6 +69,7 @@ const useAvatar = (initialAvatar, fullName, setFormData) => {
 			);
 
 			if (response.status === 200) {
+				refetchUserData();
 				setAvatar(cloudinaryData.secure_url);
 				setFormData(prev => ({ ...prev, avatar: cloudinaryData.secure_url }));
 				alert('Avatar updated successfully!');
