@@ -51,7 +51,7 @@ const ArtworkDetailsMuseum = () => {
 				🠜 Back
 			</button>
 
-			<div className='grid grid-cols-3 gap-x-5 gap-y-10'>
+			<div className='grid grid-cols-3 gap-x-10 gap-y-20'>
 				{/* IMAGES GRID 1 */}
 				<div className='col-span-2 bg-green-200 frame'>
 					{artwork.images && Object.keys(artwork.images).length > 0 ? (

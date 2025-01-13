@@ -95,19 +95,19 @@ const Home = () => {
 						{/* Loop through fetched artists to display in Swiper slides */}
 						{artists.map(artist => (
 							<SwiperSlide key={artist.artistId}>
-								<div className='flex-shrink-0 px-4 md:px-0 grid grid-cols-1 min-[480px]:grid-cols-2 gap-x-0 gap-y-4 min-[480px]:gap-4 sm:grid-cols-4 sm:grid-rows-3'>
+								<div className='flex-shrink-0 px-4 md:px-0 grid grid-cols-1 min-[480px]:grid-cols-2 gap-x-0 gap-y-4 min-[480px]:gap-4 sm:grid-cols-4 sm:grid-rows-1'>
 									{/* AVATAR */}
 									<div className='w-full h-fit aspect-square rounded-2xl drop-shadow-lg col-span-1'>
 										<img
 											src={artist.avatar}
 											alt={artist.fullName}
-											className='w-full h-full object-cover rounded-2xl'
+											className='w-full h-full object-cover rounded-2xl '
 										/>
 									</div>
 
 									{/* RECENT ARTWORK */}
 									<div
-										className='hidden min-[480px]:flex  relative rounded-2xl min-[480px]:col-span-2 sm:order-last sm:col-span-2 sm:row-span-2'
+										className='hidden min-[480px]:flex aspect-square relative rounded-2xl min-[480px]:col-span-2 sm:order-last sm:col-span-2 sm:row-span-2'
 										style={{
 											backgroundImage: `url(${artist.recentArtwork?.images?.frontView})`,
 											backgroundSize: 'cover',
@@ -119,7 +119,7 @@ const Home = () => {
 										</p>
 
 										<div className='backdrop-blur-2xl brightness-100 backdrop-brightness-105 mt-auto w-full rounded-b-2xl px-4 py-3 sm:py-4'>
-											<p className='text-base font-semibold text-white lg:text-lg lg:tracking-widest'>
+											<p className='text-base font-semibold text-white lg:text-lg lg:tracking-widest truncate'>
 												{artist.recentArtwork?.title}
 											</p>
 											<p className='text-xs tracking-widest text-gray-200 font-semibold'>
@@ -150,28 +150,28 @@ const Home = () => {
 											<img
 												src={artist.recentArtwork?.images?.angleOne}
 												alt='artwork angle'
-												className='w-full h-full object-cover rounded-2xl'
+												className='w-full h-full object-cover rounded-2xl aspect-square'
 											/>
 										</div>
 										<div>
 											<img
 												src={artist.recentArtwork?.images?.angleTwo}
 												alt='artwork angle'
-												className='w-full h-full object-cover rounded-2xl'
+												className='w-full h-full object-cover rounded-2xl aspect-square'
 											/>
 										</div>
 										<div>
 											<img
 												src={artist.recentArtwork?.images?.angleThree}
 												alt='artwork angle'
-												className='w-full h-full object-cover rounded-2xl'
+												className='w-full h-full object-cover rounded-2xl aspect-square'
 											/>
 										</div>
 										<div>
 											<img
 												src={artist.recentArtwork?.images?.frontView}
 												alt='artwork angle'
-												className='w-full h-full object-cover rounded-2xl'
+												className='w-full h-full object-cover rounded-2xl aspect-square'
 											/>
 										</div>
 									</div>

@@ -2,6 +2,8 @@ import axios from 'axios';
 import ImageUpload from './UploadImage';
 import { useState } from 'react';
 
+import { IoCloudUpload } from 'react-icons/io5';
+
 const DashboardArtistUploadArtwork = () => {
 	const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/ddeqjbdzb/image/upload';
 	const UPLOAD_PRESETS = {
@@ -136,10 +138,16 @@ const DashboardArtistUploadArtwork = () => {
 	};
 
 	return (
-		<div className='text-sm md:text-base font-custom'>
+		<div className='text-sm md:text-base font-custom p-10'>
 			<div className='mb-8'>
-				<h1 className='text-base md:text-lg lg:text-xl pb-1'>Upload Artwork</h1>
-				<p className='text-xs font-light text-slate-600'>Request to upload your artwork</p>
+				<div className='flex items-center gap-x-2 mb-1'>
+					<h1 className='text-2xl text-slate-800 font-semibold'>Upload Artwork</h1>
+					<p className='text-2xl text-green-500'>
+						<IoCloudUpload />
+					</p>
+				</div>
+
+				<p className='text-left text-xs'>Upload an artwork and wait for the admin's approval.</p>
 			</div>
 
 			<div>

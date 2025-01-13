@@ -85,7 +85,7 @@ const Marketplace = () => {
 							<div className='h-40 w-40 aspect-square frameSm'>
 								<img
 									src={artwork.images.frontView}
-									alt={artwork.user.fullName}
+									alt='artwork'
 									className='w-full h-full object-cover rounded-lg'
 								/>
 							</div>
@@ -106,7 +106,7 @@ const Marketplace = () => {
 										</div>
 									</div>
 
-									<p className='text-base truncate'>
+									<p className='text-base truncate text-pretty'>
 										<span className='font-semibold'>{artwork.title || 'Untitled'}</span>,{' '}
 										<span className='tracking-widest'>{artwork.yearCreated || 'Unknown'}</span>
 									</p>

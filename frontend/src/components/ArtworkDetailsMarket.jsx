@@ -29,20 +29,23 @@ const ArtworkDetailsMarket = () => {
 				const response = await axiosInstancePublic.get(`/artwork/${id}`);
 				setArtwork(response.data);
 
-				// Check if the artwork is already in favorites
-				const token = localStorage.getItem('accessToken');
-				if (token) {
+				// Check if the user is a collector and perform the check-favorite request
+				const role = localStorage.getItem('role');
+				if (role === 'collector') {
+					const token = localStorage.getItem('accessToken');
 					const collectorId = localStorage.getItem('id');
-					const favoriteResponse = await axiosInstancePrivate.post(
-						'/collector/check-favorite',
-						{ collectorId, artworkId: id },
-						{
-							headers: {
-								Authorization: `Bearer ${token}`,
-							},
-						}
-					);
-					setIsFavorite(favoriteResponse.data.isFavorite);
+					if (token && collectorId) {
+						const favoriteResponse = await axiosInstancePrivate.post(
+							'/collector/check-favorite',
+							{ collectorId, artworkId: id },
+							{
+								headers: {
+									Authorization: `Bearer ${token}`,
+								},
+							}
+						);
+						setIsFavorite(favoriteResponse.data.isFavorite);
+					}
 				}
 			} catch (err) {
 				setError('Failed to load artwork details. Please try again later.');
@@ -65,7 +68,7 @@ const ArtworkDetailsMarket = () => {
 
 		try {
 			const token = localStorage.getItem('accessToken');
-			const collectorId = localStorage.getItem('id'); // Assuming you store collectorId in localStorage
+			const collectorId = localStorage.getItem('id');
 
 			if (!token) {
 				alert('You must be logged in to perform this action.');
@@ -77,29 +80,28 @@ const ArtworkDetailsMarket = () => {
 				return;
 			}
 
-			const referenceNumber = `ART-${Date.now()}`; // Generate a unique reference number
-			const artworkImage = artwork?.images?.frontView || 'https://via.placeholder.com/150'; // Use frontView image or fallback
+			const referenceNumber = `ART-${Date.now()}`;
+			const artworkImage = artwork?.images?.frontView || 'https://via.placeholder.com/150';
 
 			const lineItems = [
 				{
 					name: artwork.title || 'Untitled Artwork',
-					description: `Buying "${artwork.title || 'this artwork'}"`, // Simple description
-					amount: artwork.price, // Assuming price is in cents
+					description: `Buying "${artwork.title || 'this artwork'}"`,
+					amount: artwork.price,
 					quantity: 1,
-					images: [artworkImage], // Use only the frontView image
+					images: [artworkImage],
 				},
 			];
 
-			// Send the artworkId along with other data to the backend
 			const response = await axiosInstancePrivate.post(
 				'/artwork-checkout',
 				{
-					collectorId, // Pass the collector ID
-					artworkId: id, // Pass the artwork ID to associate the payment
-					amount: artwork.price, // Ensure the amount is in the expected format (e.g., cents if required)
-					description: `Buying "${artwork.title || 'this artwork'}"`, // Simple description
-					lineItems, // Add line items to the request
-					referenceNumber, // Add reference number
+					collectorId,
+					artworkId: id,
+					amount: artwork.price,
+					description: `Buying "${artwork.title || 'this artwork'}"`,
+					lineItems,
+					referenceNumber,
 				},
 				{
 					headers: {
@@ -146,7 +148,7 @@ const ArtworkDetailsMarket = () => {
 				}
 			);
 
-			setIsFavorite(true); // Update the state to reflect the favorite status
+			setIsFavorite(true);
 			alert('Added to favorites successfully!');
 		} catch (error) {
 			console.error('Error adding to favorites:', error.response?.data || error.message);
@@ -167,7 +169,7 @@ const ArtworkDetailsMarket = () => {
 				🠜 Back
 			</button>
 
-			<div className='grid grid-cols-3 gap-x-6 gap-y-7'>
+			<div className='grid grid-cols-3 gap-x-10 gap-y-20'>
 				{/* IMAGES GRID 1 */}
 				<div className='col-span-2 frame drop-shadow-md'>
 					{artwork.images && Object.keys(artwork.images).length > 0 ? (
@@ -227,10 +229,10 @@ const ArtworkDetailsMarket = () => {
 
 				{/* DETAILS GRID 2 */}
 				<div className='rounded-2xl col-span-1'>
-					<div className='bg-white rounded-2xl p-5'>
+					<div className='bg-white drop-shadow-lg rounded-2xl p-10'>
 						{/* TITLE, MEDIUM, DIMENSION */}
 						<div className='space-y-2 mb-3 text-base font-medium text-slate-800'>
-							<p className='text-xl font-semibold truncate xl:text-2xl'>
+							<p className='text-xl font-semibold truncate xl:text-2xl text-pretty'>
 								<span className='tracking-wider font-bold'>{artwork.title || 'Untitled'}</span>,{' '}
 								<span className='tracking-widest italic'>{artwork.yearCreated || 'Unknown'}</span>
 							</p>

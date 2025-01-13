@@ -3,6 +3,10 @@ import { CgClose } from 'react-icons/cg';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 
 import useFetchData from '../hooks/useFetchDataPrivateRoute';
+import { formatPrice } from '../utils/formatPrice';
+
+import { IoCloudUpload } from 'react-icons/io5';
+import { FcStackOfPhotos } from 'react-icons/fc';
 
 const DashboardArtistArtworks = () => {
 	const [filters, setFilters] = useState({
@@ -54,10 +58,16 @@ const DashboardArtistArtworks = () => {
 	}, [isModalOpen]);
 
 	return (
-		<div className='text-sm md:text-base font-custom'>
+		<div className='text-sm md:text-base font-custom p-10'>
 			<div className='mb-8'>
-				<h1 className='text-base md:text-lg lg:text-xl pb-1'>Uploaded Artworks</h1>
-				<p className='text-xs font-light text-slate-600'>View all your uploaded artworks</p>
+				<div className='flex items-center gap-x-2 mb-1'>
+					<h1 className='text-2xl text-slate-800 font-semibold'>Upload Artwork</h1>
+					<p className='text-2xl text-green-500'>
+						<FcStackOfPhotos />
+					</p>
+				</div>
+
+				<p className='text-left text-xs'>Upload an artwork and wait for the admin's approval.</p>
 			</div>
 
 			{/* Filters Section */}
@@ -103,14 +113,14 @@ const DashboardArtistArtworks = () => {
 			{error && <p className='text-red-500'>{error}</p>}
 
 			{/* Artworks Display */}
-			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+			<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-14 gap-y-20'>
 				{artworks?.length === 0 ? (
 					<p>No artworks available.</p>
 				) : (
 					artworks?.map(artwork => (
 						<div
 							key={artwork._id}
-							className='border p-4 rounded-xl shadow-sm cursor-pointer bg-white'
+							className='border p-4 rounded-xl shadow-sm cursor-pointer bg-white frameSm'
 							onClick={() => handleArtworkClick(artwork)}
 						>
 							<img
@@ -118,14 +128,29 @@ const DashboardArtistArtworks = () => {
 								alt={artwork.title}
 								className='w-full h-48 object-cover mb-4 rounded-lg'
 							/>
-							<h2 className='font-semibold text-lg'>{artwork.title}</h2>
-							<p className='text-sm text-gray-600'>{artwork.artistName}</p>
-							<p className='text-sm'>{artwork.yearCreated}</p>
-							<p className='text-sm'>{artwork.status}</p>
 
-							{filters.display === 'marketplace' && artwork.price && (
-								<p className='text-sm font-semibold text-gray-900 mt-2'>Price: ${artwork.price}</p>
-							)}
+							<div className='bg-white text-left rounded-lg p-3 truncate'>
+								<p className='text-sm truncate'>{artwork.artistName}</p>
+								<p className='text-sm truncate'>
+									{artwork.title}, <span className='italic'>{artwork.yearCreated}</span>
+								</p>
+
+								{filters.display === 'marketplace' && artwork.price && (
+									<p className='text-sm'>{formatPrice(artwork.price)}</p>
+								)}
+
+								<p
+									className={`text-sm inline-block px-2 text-white rounded ${
+										artwork.status === 'approve'
+											? 'bg-green-600'
+											: artwork.status === 'pending'
+												? 'bg-yellow-600'
+												: 'bg-red-600'
+									}`}
+								>
+									{artwork.status}
+								</p>
+							</div>
 						</div>
 					))
 				)}
