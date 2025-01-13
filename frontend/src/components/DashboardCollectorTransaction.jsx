@@ -50,7 +50,7 @@ const CollectorTransaction = () => {
 							<td className='px-4 py-2'>{formatPrice(transaction.amount)}</td>
 							<td className='px-4 py-2'>
 								{new Date(transaction.transactionDate).toLocaleString('en-US', {
-									month: 'long',
+									month: 'short',
 									day: 'numeric',
 									year: 'numeric',
 									hour: 'numeric',

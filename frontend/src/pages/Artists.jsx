@@ -1,14 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import useFetchArtists from '../hooks/useFetchArtists';
 
 import artistBanner from '../assets/images/label-images/bg-artist.jpg';
 
+// Utility function to shuffle an array
+const shuffleArray = array => {
+	return array
+		.map(item => ({ item, sort: Math.random() }))
+		.sort((a, b) => a.sort - b.sort)
+		.map(({ item }) => item);
+};
+
 const Artists = () => {
 	const { isDropdownOpen } = useOutletContext();
 	const [selectedLetter, setSelectedLetter] = useState(null);
 	const { artists, loading, error } = useFetchArtists(selectedLetter);
+	const [shuffledArtists, setShuffledArtists] = useState([]);
+
+	// Shuffle artists whenever the artists array updates
+	useEffect(() => {
+		if (artists && artists.length > 0) {
+			setShuffledArtists(shuffleArray(artists));
+		}
+	}, [artists]);
 
 	const handleLetterClick = letter => {
 		setSelectedLetter(letter); // Update the selected letter
@@ -70,10 +86,10 @@ const Artists = () => {
 							<p>Loading...</p>
 						) : error ? (
 							<p className='text-red-500'>{error}</p>
-						) : artists.length === 0 ? (
+						) : shuffledArtists.length === 0 ? (
 							<p>No artists found.</p>
 						) : (
-							artists.map(artist => (
+							shuffledArtists.map(artist => (
 								<Link
 									to={`/artist/${artist._id}`}
 									key={artist._id}
@@ -93,7 +109,6 @@ const Artists = () => {
 										<div className='text-center truncate py-1'>
 											<p className='font-bold text-lg'>{artist.fullName}</p>
 											<p className='text-xs text-gray-600'>{artist.location} 📍</p>
-											{/* <p className='text-xs text-gray-600 underline italic'>view artist</p> */}
 										</div>
 									</div>
 								</Link>

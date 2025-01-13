@@ -133,13 +133,13 @@ const DashboardAdminCollectorList = () => {
 					>
 						<div className='col-span-2 sm:grid-cols-1 md:col-span-2 flex items-center'>
 							{collector.avatar ? (
-								<img
-									src={collector.avatar}
-									alt='collector avatar'
-									className='w-7 h-7 rounded-md object-cover'
-								/>
+								<p
+									className='w-7 h-7 rounded-md text-white flex items-center justify-center'
+									style={{ backgroundColor: randomColorsRef.current[index] }}
+								>
+									{collector.avatar}
+								</p>
 							) : (
-								// FALLBACK AVATAR
 								<div
 									className='w-7 h-7 rounded-md flex items-center justify-center text-white text-xs font-semibold'
 									style={{ backgroundColor: randomColorsRef.current[index] }}

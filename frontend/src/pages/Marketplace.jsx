@@ -1,5 +1,5 @@
 import { useOutletContext } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import marketBanner from '../assets/images/label-images/cover2.jpg';
@@ -9,10 +9,29 @@ import { formatPrice } from '../utils/formatPrice';
 
 import '../styles/CustomFrameSmall.css';
 
+// Utility function to shuffle an array
+const shuffleArray = array => {
+	return array
+		.map(item => ({ item, sort: Math.random() }))
+		.sort((a, b) => a.sort - b.sort)
+		.map(({ item }) => item);
+};
+
 const Marketplace = () => {
 	const { isDropdownOpen } = useOutletContext();
 	const [selectedMedium, setSelectedMedium] = useState(null);
 	const { artworks, loading, error } = useFetchArtworks('marketplace', selectedMedium);
+	const [displayedArtworks, setDisplayedArtworks] = useState([]);
+
+	// Apply filtering and shuffle whenever artworks or selectedMedium changes
+	useEffect(() => {
+		if (artworks && artworks.length > 0) {
+			const filteredArtworks = selectedMedium
+				? artworks.filter(artwork => artwork.medium === selectedMedium)
+				: artworks;
+			setDisplayedArtworks(shuffleArray(filteredArtworks));
+		}
+	}, [artworks, selectedMedium]);
 
 	const handleFilterChange = medium => {
 		setSelectedMedium(medium === 'All' ? null : medium);
@@ -73,10 +92,10 @@ const Marketplace = () => {
 					<p>Loading...</p>
 				) : error ? (
 					<p className='text-red-500'>{error}</p>
-				) : artworks.length === 0 ? (
+				) : displayedArtworks.length === 0 ? (
 					<p>No artworks found with the selected medium.</p>
 				) : (
-					artworks.map(artwork => (
+					displayedArtworks.map(artwork => (
 						<Link
 							to={`/artwork-market/${artwork._id}`}
 							key={artwork._id}
